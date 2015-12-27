@@ -47,10 +47,10 @@ public class Talia {
 	}
 
 	public Talia() {
-		nazwa = "typowa talia";
-		ileKart = 40;
-		ileMalych = 9;
-		ileSrednich = 3;
+//		nazwa = "typowa talia";
+//		ileKart = 40;
+//		ileMalych = 9;
+//		ileSrednich = 3;
 
 	}
 

@@ -24,14 +24,5 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
-		
-	
-//		final	Talia talia = new Talia();
-//		talia.tworzTalie();
-//		System.out.println(talia.arrayTalia);
-//		System.out.println(talia.arrayTalia.size());
-//		System.out.println(talia.arrayTalia);
-//		System.out.println(talia.arrayTalia.size());	
-//		System.out.println(talia.arrayTalia.get(1).toString());
 	}
 }
