@@ -88,7 +88,10 @@ void zapisz(ActionEvent event)
 	}
 	try {
 		Statement mySta = conection.createStatement();
+		// usuwanie kart i tali
 		mySta.executeUpdate("DELETE FROM talia WHERE id=1");
+		mySta.executeUpdate("DELETE  FROM karta");
+		// zapisywanie zmiennych z talii
 		String query = "INSERT INTO talia VALUES (1, 'update talia', ?, ?, ?, ?)"; 
 		PreparedStatement preStmt = conection.prepareStatement(query);
 		preStmt.setInt(1, talia.getIleKart());
@@ -98,7 +101,21 @@ void zapisz(ActionEvent event)
 		
 		preStmt.executeUpdate();
 		System.out.println("zapisane dane, czyRozpoczeta" + czyRozpoczeta);
-		System.out.println(Boolean.toString(czyRozpoczeta));
+//		query = "INSERT INTO karta VALUES (NULL, ?, ?, ?, ?);"; 
+	//	PreparedStatement preStmtKarta = conection.prepareStatement(query);
+		String sql=""; 
+		for(int i=0; i<talia.arrayTalia.size(); i++) {
+
+			query = "INSERT INTO karta VALUES ("+i+","+talia.arrayTalia.get(i).getTyp()+ ",'"+talia.arrayTalia.get(i).getTytul()+"','"+talia.arrayTalia.get(i).getOpis()+"','"+talia.arrayTalia.get(i).getObrazek()+"');"; 
+			sql+=query;
+//		preStmtKarta.setInt(1, talia.arrayTalia.get(i).getTyp());
+//		preStmtKarta.setString(2, talia.arrayTalia.get(i).getTytul());
+//		preStmtKarta.setString(3, talia.arrayTalia.get(i).getOpis());
+//		preStmtKarta.setString(4, talia.arrayTalia.get(i).getObrazek());
+		}
+		System.out.println(sql);
+		mySta.executeUpdate(sql);
+	//zapisywanie kart z AL	
 //		ResultSet rs = mySta.executeQuery("select * from talia");
 //		while (rs.next()) {
 //			czyRozpoczeta= rs.getBoolean("czyRozpoczeta");
@@ -114,6 +131,7 @@ void zapisz(ActionEvent event)
 	}
 	
 }
+   
 public  void czytajDane() {
 	conection = (Connection) SqliteConnection.Connector();
 	if (conection == null) {
@@ -153,6 +171,7 @@ public  void czytajDane() {
         talia.setIleKart(40);
         talia.setIleMalych(9);
         talia.setIleSrednich(3);
+        talia.tworzNagrody(); // jak nie wczytujemy kart z bazy danch
     	talia.tworzTalie();
 		}
     	pozostalo.setText(Integer.toString(talia.getIleKart()));

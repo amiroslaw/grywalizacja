@@ -14,38 +14,6 @@ public class Talia {
 	private int ileKart, ileMalych, ileSrednich;
 	private String nazwa;
 
-	public String getNazwa() {
-		return nazwa;
-	}
-
-	public void setNazwa(String nazwa) {
-		this.nazwa = nazwa;
-	}
-
-	public int getIleKart() {
-		return ileKart;
-	}
-
-	public void setIleKart(int ileKart) {
-		this.ileKart = ileKart;
-	}
-
-	public int getIleMalych() {
-		return ileMalych;
-	}
-
-	public void setIleMalych(int ileMalych) {
-		this.ileMalych = ileMalych;
-	}
-
-	public int getIleSrednich() {
-		return ileSrednich;
-	}
-
-	public void setIleSrednich(int ileSrednich) {
-		this.ileSrednich = ileSrednich;
-	}
-
 	public Talia() {
 //		nazwa = "typowa talia";
 //		ileKart = 40;
@@ -91,7 +59,21 @@ public class Talia {
 			e.printStackTrace();
 		}
 	}
-
+	 // tworzy nagrody 
+	public void tworzNagrody()
+    {
+		// na razie najlepsza tworzona na poczatku
+    	 arrayTalia.add(new Karta(1,"nagroda najlepsza"));
+    	 for (int i = 0; i < ileSrednich; i++) {
+    	 arrayTalia.add(new Karta(2,"nagroda nr2"));
+    	 }
+    	 for (int i = 0; i < ileMalych; i++) {
+    	 arrayTalia.add(new Karta(3,"nagroda nr3"));
+    	 }
+//    	 for (int i = 0; i < ileKart-1-ileMalych-ileSrednich; i++) {
+//    	 arrayTalia.add(new Karta());
+//    	 }
+    }
 	public void tworzTalie() {
 		// kopiowanie najlepszej nagrody do temp bo w bd jest na koncu
 	Karta temp = arrayTalia.get(0);	
@@ -101,17 +83,39 @@ public class Talia {
 		}
 		Collections.shuffle(arrayTalia);
 		arrayTalia.add(temp);
+		System.out.println(arrayTalia.size());
+	}
+	public String getNazwa() {
+		return nazwa;
 	}
 
+	public void setNazwa(String nazwa) {
+		this.nazwa = nazwa;
+	}
+
+	public int getIleKart() {
+		return ileKart;
+	}
+
+	public void setIleKart(int ileKart) {
+		this.ileKart = ileKart;
+	}
+
+	public int getIleMalych() {
+		return ileMalych;
+	}
+
+	public void setIleMalych(int ileMalych) {
+		this.ileMalych = ileMalych;
+	}
+
+	public int getIleSrednich() {
+		return ileSrednich;
+	}
+
+	public void setIleSrednich(int ileSrednich) {
+		this.ileSrednich = ileSrednich;
+	}
 }
 
-	// for (int i = 0; i < ileSrednich; i++) {
-	// arrayTalia.add(new Karta(2,"nagroda nr2"));
-	// }
-	// for (int i = 0; i < ileMalych; i++) {
-	// arrayTalia.add(new Karta(3,"nagroda nr3"));
-	// }
-	// for (int i = 0; i < ileKart-1-ileMalych-ileSrednich; i++) {
-	// arrayTalia.add(new Karta());
-	// }
-	// arrayTalia.add(new Karta(1,"nagroda najlepsza"));
+	
