@@ -6,7 +6,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
-
+/**
+ * Zawiera metody {@link #czytajTalie()}, {@link #tworzNagrody()}, {@link #tworzTalie()}
+ * {@link #arrayTalia} przechowuje objekty kart
+ * 
+ * @author miro
+ *
+ */
 public class Talia {
 
 	Connection conection;
@@ -15,10 +21,10 @@ public class Talia {
 	private String nazwa;
 
 	public Talia() {
-//		nazwa = "typowa talia";
-//		ileKart = 40;
-//		ileMalych = 9;
-//		ileSrednich = 3;
+		// nazwa = "typowa talia";
+		// ileKart = 40;
+		// ileMalych = 9;
+		// ileSrednich = 3;
 
 	}
 
@@ -39,6 +45,9 @@ public class Talia {
 				+ ileSrednich;
 	}
 
+	/**
+	 * czyta dane z BD z tabeli karta
+	 */
 	public void czytajTalie() {
 		conection = (Connection) SqliteConnection.Connector();
 		if (conection == null) {
@@ -59,25 +68,32 @@ public class Talia {
 			e.printStackTrace();
 		}
 	}
-	 // tworzy nagrody 
-	public void tworzNagrody()
-    {
+
+	/**
+	 * tworzy domyslne karty dla 3 kategorii
+	 * 
+	 */
+	public void tworzNagrody() {
 		// na razie najlepsza tworzona na poczatku
-    	 arrayTalia.add(new Karta(1,"nagroda najlepsza"));
-    	 for (int i = 0; i < ileSrednich; i++) {
-    	 arrayTalia.add(new Karta(2,"nagroda nr2"));
-    	 }
-    	 for (int i = 0; i < ileMalych; i++) {
-    	 arrayTalia.add(new Karta(3,"nagroda nr3"));
-    	 }
-//    	 for (int i = 0; i < ileKart-1-ileMalych-ileSrednich; i++) {
-//    	 arrayTalia.add(new Karta());
-//    	 }
-    }
+		arrayTalia.add(new Karta(1, "nagroda najlepsza"));
+		for (int i = 0; i < ileSrednich; i++) {
+			arrayTalia.add(new Karta(2, "nagroda nr2"));
+		}
+		for (int i = 0; i < ileMalych; i++) {
+			arrayTalia.add(new Karta(3, "nagroda nr3"));
+		}
+		// for (int i = 0; i < ileKart-1-ileMalych-ileSrednich; i++) {
+		// arrayTalia.add(new Karta());
+		// }
+	}
+
+	/**
+	 * dopełnia do istniejących kart z nagrodami karty puste i sortuje je
+	 */
 	public void tworzTalie() {
 		// kopiowanie najlepszej nagrody do temp bo w bd jest na koncu
-	Karta temp = arrayTalia.get(0);	
-	arrayTalia.remove(0);
+		Karta temp = arrayTalia.get(0);
+		arrayTalia.remove(0);
 		for (int i = 0; i < ileKart - 1 - ileMalych - ileSrednich; i++) {
 			arrayTalia.add(new Karta());
 		}
@@ -85,6 +101,7 @@ public class Talia {
 		arrayTalia.add(temp);
 		System.out.println(arrayTalia.size());
 	}
+
 	public String getNazwa() {
 		return nazwa;
 	}
@@ -117,5 +134,3 @@ public class Talia {
 		this.ileSrednich = ileSrednich;
 	}
 }
-
-	

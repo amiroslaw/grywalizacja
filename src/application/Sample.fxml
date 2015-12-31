@@ -15,7 +15,7 @@
    <center>
       <VBox alignment="CENTER" prefHeight="500.0" prefWidth="400.0" spacing="10.0" BorderPane.alignment="TOP_CENTER">
          <children>
-            <Button fx:id="zamknij" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#zapisz" text="Zapisz i zamknij" />
+            <Button fx:id="zamknij" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#zapisz" text="Zapisz" />
             <ImageView fx:id="obrazek" fitHeight="209.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
            		<image>
            		<Image url="img/award1.png" />
