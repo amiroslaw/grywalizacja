@@ -99,7 +99,7 @@ public class Talia {
 		}
 		Collections.shuffle(arrayTalia);
 		arrayTalia.add(temp);
-		System.out.println(arrayTalia.size());
+		System.out.println("ile kart czytaTalie"+arrayTalia.size());
 	}
 
 	public String getNazwa() {

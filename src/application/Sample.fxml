@@ -10,7 +10,25 @@
 
 <BorderPane prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <top>
-      <HBox prefHeight="30.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
+      <HBox prefHeight="30.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar prefHeight="29.0" prefWidth="406.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                        <MenuItem mnemonicParsing="false" onAction="#zapisz" text="Zapisz" />
+                    <MenuItem mnemonicParsing="false" onAction="#scenaKarta" text="Stwórz talię" />
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#about" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </children></HBox>
    </top>
    <center>
       <VBox alignment="CENTER" prefHeight="500.0" prefWidth="400.0" spacing="10.0" BorderPane.alignment="TOP_CENTER">
