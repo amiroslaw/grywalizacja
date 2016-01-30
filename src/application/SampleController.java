@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 public class SampleController implements Initializable {
 	public static Talia talia = new Talia();
 	/**
-	 * 0 talia zero
+	 * 0 talia zero  ??
 	 * 1 nie rozpoczeta
 	 * 2 rozpoczeta
 	 */
