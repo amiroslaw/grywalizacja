@@ -23,7 +23,7 @@ public class Talia {
 	public Talia() {
 		// nazwa = "typowa talia";
 		// ileKart = 40;
-		// ileMalych = 9;
+		// ileMalych = 6;
 		// ileSrednich = 3;
 
 	}

@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -38,6 +39,9 @@ public class SampleController implements Initializable {
 	Connection conection;
 	public Label labAbout =new Label("twórca Arkadiusz Mirosław");
 	
+	/**
+	 * tworzenie stage o mnie 
+	 */
 	public Stage stageAbout = new Stage();
 	@FXML
 	public void about(ActionEvent e){
@@ -52,6 +56,11 @@ public class SampleController implements Initializable {
 		stageAbout.setTitle("Grywalizacja-O programie");
 		stageAbout.showAndWait();
 	}
+	/**
+	 * przełączenie na scene z tworzeniem talii
+	 * @param e
+	 * @throws IOException
+	 */
 	@FXML
 	void scenaKarta(ActionEvent e) throws IOException{
 		
@@ -66,7 +75,10 @@ public class SampleController implements Initializable {
 	private Image award2 = new Image("img/award2.png");
 	private Image award3 = new Image("img/award3.png");
 //	private Image award4 = new Image("http://thumbs.dreamstime.com/t/caw-25623361.jpg");
-	private Image award4 = new Image("img/award3.png");
+	private Image award4 = new Image("img/cow.png");
+//	private Image award4 = new Image("file:/home/miro/img/dum.jpg");
+
+//	private Image award4 = new Image("file:/home/img/cpgoesdqxww.jpg");
 	@FXML
 	private ImageView obrazek;
 	@FXML
@@ -88,27 +100,49 @@ public class SampleController implements Initializable {
 	 * 
 	 * @param event
 	 */
+	File f;
 	@FXML
 	void losuj(ActionEvent event) {
 		if (talia.arrayTalia.isEmpty()) {
 			czyRozpoczeta = 1;
 			wylosowane.setText("gratuluję zakończyłeś talię");
 		} else {
+			
 			czyRozpoczeta = 2;
 			String teskt = talia.arrayTalia.get(0).toString();
 			wylosowane.setText(teskt);
 			talia.setIleKart(talia.getIleKart() - 1);
 			if (talia.arrayTalia.get(0).getTyp() == 1) {
+				if(talia.arrayTalia.get(0).getObrazek().equals("default")){
 				obrazek.setImage(award1);
+				}
+				else{
+					f = new File(talia.arrayTalia.get(0).getObrazek());
+				obrazek.setImage( new Image(f.toURI().toString()));
+				}
 			}
 			if (talia.arrayTalia.get(0).getTyp() == 2) {
 				talia.setIleSrednich(talia.getIleSrednich() - 1);
+				if(talia.arrayTalia.get(0).getObrazek().equals("default")){
 				obrazek.setImage(award2);
+				}
+				else{
+					f = new File(talia.arrayTalia.get(0).getObrazek());
+				obrazek.setImage( new Image(f.toURI().toString()));
+				}
 			}
+
 			if (talia.arrayTalia.get(0).getTyp() == 3) {
 				talia.setIleMalych(talia.getIleMalych() - 1);
+				if(talia.arrayTalia.get(0).getObrazek().equals("default")){
 				obrazek.setImage(award3);
+				}
+				else{
+					f = new File(talia.arrayTalia.get(0).getObrazek());
+				obrazek.setImage( new Image(f.toURI().toString()));
+				}
 			}
+
 			if (talia.arrayTalia.get(0).getTyp() == 4) {
 				obrazek.setImage(award4);
 			}
@@ -210,6 +244,8 @@ public class SampleController implements Initializable {
 		czytajDane();
 			System.out.println("ile kart w talii czytajDane()"+talia.arrayTalia.size());
 		System.out.println("po dane" + czyRozpoczeta);
+		// dodane nr.2 aby nie musiec zmieniac w bd
+		czyRozpoczeta=2;
 		// nie dziala
 		if(czyRozpoczeta==0){
 //			try {
@@ -242,7 +278,7 @@ public class SampleController implements Initializable {
 		else if(czyRozpoczeta==1) {
 			talia.setNazwa("nowa talia");
 			talia.setIleKart(40);
-			talia.setIleMalych(9);
+			talia.setIleMalych(6);
 			talia.setIleSrednich(3);
 //			talia.tworzNagrody(); // jak nie wczytujemy kart z bazy danch
 			talia.tworzTalie();
