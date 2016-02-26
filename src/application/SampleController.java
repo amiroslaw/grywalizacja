@@ -63,12 +63,13 @@ public class SampleController implements Initializable {
 	 */
 	@FXML
 	void scenaKarta(ActionEvent e) throws IOException{
-		
-			GridPane layoutTalia = (GridPane) FXMLLoader.load(getClass().getResource("GeneratorKart.fxml")); ;
-		Scene sceneTalia = new Scene(layoutTalia,400,400);
-		Main.windowLosuj.setScene(sceneTalia);
-		Main.windowLosuj.setTitle("Grywalizacja-O tworzenie talii");
-		Main.windowLosuj.show();
+//zmienione na przejdz do startu
+		StartController.goToStart();
+//			GridPane layoutTalia = (GridPane) FXMLLoader.load(getClass().getResource("GeneratorKart.fxml")); ;
+//		Scene sceneTalia = new Scene(layoutTalia,400,400);
+//		Main.windowLosuj.setScene(sceneTalia);
+//		Main.windowLosuj.setTitle("Grywalizacja-O tworzenie talii");
+//		Main.windowLosuj.show();
 	}
 	static String ileKart;
 	private Image award1 = new Image("img/award1.png");
