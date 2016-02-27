@@ -1,5 +1,9 @@
 package application;
 	
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -48,8 +52,29 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+	static Connection conn=  (Connection) SqliteConnection.Connector();
+		static void createDB() {
+			if (conn == null) {
+
+				System.out.println("connection not successful");
+				System.exit(1);
+			}
+			try {
+				Statement mySta = conn.createStatement();
+				// usuwanie kart i tali
+				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS karta (id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , typ  INTEGER, tytul TEXT,  opis  TEXT,  obrazek  TEXT)");
+				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS talia (id INTEGER PRIMARY KEY  NOT NULL ,nazwa TEXT,ileKart INTEGER, ileMalych INTEGER,ileSrednich INTEGER, czyRozpoczeta INTEGER DEFAULT (0))");
+			
+
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	public static void main(String[] args) {
+		createDB();
 		launch(args);
+
 	}
 }
