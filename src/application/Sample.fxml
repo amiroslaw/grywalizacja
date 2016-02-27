@@ -17,7 +17,7 @@
                 <Menu mnemonicParsing="false" text="File">
                   <items>
                         <MenuItem mnemonicParsing="false" onAction="#zapisz" text="Zapisz" />
-                    <MenuItem mnemonicParsing="false" onAction="#scenaKarta" text="Start" />
+                    <MenuItem fx:id="menuStart" mnemonicParsing="false" onAction="#scenaKarta" text="Start" />
                     <MenuItem mnemonicParsing="false" text="Close" />
                   </items>
                 </Menu>

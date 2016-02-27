@@ -76,11 +76,21 @@ public class StartController implements Initializable {
 //		
 //		primaryStage.show()
 	}
-	
+	SampleController sampleController= new SampleController(); 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		
+		sampleController.czytajDane();
+		if(SampleController.czyRozpoczeta==0){
+//				scenaKarta(null);
+			System.out.println("Start: takia nie rozpoczęta");
+				btnDraw.setDisable(true);
+		}
+		// gdy jest utworzona
+		else {
+			System.out.println("rozpoczeta");
+//				btnDraw.setDisable(false);
+		} 
 	}
 
 }

@@ -6,14 +6,11 @@ import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -101,8 +98,13 @@ public class CardController implements Initializable {
 //			txtNazwa.setText("");
 //			if(file!=null)
 			txtOpis.setText("");
-		if(iKarta==10){
+		if(iKarta==11){
 			btnDalej.setDisable(true);
+			SampleController.czyRozpoczeta=1;
+			SampleController.talia.setIleKart(40);
+			SampleController.talia.setIleMalych(6);
+			SampleController.talia.setIleSrednich(3);
+			SampleController.talia.tworzTalie();
 			controller.zapisz(null);
 		}
 			
@@ -120,6 +122,7 @@ public class CardController implements Initializable {
 	@FXML
 	public void scenaLosuj(ActionEvent e) {
 		// zmienione na przejscie na start
+		controller.zapisz(null);
 		StartController.goToStart();
 		try {
 //			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
@@ -135,20 +138,16 @@ public class CardController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 //		for (int i = 0; i < SampleController.talia.arrayTalia.size(); i++) {
 //			System.out.println(SampleController.talia.arrayTalia.get(0));
 //		}
 		System.out.println("scena karta wczytanie");
 		// trzeba to zapisac do bd bo przy wczytaniu tamtej sceny czyta z bd
 		System.out.println("czy rozpoczęta "+SampleController.czyRozpoczeta);
-		SampleController.czyRozpoczeta = 1;
+		SampleController.czyRozpoczeta = 0;
 		SampleController.talia.arrayTalia.clear();
 //		nastepnaKarta(null);
 	}
-	private Stage stage;
-	public void init(Stage stage) {
-	this.stage=stage;	
-	}
+
 
 }

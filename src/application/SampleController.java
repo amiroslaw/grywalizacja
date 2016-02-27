@@ -2,14 +2,13 @@ package application;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -35,14 +34,38 @@ public class SampleController implements Initializable {
 	 * 1 nie rozpoczeta
 	 * 2 rozpoczeta
 	 */
-	public static int czyRozpoczeta;
+	public static int czyRozpoczeta=0;
 	Connection conection;
 	public Label labAbout =new Label("twórca Arkadiusz Mirosław");
-	
+	static String ileKart;
+	private Image award1 = new Image("img/award1.png");
+	private Image award2 = new Image("img/award2.png");
+	private Image award3 = new Image("img/award3.png");
+	private Image award4 = new Image("img/cow.png");
+//	private Image award4 = new Image("file:/home/miro/img/dum.jpg");
+//	private Image award4 = new Image("file:/home/img/cpgoesdqxww.jpg");
+	@FXML
+	private MenuItem menuStart; 
+	@FXML
+	private ImageView obrazek;
+	@FXML
+	private Button zamknij;
+	@FXML
+	private Button los;
+	@FXML
+	public Label wylosowane;
+	@FXML
+	private Label pozostalo;
+	@FXML
+	private Label pozostaloSrednich;
+	@FXML
+	private Label pozostaloMalych;
+
+	public Stage stageAbout = new Stage();
+	File f;	
 	/**
 	 * tworzenie stage o mnie 
 	 */
-	public Stage stageAbout = new Stage();
 	@FXML
 	public void about(ActionEvent e){
 		System.out.println("okno about");
@@ -71,29 +94,6 @@ public class SampleController implements Initializable {
 //		Main.windowLosuj.setTitle("Grywalizacja-O tworzenie talii");
 //		Main.windowLosuj.show();
 	}
-	static String ileKart;
-	private Image award1 = new Image("img/award1.png");
-	private Image award2 = new Image("img/award2.png");
-	private Image award3 = new Image("img/award3.png");
-//	private Image award4 = new Image("http://thumbs.dreamstime.com/t/caw-25623361.jpg");
-	private Image award4 = new Image("img/cow.png");
-//	private Image award4 = new Image("file:/home/miro/img/dum.jpg");
-
-//	private Image award4 = new Image("file:/home/img/cpgoesdqxww.jpg");
-	@FXML
-	private ImageView obrazek;
-	@FXML
-	private Button zamknij;
-	@FXML
-	private Button los;
-	@FXML
-	public Label wylosowane;
-	@FXML
-	private Label pozostalo;
-	@FXML
-	private Label pozostaloSrednich;
-	@FXML
-	private Label pozostaloMalych;
 
 	/**
 	 * sprawdza czy jest pusta talia sprawdza jakiej kategorii jest nagroda i
@@ -101,15 +101,17 @@ public class SampleController implements Initializable {
 	 * 
 	 * @param event
 	 */
-	File f;
 	@FXML
 	void losuj(ActionEvent event) {
-		if (talia.arrayTalia.isEmpty()) {
-			czyRozpoczeta = 1;
+//		if (talia.arrayTalia.isEmpty()) {
+		if (talia.arrayTalia.size()==1) {
+			czyRozpoczeta = 0;
+			zapisz(null);
+			menuStart.setDisable(false);
 			wylosowane.setText("gratuluję zakończyłeś talię");
 		} else {
 			
-			czyRozpoczeta = 2;
+			czyRozpoczeta = 1;
 			String teskt = talia.arrayTalia.get(0).toString();
 			wylosowane.setText(teskt);
 			talia.setIleKart(talia.getIleKart() - 1);
@@ -205,7 +207,7 @@ public class SampleController implements Initializable {
 	}
 
 	/**
-	 * czyta zmienne tali
+	 * czyta zmienne tali z bazy danych
 	 * 
 	 */
 	public void czytajDane() {
@@ -239,52 +241,54 @@ public class SampleController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		menuStart.setDisable(true);
+		czytajDane();
+		talia.arrayTalia.clear();
+		talia.czytajTalie();   //gdy już jest talia zapisana w bd
+		obrazek.setImage(award4);
 		System.out.println("przejście na scene z losowaniem");
 			System.out.println("ile kart w talii zapisz()"+talia.arrayTalia.size());
 		System.out.println("przed dane" + czyRozpoczeta);
-		czytajDane();
 			System.out.println("ile kart w talii czytajDane()"+talia.arrayTalia.size());
 		System.out.println("po dane" + czyRozpoczeta);
 		// dodane nr.2 aby nie musiec zmieniac w bd
-		czyRozpoczeta=2;
 		// nie dziala
-		if(czyRozpoczeta==0){
-//			try {
-//				scenaKarta(null);
-			System.out.println("talia zero");
-				czyRozpoczeta=1;
-//				zamknij.setDisable(true);
-//				los.setDisable(true);
-		talia.czytajTalie();   //gdy już jest talia zapisana w bd
-//				talia.setIleSrednich(3);
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-		}else {
-			System.out.println("odblokowanie buttonów");
-				zamknij.setDisable(false);
-				los.setDisable(false);
-				los.disabledProperty();
-		}
-		// gdy jest utworzona
-	
-		obrazek.setImage(award4);
-		if (czyRozpoczeta==2) {
-			System.out.println("rozpoczeta");
-		talia.czytajTalie();   //gdy już jest talia zapisana w bd
-			System.out.println("ile kart w talii czytajTalie()"+talia.arrayTalia.size());
-		} 
-		// nie powinno być tego stanu przy pierwszym wczytaniu programu
-		else if(czyRozpoczeta==1) {
-			talia.setNazwa("nowa talia");
-			talia.setIleKart(40);
-			talia.setIleMalych(6);
-			talia.setIleSrednich(3);
-//			talia.tworzNagrody(); // jak nie wczytujemy kart z bazy danch
-			talia.tworzTalie();
-			wylosowane.setText("perzełącz scene");
-		}
+//		if(czyRozpoczeta==0){
+////			try {
+////				scenaKarta(null);
+//			System.out.println("talia zero");
+//				czyRozpoczeta=1;
+////				zamknij.setDisable(true);
+////				los.setDisable(true);
+//		talia.czytajTalie();   //gdy już jest talia zapisana w bd
+////				talia.setIleSrednich(3);
+////			} catch (IOException e) {
+////				// TODO Auto-generated catch block
+////				e.printStackTrace();
+////			}
+//		}else {
+//			System.out.println("odblokowanie buttonów");
+//				zamknij.setDisable(false);
+//				los.setDisable(false);
+//				los.disabledProperty();
+//		}
+//		// gdy jest utworzona
+//	
+//		if (czyRozpoczeta==1) {
+//			System.out.println("rozpoczeta");
+//		talia.czytajTalie();   //gdy już jest talia zapisana w bd
+//			System.out.println("ile kart w talii czytajTalie()"+talia.arrayTalia.size());
+//		} 
+//		// nie powinno być tego stanu przy pierwszym wczytaniu programu
+//		else if(czyRozpoczeta==0) {
+//			talia.setNazwa("nowa talia");
+//			talia.setIleKart(40);
+//			talia.setIleMalych(6);
+//			talia.setIleSrednich(3);
+////			talia.tworzNagrody(); // jak nie wczytujemy kart z bazy danch
+//			talia.tworzTalie();
+//			wylosowane.setText("perzełącz scene");
+//		}
 		pozostalo.setText(Integer.toString(talia.getIleKart()));
 		pozostaloSrednich.setText(Integer.toString(talia.getIleSrednich()));
 		pozostaloMalych.setText(Integer.toString(talia.getIleMalych()));
