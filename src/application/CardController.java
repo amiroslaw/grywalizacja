@@ -41,10 +41,10 @@ public class CardController implements Initializable {
 		FileChooser fileChooser= new FileChooser();
 		fileChooser.setTitle("wybierz obrazek");
 		fileChooser.setInitialDirectory(new File (System.getProperty("user.home")) );
-		fileChooser.getExtensionFilters().addAll(
-				new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-				new FileChooser.ExtensionFilter("All file", "*.*")
-				);
+//		fileChooser.getExtensionFilters().addAll(
+//				new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+//				new FileChooser.ExtensionFilter("All file", "*.*")
+//				);
 //	File file = new File(null);
 		file = fileChooser.showOpenDialog(new Stage());
 		if(file!=null){
@@ -95,7 +95,7 @@ public class CardController implements Initializable {
 		SampleController.talia.arrayTalia.add(karta);
 		iKarta++;
 			lblnrKarty.setText(Integer.toString(iKarta));
-//			txtNazwa.setText("");
+			txtNazwa.setText("");
 //			if(file!=null)
 			txtOpis.setText("");
 		if(iKarta==11){
