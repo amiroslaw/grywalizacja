@@ -200,7 +200,6 @@ public class SampleController implements Initializable {
 
 			conection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -232,7 +231,6 @@ public class SampleController implements Initializable {
 			System.out.println("ile malych"+czyRozpoczeta);
 			conection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -263,7 +261,6 @@ public class SampleController implements Initializable {
 //		talia.czytajTalie();   //gdy już jest talia zapisana w bd
 ////				talia.setIleSrednich(3);
 ////			} catch (IOException e) {
-////				// TODO Auto-generated catch block
 ////				e.printStackTrace();
 ////			}
 //		}else {

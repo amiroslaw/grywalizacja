@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.fxml.FXMLLoader;
-
 		// nazwa = "typowa talia";
 		// ileKart = 40;
 		// ileMalych = 6;
@@ -68,7 +67,6 @@ public class Main extends Application {
 
 				conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

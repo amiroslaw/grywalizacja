@@ -39,7 +39,6 @@ public class StartController implements Initializable {
 		Main.windowLosuj.setTitle("Grywalizacja- losuj");
 		Main.windowLosuj.show();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -53,7 +52,6 @@ public class StartController implements Initializable {
 			Main.windowLosuj.setTitle("Grywalizacja-O tworzenie talii");
 			Main.windowLosuj.show();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
@@ -67,7 +65,7 @@ public class StartController implements Initializable {
 			Main.windowLosuj.setTitle("Grywalizacja-start");
 			Main.windowLosuj.show();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// 
 			e.printStackTrace();
 		}
 //		
@@ -79,7 +77,7 @@ public class StartController implements Initializable {
 	SampleController sampleController= new SampleController(); 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		// 
 		sampleController.czytajDane();
 		if(SampleController.czyRozpoczeta==0){
 //				scenaKarta(null);
