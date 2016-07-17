@@ -23,21 +23,21 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 
 /**
- * Kontroler do losowania z metodą {@link #czytajDane()}
+ * Kontroler do losowania z metodą {@link #readDeckInfo()}
  * @author miro
  *
  */
-public class SampleController implements Initializable {
-	public static Talia talia = new Talia();
+public class DrawCardController implements Initializable {
+	public static Deck deck = new Deck();
 	/**
 	 * 0 talia zero  ??
 	 * 1 nie rozpoczeta
 	 * 2 rozpoczeta
 	 */
-	public static int czyRozpoczeta=0;
+	public static int isStarted=0;
 	Connection conection;
-	public Label labAbout =new Label("twórca Arkadiusz Mirosław");
-	static String ileKart;
+	private Label labAbout =new Label("twórca Arkadiusz Mirosław");
+//	static String ileKart;
 	private Image award1 = new Image("img/award1.png");
 	private Image award2 = new Image("img/award2.png");
 	private Image award3 = new Image("img/award3.png");
@@ -53,7 +53,7 @@ public class SampleController implements Initializable {
 	@FXML
 	private Button los;
 	@FXML
-	public Label wylosowane;
+	private Label wylosowane;
 	@FXML
 	private Label pozostalo;
 	@FXML
@@ -62,12 +62,12 @@ public class SampleController implements Initializable {
 	private Label pozostaloMalych;
 
 	public Stage stageAbout = new Stage();
-	File f;	
+	File file;	
 	/**
 	 * tworzenie stage o mnie 
 	 */
 	@FXML
-	public void about(ActionEvent e){
+	public void showAbout(ActionEvent e){
 		System.out.println("okno about");
 		
 			Pane layoutAbout = new Pane();
@@ -85,7 +85,7 @@ public class SampleController implements Initializable {
 	 * @throws IOException
 	 */
 	@FXML
-	void scenaKarta(ActionEvent e) throws IOException{
+	void showStart(ActionEvent e) throws IOException{
 //zmienione na przejdz do startu
 		StartController.goToStart();
 //			GridPane layoutTalia = (GridPane) FXMLLoader.load(getClass().getResource("GeneratorKart.fxml")); ;
@@ -102,58 +102,58 @@ public class SampleController implements Initializable {
 	 * @param event
 	 */
 	@FXML
-	void losuj(ActionEvent event) {
+	void drawCard(ActionEvent event) {
 //		if (talia.arrayTalia.isEmpty()) {
-		if (talia.arrayTalia.size()==1) {
-			czyRozpoczeta = 0;
-			zapisz(null);
+		if (deck.cardsList.size()==0) {
+			isStarted = 0;
+			saveDB(null);
 			menuStart.setDisable(false);
 			wylosowane.setText("gratuluję zakończyłeś talię");
 		} else {
 			
-			czyRozpoczeta = 1;
-			String teskt = talia.arrayTalia.get(0).toString();
+			isStarted = 1;
+			String teskt = deck.cardsList.get(0).toString();
 			wylosowane.setText(teskt);
-			talia.setIleKart(talia.getIleKart() - 1);
-			if (talia.arrayTalia.get(0).getTyp() == 1) {
-				if(talia.arrayTalia.get(0).getObrazek().equals("default")){
+			deck.setHowManyCards(deck.getHowManyCards() - 1);
+			if (deck.cardsList.get(0).getType() == 1) {
+				if(deck.cardsList.get(0).getImage().equals("default")){
 				obrazek.setImage(award1);
 				}
 				else{
-					f = new File(talia.arrayTalia.get(0).getObrazek());
-				obrazek.setImage( new Image(f.toURI().toString()));
+					file = new File(deck.cardsList.get(0).getImage());
+				obrazek.setImage( new Image(file.toURI().toString()));
 				}
 			}
-			if (talia.arrayTalia.get(0).getTyp() == 2) {
-				talia.setIleSrednich(talia.getIleSrednich() - 1);
-				if(talia.arrayTalia.get(0).getObrazek().equals("default")){
+			if (deck.cardsList.get(0).getType() == 2) {
+				deck.setHowManyMediumCards(deck.getHowManyMediumCards() - 1);
+				if(deck.cardsList.get(0).getImage().equals("default")){
 				obrazek.setImage(award2);
 				}
 				else{
-					f = new File(talia.arrayTalia.get(0).getObrazek());
-				obrazek.setImage( new Image(f.toURI().toString()));
+					file = new File(deck.cardsList.get(0).getImage());
+				obrazek.setImage( new Image(file.toURI().toString()));
 				}
 			}
 
-			if (talia.arrayTalia.get(0).getTyp() == 3) {
-				talia.setIleMalych(talia.getIleMalych() - 1);
-				if(talia.arrayTalia.get(0).getObrazek().equals("default")){
+			if (deck.cardsList.get(0).getType() == 3) {
+				deck.setHowManySmallCards(deck.getHowManySmallCards() - 1);
+				if(deck.cardsList.get(0).getImage().equals("default")){
 				obrazek.setImage(award3);
 				}
 				else{
-					f = new File(talia.arrayTalia.get(0).getObrazek());
-				obrazek.setImage( new Image(f.toURI().toString()));
+					file = new File(deck.cardsList.get(0).getImage());
+				obrazek.setImage( new Image(file.toURI().toString()));
 				}
 			}
 
-			if (talia.arrayTalia.get(0).getTyp() == 4) {
+			if (deck.cardsList.get(0).getType() == 4) {
 				obrazek.setImage(award4);
 			}
 			pozostalo.setText("wszystkie");
-			pozostalo.setText(Integer.toString(talia.getIleKart()));
-			pozostaloSrednich.setText(Integer.toString(talia.getIleSrednich()));
-			pozostaloMalych.setText(Integer.toString(talia.getIleMalych()));
-			talia.arrayTalia.remove(0);
+			pozostalo.setText(Integer.toString(deck.getHowManyCards()));
+			pozostaloSrednich.setText(Integer.toString(deck.getHowManyMediumCards()));
+			pozostaloMalych.setText(Integer.toString(deck.getHowManySmallCards()));
+			deck.cardsList.remove(0);
 		}
 
 	}
@@ -164,7 +164,7 @@ public class SampleController implements Initializable {
 	@FXML
 	// void zapisz(ActionEvent event) // bo nie działało wywolywanie tej funkcji
 	// w main
-	void zapisz(ActionEvent event) {
+	void saveDB(ActionEvent event) {
 		conection = (Connection) SqliteConnection.Connector();
 		if (conection == null) {
 
@@ -179,23 +179,23 @@ public class SampleController implements Initializable {
 			// zapisywanie zmiennych z talii
 			String query = "INSERT INTO talia VALUES (1, 'update talia', ?, ?, ?, ?)";
 			PreparedStatement preStmt = conection.prepareStatement(query);
-			preStmt.setInt(1, talia.getIleKart());
-			preStmt.setInt(2, talia.getIleMalych());
-			preStmt.setInt(3, talia.getIleSrednich());
-			preStmt.setInt(4, czyRozpoczeta);
+			preStmt.setInt(1, deck.getHowManyCards());
+			preStmt.setInt(2, deck.getHowManySmallCards());
+			preStmt.setInt(3, deck.getHowManyMediumCards());
+			preStmt.setInt(4, isStarted);
 
 			preStmt.executeUpdate();
-			System.out.println("zapisane dane, czyRozpoczeta" + czyRozpoczeta);
+			System.out.println("zapisane dane, czyRozpoczeta" + isStarted);
 			String sql = "";
-			for (int i = 0; i < talia.arrayTalia.size(); i++) {
+			for (int i = 0; i < deck.cardsList.size(); i++) {
 
-				query = "INSERT INTO karta VALUES (" + i + "," + talia.arrayTalia.get(i).getTyp() + ",'"
-						+ talia.arrayTalia.get(i).getTytul() + "','" + talia.arrayTalia.get(i).getOpis() + "','"
-						+ talia.arrayTalia.get(i).getObrazek() + "');";
+				query = "INSERT INTO karta VALUES (" + i + "," + deck.cardsList.get(i).getType() + ",'"
+						+ deck.cardsList.get(i).getTitle() + "','" + deck.cardsList.get(i).getDescription() + "','"
+						+ deck.cardsList.get(i).getImage() + "');";
 				sql += query;
 			}
 			System.out.println(sql);
-			System.out.println("ile kart w talii zapisz()"+talia.arrayTalia.size());
+			System.out.println("ile kart w talii zapisz()"+deck.cardsList.size());
 			mySta.executeUpdate(sql);
 
 			conection.close();
@@ -209,7 +209,7 @@ public class SampleController implements Initializable {
 	 * czyta zmienne tali z bazy danych
 	 * 
 	 */
-	public void czytajDane() {
+	public void readDeckInfo() {
 		conection = (Connection) SqliteConnection.Connector();
 		if (conection == null) {
 
@@ -220,15 +220,15 @@ public class SampleController implements Initializable {
 			Statement mySta = conection.createStatement();
 			ResultSet rs = mySta.executeQuery("select * from talia");
 			while (rs.next()) {
-				czyRozpoczeta = rs.getInt("czyRozpoczeta");
-				talia.setNazwa(rs.getString("nazwa"));
-				talia.setIleMalych(rs.getInt("ileMalych"));
-				talia.setIleSrednich(rs.getInt("ileSrednich"));
-				talia.setIleKart(rs.getInt("ileKart"));
+				isStarted = rs.getInt("czyRozpoczeta");
+				deck.setName(rs.getString("nazwa"));
+				deck.setHowManySmallCards(rs.getInt("ileMalych"));
+				deck.setHowManyMediumCards(rs.getInt("ileSrednich"));
+				deck.setHowManyCards(rs.getInt("ileKart"));
 			}
-			System.out.println("nazwa talii "+talia.getNazwa());
-			System.out.println("ile malych"+talia.getIleMalych());
-			System.out.println("ile malych"+czyRozpoczeta);
+			System.out.println("nazwa talii "+deck.getName());
+			System.out.println("ile malych"+deck.getHowManySmallCards());
+			System.out.println("ile malych"+isStarted);
 			conection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -240,15 +240,15 @@ public class SampleController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		menuStart.setDisable(true);
-		czytajDane();
-		talia.arrayTalia.clear();
-		talia.czytajTalie();   //gdy już jest talia zapisana w bd
+		readDeckInfo();
+		deck.cardsList.clear();
+		deck.readCards();   //gdy już jest talia zapisana w bd
 		obrazek.setImage(award4);
 		System.out.println("przejście na scene z losowaniem");
-			System.out.println("ile kart w talii zapisz()"+talia.arrayTalia.size());
-		System.out.println("przed dane" + czyRozpoczeta);
-			System.out.println("ile kart w talii czytajDane()"+talia.arrayTalia.size());
-		System.out.println("po dane" + czyRozpoczeta);
+			System.out.println("ile kart w talii zapisz()"+deck.cardsList.size());
+		System.out.println("przed dane" + isStarted);
+			System.out.println("ile kart w talii czytajDane()"+deck.cardsList.size());
+		System.out.println("po dane" + isStarted);
 		// dodane nr.2 aby nie musiec zmieniac w bd
 		// nie dziala
 //		if(czyRozpoczeta==0){
@@ -286,9 +286,9 @@ public class SampleController implements Initializable {
 //			talia.tworzTalie();
 //			wylosowane.setText("perzełącz scene");
 //		}
-		pozostalo.setText(Integer.toString(talia.getIleKart()));
-		pozostaloSrednich.setText(Integer.toString(talia.getIleSrednich()));
-		pozostaloMalych.setText(Integer.toString(talia.getIleMalych()));
+		pozostalo.setText(Integer.toString(deck.getHowManyCards()));
+		pozostaloSrednich.setText(Integer.toString(deck.getHowManyMediumCards()));
+		pozostaloMalych.setText(Integer.toString(deck.getHowManySmallCards()));
 	}
 
 }

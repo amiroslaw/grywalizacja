@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.image.Image?>
 
-<BorderPane prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<BorderPane prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DrawCardController">
    <top>
       <HBox prefHeight="30.0" prefWidth="400.0" BorderPane.alignment="CENTER">
          <children>
@@ -16,14 +16,14 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                        <MenuItem mnemonicParsing="false" onAction="#zapisz" text="Zapisz" />
-                    <MenuItem fx:id="menuStart" mnemonicParsing="false" onAction="#scenaKarta" text="Start" />
+                        <MenuItem mnemonicParsing="false" onAction="#saveDB" text="Zapisz" />
+                    <MenuItem fx:id="menuStart" mnemonicParsing="false" onAction="#showStart" text="Start" />
                     <MenuItem mnemonicParsing="false" text="Close" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
-                    <MenuItem mnemonicParsing="false" onAction="#about" text="About" />
+                    <MenuItem mnemonicParsing="false" onAction="#showAbout" text="About" />
                   </items>
                 </Menu>
               </menus>
@@ -33,14 +33,14 @@
    <center>
       <VBox alignment="CENTER" prefHeight="500.0" prefWidth="400.0" spacing="10.0" BorderPane.alignment="TOP_CENTER">
          <children>
-            <Button fx:id="zamknij" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#zapisz" text="Zapisz" />
+            <Button fx:id="zamknij" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#saveDB" text="Zapisz" />
             <ImageView fx:id="obrazek" fitHeight="209.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
            		<image>
            		<Image url="img/award1.png" />
            		</image>
             </ImageView>
             <Label fx:id="wylosowane" text="Label" />
-            <Button fx:id="los" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#losuj" text="Losuj" />
+            <Button fx:id="los" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#drawCard" text="Losuj" />
          </children>
       </VBox>
    </center>

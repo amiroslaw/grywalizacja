@@ -28,16 +28,16 @@ public class StartController implements Initializable {
 	@FXML
 	private Label info; 
 	@FXML
-	void goToLos (){
+	void goToDrawCard (){
 		try {
 //			FXMLLoader loader = new FXMLLoader(getClass().getResource("Sample.fxml"));
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
+			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("DrawCard.fxml"));
 		
 		 Main.scene = new Scene(root,400,600);
 		// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		Main.windowLosuj.setScene(Main.scene);
-		Main.windowLosuj.setTitle("Grywalizacja- losuj");
-		Main.windowLosuj.show();
+		Main.stage.setScene(Main.scene);
+		Main.stage.setTitle("Grywalizacja- losuj");
+		Main.stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -46,11 +46,11 @@ public class StartController implements Initializable {
 	void goToCreate(){
 		try {
 			
-			GridPane layoutTalia = (GridPane) FXMLLoader.load(getClass().getResource("GeneratorKart.fxml")); ;
+			GridPane layoutTalia = (GridPane) FXMLLoader.load(getClass().getResource("CardCreator.fxml")); ;
 			 Main.scene = new Scene(layoutTalia,400,400);
-			Main.windowLosuj.setScene(Main.scene);
-			Main.windowLosuj.setTitle("Grywalizacja-O tworzenie talii");
-			Main.windowLosuj.show();
+			Main.stage.setScene(Main.scene);
+			Main.stage.setTitle("Grywalizacja-O tworzenie talii");
+			Main.stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -61,9 +61,9 @@ public class StartController implements Initializable {
 		try {
 			root = (VBox)FXMLLoader.load(StartController.class.getResource("Start.fxml"));
 		 Main.scene =new Scene(root, 400, 400);
-		 Main.windowLosuj.setScene(Main.scene);
-			Main.windowLosuj.setTitle("Grywalizacja-start");
-			Main.windowLosuj.show();
+		 Main.stage.setScene(Main.scene);
+			Main.stage.setTitle("Grywalizacja-start");
+			Main.stage.show();
 		} catch (IOException e) {
 			// 
 			e.printStackTrace();
@@ -74,12 +74,12 @@ public class StartController implements Initializable {
 //		
 //		primaryStage.show()
 	}
-	SampleController sampleController= new SampleController(); 
+	DrawCardController sampleController= new DrawCardController(); 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// 
-		sampleController.czytajDane();
-		if(SampleController.czyRozpoczeta==0){
+		sampleController.readDeckInfo();
+		if(DrawCardController.isStarted==0){
 //				scenaKarta(null);
 			System.out.println("Start: takia nie rozpoczęta");
 				btnDraw.setDisable(true);

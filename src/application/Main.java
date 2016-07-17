@@ -20,12 +20,12 @@ import javafx.fxml.FXMLLoader;
  *
  */
 public class Main extends Application {
-	SampleController controller = new SampleController();
-	static public	Stage windowLosuj ; 
+	DrawCardController controller = new DrawCardController();
+	static public	Stage stage ; 
 	static public Scene scene; 
 	@Override
 	public void start(Stage primaryStage) {
-		 windowLosuj= primaryStage; 
+		 stage= primaryStage; 
 		try {
 			
 //			FXMLLoader loader = new FXMLLoader(getClass().getResource("Sample.fxml"));
@@ -45,7 +45,7 @@ public class Main extends Application {
 //			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 //			windowLosuj.setScene(scene);
 //			windowLosuj.setTitle("Grywalizacja- losuj");
-			windowLosuj.setOnCloseRequest(e->controller.zapisz(null));
+			stage.setOnCloseRequest(e->controller.saveDB(null));
 //			windowLosuj.show();
 		} catch(Exception e) {
 			e.printStackTrace();

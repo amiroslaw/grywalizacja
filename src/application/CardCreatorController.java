@@ -14,9 +14,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class CardController implements Initializable {
+public class CardCreatorController implements Initializable {
 
-	SampleController controller = new SampleController();
+	DrawCardController drawCardController = new DrawCardController();
 	// Talia talia = new Talia();
 	@FXML
 	private Label lblnrKarty;
@@ -34,10 +34,10 @@ public class CardController implements Initializable {
 	 * typ karty
 	 */
 	File file;
-	String linkObrazek; 
-	int iKarta = 1;
+	String linkToImage; 
+	int cardCounter = 1;
 	@FXML
-	public void otworzObrazek(ActionEvent e){
+	public void chooseImage(ActionEvent e){
 		FileChooser fileChooser= new FileChooser();
 		fileChooser.setTitle("wybierz obrazek");
 		fileChooser.setInitialDirectory(new File (System.getProperty("user.home")) );
@@ -51,78 +51,78 @@ public class CardController implements Initializable {
 			// przypisanie ścieżki lub i skpiowanie
 			System.out.println(file.getAbsolutePath());
 //		karta.setObrazek(file.getAbsolutePath());
-	linkObrazek=file.getAbsolutePath();
+	linkToImage=file.getAbsolutePath();
 		}
 		//nie zadzaila bo musi byc klikniety button i nie wybrany obrazek aby sie aktywowal else
 //		else{ linkObrazek= "default"; }
 	}
 	@FXML
-	public void zapisz(ActionEvent e){
-		controller.zapisz(null);
+	public void saveDB(ActionEvent e){
+		drawCardController.saveDB(null);
 	}
 	/**
 	 * zapisuje kartę do talii i odświerza scene
 	 * @param e
 	 */
 	@FXML
-	public void nastepnaKarta(ActionEvent e) {
-		wyswietlTyp();
-		Karta karta = new Karta();
-		karta.setTytul(txtNazwa.getText());
-		karta.setOpis(txtOpis.getText());
+	public void nextCard(ActionEvent e) {
+		viewType();
+		Card card = new Card();
+		card.setTitle(txtNazwa.getText());
+		card.setDescription(txtOpis.getText());
 		if(file!=null){
-		karta.setObrazek(linkObrazek);
+		card.setImage(linkToImage);
 		}else {
-		karta.setObrazek("default");
+		card.setImage("default");
 		}
 		file=null;
 		// dodac metode czytajaca link do obrazka
-		switch (iKarta) {
+		switch (cardCounter) {
 		case 1:
 //			lblTyp.setText(Integer.toString(1));
-			karta.setTyp(1);
+			card.setType(1);
 			break;
 		case 2:
 		case 3:
 		case 4:
-			karta.setTyp(2);
+			card.setType(2);
 			break;
 		default:
 //			lblTyp.setText(Integer.toString(3));
-			karta.setTyp(3);
+			card.setType(3);
 			break;
 		}
-		SampleController.talia.arrayTalia.add(karta);
-		iKarta++;
-			lblnrKarty.setText(Integer.toString(iKarta));
+		DrawCardController.deck.cardsList.add(card);
+		cardCounter++;
+			lblnrKarty.setText(Integer.toString(cardCounter));
 			txtNazwa.setText("");
 //			if(file!=null)
 			txtOpis.setText("");
-		if(iKarta==11){
+		if(cardCounter==11){
 			btnDalej.setDisable(true);
-			SampleController.czyRozpoczeta=1;
-			SampleController.talia.setIleKart(40);
-			SampleController.talia.setIleMalych(6);
-			SampleController.talia.setIleSrednich(3);
-			SampleController.talia.tworzTalie();
-			controller.zapisz(null);
+			DrawCardController.isStarted=1;
+			DrawCardController.deck.setHowManyCards(40);
+			DrawCardController.deck.setHowManySmallCards(6);
+			DrawCardController.deck.setHowManyMediumCards(3);
+			DrawCardController.deck.createDeck();
+			drawCardController.saveDB(null);
 		}
 			
 	}
 	/**
 	 * ustawianie laber typ gdyz jest opuzniony najpierw wyswietla sie startowy stage
 	 */
-	public void wyswietlTyp(){
-		if(iKarta>0 && iKarta<4)
+	public void viewType(){
+		if(cardCounter>0 && cardCounter<4)
 			lblTyp.setText(Integer.toString(2));
 		else
 			lblTyp.setText(Integer.toString(3));
 	}
 
 	@FXML
-	public void scenaLosuj(ActionEvent e) {
+	public void showDrawCard(ActionEvent e) {
 		// zmienione na przejscie na start
-		controller.zapisz(null);
+		drawCardController.saveDB(null);
 		StartController.goToStart();
 		try {
 //			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
@@ -143,9 +143,9 @@ public class CardController implements Initializable {
 //		}
 		System.out.println("scena karta wczytanie");
 		// trzeba to zapisac do bd bo przy wczytaniu tamtej sceny czyta z bd
-		System.out.println("czy rozpoczęta "+SampleController.czyRozpoczeta);
-		SampleController.czyRozpoczeta = 0;
-		SampleController.talia.arrayTalia.clear();
+		System.out.println("czy rozpoczęta "+DrawCardController.isStarted);
+		DrawCardController.isStarted = 0;
+		DrawCardController.deck.cardsList.clear();
 //		nastepnaKarta(null);
 	}
 
