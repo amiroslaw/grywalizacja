@@ -1,4 +1,4 @@
-package application;
+package model;
 
 public class Card {
 	private int type; // typ karty 1- nagroda 1, 2- nagroda 2, 4 nic

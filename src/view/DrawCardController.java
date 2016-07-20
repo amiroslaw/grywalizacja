@@ -1,19 +1,6 @@
-package application;
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+package view;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,12 +9,35 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import model.Deck;
+import model.SqliteConnection;
+
 /**
  * Kontroler do losowania z metodą {@link #readDeckInfo()}
  * @author miro
  *
  */
 public class DrawCardController implements Initializable {
+	private ViewManager manager;
+	private Stage primaryStage;
+	
+	public void setManager(ViewManager manager) {
+		this.manager = manager;
+	}
+	public void setPrimaryStage(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+	}
+
+
 	public static Deck deck = new Deck();
 	/**
 	 * 0 talia zero  ??
@@ -61,38 +71,17 @@ public class DrawCardController implements Initializable {
 	@FXML
 	private Label pozostaloMalych;
 
-	public Stage stageAbout = new Stage();
 	File file;	
-	/**
-	 * tworzenie stage o mnie 
-	 */
+
 	@FXML
 	public void showAbout(ActionEvent e){
-		System.out.println("okno about");
-		
-			Pane layoutAbout = new Pane();
-			layoutAbout.getChildren().add(labAbout);
-		Scene scene = new Scene(layoutAbout,400,200);
-		stageAbout.setScene(scene);
-		//blokowanie poprzedniego okna powoduje blad przy dwukrotnym wywolaniu
-//		stageAbout.initModality(Modality.APPLICATION_MODAL);
-		stageAbout.setTitle("Grywalizacja-O programie");
-		stageAbout.showAndWait();
+		manager.showAbout();
 	}
-	/**
-	 * przełączenie na scene z tworzeniem talii
-	 * @param e
-	 * @throws IOException
-	 */
+
 	@FXML
-	void showStart(ActionEvent e) throws IOException{
-//zmienione na przejdz do startu
-		StartController.goToStart();
-//			GridPane layoutTalia = (GridPane) FXMLLoader.load(getClass().getResource("GeneratorKart.fxml")); ;
-//		Scene sceneTalia = new Scene(layoutTalia,400,400);
-//		Main.windowLosuj.setScene(sceneTalia);
-//		Main.windowLosuj.setTitle("Grywalizacja-O tworzenie talii");
-//		Main.windowLosuj.show();
+	void showStart(ActionEvent e) {
+		manager.showStart();
+
 	}
 
 	/**

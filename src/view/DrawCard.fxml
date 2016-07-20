@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.image.Image?>
 
-<BorderPane prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DrawCardController">
+<BorderPane prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.DrawCardController">
    <top>
       <HBox prefHeight="30.0" prefWidth="400.0" BorderPane.alignment="CENTER">
          <children>

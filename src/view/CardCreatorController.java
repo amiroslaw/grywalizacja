@@ -1,4 +1,4 @@
-package application;
+package view;
 
 import java.io.File;
 import java.net.URL;
@@ -13,9 +13,18 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.Card;
 
 public class CardCreatorController implements Initializable {
-
+	private ViewManager manager;
+	private Stage primaryStage;
+	
+	public void setManager(ViewManager manager) {
+		this.manager = manager;
+	}
+	public void setPrimaryStage(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+	}
 	DrawCardController drawCardController = new DrawCardController();
 	// Talia talia = new Talia();
 	@FXML
@@ -121,19 +130,8 @@ public class CardCreatorController implements Initializable {
 
 	@FXML
 	public void showDrawCard(ActionEvent e) {
-		// zmienione na przejscie na start
 		drawCardController.saveDB(null);
-		StartController.goToStart();
-		try {
-//			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
-//			Main.windowLosuj.setScene(Main.scene);
-//			Main.windowLosuj.setTitle("Grywalizacja- losuj");
-//			Main.windowLosuj.setOnCloseRequest(event->controller.zapisz(null));
-//			Main.windowLosuj.show();
-
-		} catch (Exception ev) {
-			ev.printStackTrace();
-		}
+		manager.showDrawCard();
 	}
 
 	@Override
