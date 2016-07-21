@@ -40,11 +40,6 @@ public class Deck {
 		this.howManyMediumCards = howManyMediumCards;
 	}
 
-	public String toString() {
-		return "nazwa: " + name + "; \nile Kart: " + howManyCards + "; \nile Malych: " + howManySmallCards + "; \nile Srednich: "
-				+ howManyMediumCards;
-	}
-
 	/**
 	 * czyta dane z BD z tabeli karta
 	 */
@@ -134,4 +129,8 @@ public class Deck {
 		this.name = name;
 	}
 	
+	public String toString() {
+		return "nazwa: " + name + "; \nile Kart: " + howManyCards + "; \nile Malych: " + howManySmallCards + "; \nile Srednich: "
+				+ howManyMediumCards;
+	}	
 }

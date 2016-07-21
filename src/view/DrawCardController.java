@@ -23,39 +23,30 @@ import model.SqliteConnection;
 
 /**
  * Kontroler do losowania z metodą {@link #readDeckInfo()}
+ * 
  * @author miro
  *
  */
 public class DrawCardController implements Initializable {
-	private ViewManager manager;
-	private Stage primaryStage;
-	
-	public void setManager(ViewManager manager) {
-		this.manager = manager;
-	}
-	public void setPrimaryStage(Stage primaryStage) {
-		this.primaryStage = primaryStage;
-	}
-
 
 	public static Deck deck = new Deck();
 	/**
-	 * 0 talia zero  ??
-	 * 1 nie rozpoczeta
-	 * 2 rozpoczeta
+	 * 0 talia zero ?? 1 nie rozpoczeta 2 rozpoczeta
 	 */
-	public static int isStarted=0;
+	public static int isStarted = 0;
 	Connection conection;
-	private Label labAbout =new Label("twórca Arkadiusz Mirosław");
-//	static String ileKart;
+	private ViewManager manager;
+	private Stage primaryStage;
+	private Label labAbout = new Label("twórca Arkadiusz Mirosław");
+	// static String ileKart;
 	private Image award1 = new Image("img/award1.png");
 	private Image award2 = new Image("img/award2.png");
 	private Image award3 = new Image("img/award3.png");
 	private Image award4 = new Image("img/cow.png");
-//	private Image award4 = new Image("file:/home/miro/img/dum.jpg");
-//	private Image award4 = new Image("file:/home/img/cpgoesdqxww.jpg");
+	// private Image award4 = new Image("file:/home/miro/img/dum.jpg");
+	// private Image award4 = new Image("file:/home/img/cpgoesdqxww.jpg");
 	@FXML
-	private MenuItem menuStart; 
+	private MenuItem menuStart;
 	@FXML
 	private ImageView obrazek;
 	@FXML
@@ -71,10 +62,77 @@ public class DrawCardController implements Initializable {
 	@FXML
 	private Label pozostaloMalych;
 
-	File file;	
+	private File file;
+
+	public void setManager(ViewManager manager) {
+		this.manager = manager;
+	}
+
+	public void setPrimaryStage(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+	}
+
+	/**
+	 * sprawdza czy takia została zaczęta czy nie, wywołuje odpowiednie metody i
+	 * wyświtla ilość kart
+	 */
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		menuStart.setDisable(true);
+		readDeckInfo();
+		deck.cardsList.clear();
+		deck.readCards(); // gdy już jest talia zapisana w bd
+		obrazek.setImage(award4);
+		System.out.println("przejście na scene z losowaniem");
+		System.out.println("ile kart w talii zapisz()" + deck.cardsList.size());
+		System.out.println("przed dane" + isStarted);
+		System.out.println("ile kart w talii czytajDane()" + deck.cardsList.size());
+		System.out.println("po dane" + isStarted);
+		// dodane nr.2 aby nie musiec zmieniac w bd
+		// nie dziala
+		// if(czyRozpoczeta==0){
+		//// try {
+		//// scenaKarta(null);
+		// System.out.println("talia zero");
+		// czyRozpoczeta=1;
+		//// zamknij.setDisable(true);
+		//// los.setDisable(true);
+		// talia.czytajTalie(); //gdy już jest talia zapisana w bd
+		//// talia.setIleSrednich(3);
+		//// } catch (IOException e) {
+		//// e.printStackTrace();
+		//// }
+		// }else {
+		// System.out.println("odblokowanie buttonów");
+		// zamknij.setDisable(false);
+		// los.setDisable(false);
+		// los.disabledProperty();
+		// }
+		// // gdy jest utworzona
+		//
+		// if (czyRozpoczeta==1) {
+		// System.out.println("rozpoczeta");
+		// talia.czytajTalie(); //gdy już jest talia zapisana w bd
+		// System.out.println("ile kart w talii
+		// czytajTalie()"+talia.arrayTalia.size());
+		// }
+		// // nie powinno być tego stanu przy pierwszym wczytaniu programu
+		// else if(czyRozpoczeta==0) {
+		// talia.setNazwa("nowa talia");
+		// talia.setIleKart(40);
+		// talia.setIleMalych(6);
+		// talia.setIleSrednich(3);
+		//// talia.tworzNagrody(); // jak nie wczytujemy kart z bazy danch
+		// talia.tworzTalie();
+		// wylosowane.setText("perzełącz scene");
+		// }
+		pozostalo.setText(Integer.toString(deck.getHowManyCards()));
+		pozostaloSrednich.setText(Integer.toString(deck.getHowManyMediumCards()));
+		pozostaloMalych.setText(Integer.toString(deck.getHowManySmallCards()));
+	}
 
 	@FXML
-	public void showAbout(ActionEvent e){
+	void showAbout(ActionEvent e) {
 		manager.showAbout();
 	}
 
@@ -85,74 +143,43 @@ public class DrawCardController implements Initializable {
 	}
 
 	/**
-	 * sprawdza czy jest pusta talia sprawdza jakiej kategorii jest nagroda i
-	 * wyświtla odpowiedni obrazek aktualizuje wyświtlanie ilości kart
+	 * czyta zmienne tali z bazy danych
 	 * 
-	 * @param event
 	 */
-	@FXML
-	void drawCard(ActionEvent event) {
-//		if (talia.arrayTalia.isEmpty()) {
-		if (deck.cardsList.size()==0) {
-			isStarted = 0;
-			saveDB(null);
-			menuStart.setDisable(false);
-			wylosowane.setText("gratuluję zakończyłeś talię");
-		} else {
-			
-			isStarted = 1;
-			String teskt = deck.cardsList.get(0).toString();
-			wylosowane.setText(teskt);
-			deck.setHowManyCards(deck.getHowManyCards() - 1);
-			if (deck.cardsList.get(0).getType() == 1) {
-				if(deck.cardsList.get(0).getImage().equals("default")){
-				obrazek.setImage(award1);
-				}
-				else{
-					file = new File(deck.cardsList.get(0).getImage());
-				obrazek.setImage( new Image(file.toURI().toString()));
-				}
-			}
-			if (deck.cardsList.get(0).getType() == 2) {
-				deck.setHowManyMediumCards(deck.getHowManyMediumCards() - 1);
-				if(deck.cardsList.get(0).getImage().equals("default")){
-				obrazek.setImage(award2);
-				}
-				else{
-					file = new File(deck.cardsList.get(0).getImage());
-				obrazek.setImage( new Image(file.toURI().toString()));
-				}
-			}
+	// TODO: przenies do nowej klasy
+	public void readDeckInfo() {
+		conection = (Connection) SqliteConnection.Connector();
+		if (conection == null) {
 
-			if (deck.cardsList.get(0).getType() == 3) {
-				deck.setHowManySmallCards(deck.getHowManySmallCards() - 1);
-				if(deck.cardsList.get(0).getImage().equals("default")){
-				obrazek.setImage(award3);
-				}
-				else{
-					file = new File(deck.cardsList.get(0).getImage());
-				obrazek.setImage( new Image(file.toURI().toString()));
-				}
-			}
-
-			if (deck.cardsList.get(0).getType() == 4) {
-				obrazek.setImage(award4);
-			}
-			pozostalo.setText("wszystkie");
-			pozostalo.setText(Integer.toString(deck.getHowManyCards()));
-			pozostaloSrednich.setText(Integer.toString(deck.getHowManyMediumCards()));
-			pozostaloMalych.setText(Integer.toString(deck.getHowManySmallCards()));
-			deck.cardsList.remove(0);
+			System.out.println("connection not successful");
+			System.exit(1);
 		}
-
+		try {
+			Statement mySta = conection.createStatement();
+			ResultSet rs = mySta.executeQuery("select * from talia");
+			while (rs.next()) {
+				isStarted = rs.getInt("czyRozpoczeta");
+				deck.setName(rs.getString("nazwa"));
+				deck.setHowManySmallCards(rs.getInt("ileMalych"));
+				deck.setHowManyMediumCards(rs.getInt("ileSrednich"));
+				deck.setHowManyCards(rs.getInt("ileKart"));
+			}
+			System.out.println("nazwa talii " + deck.getName());
+			System.out.println("ile malych" + deck.getHowManySmallCards());
+			System.out.println("ile malych" + isStarted);
+			conection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
 	 * usuwa dane z BD i zapisuje zmienne talii i karty do niej
 	 */
-	@FXML
+	// TODO: przenies do nowej klasy
 	// void zapisz(ActionEvent event) // bo nie działało wywolywanie tej funkcji
 	// w main
+	@FXML
 	void saveDB(ActionEvent event) {
 		conection = (Connection) SqliteConnection.Connector();
 		if (conection == null) {
@@ -184,7 +211,7 @@ public class DrawCardController implements Initializable {
 				sql += query;
 			}
 			System.out.println(sql);
-			System.out.println("ile kart w talii zapisz()"+deck.cardsList.size());
+			System.out.println("ile kart w talii zapisz()" + deck.cardsList.size());
 			mySta.executeUpdate(sql);
 
 			conection.close();
@@ -195,89 +222,69 @@ public class DrawCardController implements Initializable {
 	}
 
 	/**
-	 * czyta zmienne tali z bazy danych
+	 * sprawdza czy jest pusta talia sprawdza jakiej kategorii jest nagroda i
+	 * wyświtla odpowiedni obrazek aktualizuje wyświtlanie ilości kart
 	 * 
+	 * @param event
 	 */
-	public void readDeckInfo() {
-		conection = (Connection) SqliteConnection.Connector();
-		if (conection == null) {
+	// TODO: przenies do nowej klasy
+	@FXML
+	void drawCard(ActionEvent event) {
+		if (deck.cardsList.size() == 0) {
+			isStarted = 0;
+			saveDB(null);
+			menuStart.setDisable(false);
+			wylosowane.setText("gratuluję zakończyłeś talię");
+		} else {
 
-			System.out.println("connection not successful");
-			System.exit(1);
+			isStarted = 1;
+			String teskt = deck.cardsList.get(0).toString();
+			wylosowane.setText(teskt);
+			deck.setHowManyCards(deck.getHowManyCards() - 1);
+			checkTypeAndSetImage();
+
+			pozostalo.setText(Integer.toString(deck.getHowManyCards()));
+			pozostaloSrednich.setText(Integer.toString(deck.getHowManyMediumCards()));
+			pozostaloMalych.setText(Integer.toString(deck.getHowManySmallCards()));
+
+			deck.cardsList.remove(0);
 		}
-		try {
-			Statement mySta = conection.createStatement();
-			ResultSet rs = mySta.executeQuery("select * from talia");
-			while (rs.next()) {
-				isStarted = rs.getInt("czyRozpoczeta");
-				deck.setName(rs.getString("nazwa"));
-				deck.setHowManySmallCards(rs.getInt("ileMalych"));
-				deck.setHowManyMediumCards(rs.getInt("ileSrednich"));
-				deck.setHowManyCards(rs.getInt("ileKart"));
-			}
-			System.out.println("nazwa talii "+deck.getName());
-			System.out.println("ile malych"+deck.getHowManySmallCards());
-			System.out.println("ile malych"+isStarted);
-			conection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
 	}
-	/**
-	 * sprawdza czy takia została zaczęta czy nie, wywołuje odpowiednie metody i wyświtla ilość kart
-	 */
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		menuStart.setDisable(true);
-		readDeckInfo();
-		deck.cardsList.clear();
-		deck.readCards();   //gdy już jest talia zapisana w bd
-		obrazek.setImage(award4);
-		System.out.println("przejście na scene z losowaniem");
-			System.out.println("ile kart w talii zapisz()"+deck.cardsList.size());
-		System.out.println("przed dane" + isStarted);
-			System.out.println("ile kart w talii czytajDane()"+deck.cardsList.size());
-		System.out.println("po dane" + isStarted);
-		// dodane nr.2 aby nie musiec zmieniac w bd
-		// nie dziala
-//		if(czyRozpoczeta==0){
-////			try {
-////				scenaKarta(null);
-//			System.out.println("talia zero");
-//				czyRozpoczeta=1;
-////				zamknij.setDisable(true);
-////				los.setDisable(true);
-//		talia.czytajTalie();   //gdy już jest talia zapisana w bd
-////				talia.setIleSrednich(3);
-////			} catch (IOException e) {
-////				e.printStackTrace();
-////			}
-//		}else {
-//			System.out.println("odblokowanie buttonów");
-//				zamknij.setDisable(false);
-//				los.setDisable(false);
-//				los.disabledProperty();
-//		}
-//		// gdy jest utworzona
-//	
-//		if (czyRozpoczeta==1) {
-//			System.out.println("rozpoczeta");
-//		talia.czytajTalie();   //gdy już jest talia zapisana w bd
-//			System.out.println("ile kart w talii czytajTalie()"+talia.arrayTalia.size());
-//		} 
-//		// nie powinno być tego stanu przy pierwszym wczytaniu programu
-//		else if(czyRozpoczeta==0) {
-//			talia.setNazwa("nowa talia");
-//			talia.setIleKart(40);
-//			talia.setIleMalych(6);
-//			talia.setIleSrednich(3);
-////			talia.tworzNagrody(); // jak nie wczytujemy kart z bazy danch
-//			talia.tworzTalie();
-//			wylosowane.setText("perzełącz scene");
-//		}
-		pozostalo.setText(Integer.toString(deck.getHowManyCards()));
-		pozostaloSrednich.setText(Integer.toString(deck.getHowManyMediumCards()));
-		pozostaloMalych.setText(Integer.toString(deck.getHowManySmallCards()));
+
+	private void checkTypeAndSetImage() {
+		int typeOfCard = deck.cardsList.get(0).getType();
+		switch (typeOfCard) {
+		case 1:
+			if (deck.cardsList.get(0).getImage().equals("default")) {
+				obrazek.setImage(award1);
+			} else {
+				file = new File(deck.cardsList.get(0).getImage());
+				obrazek.setImage(new Image(file.toURI().toString()));
+			}
+			break;
+		case 2:
+			deck.setHowManyMediumCards(deck.getHowManyMediumCards() - 1);
+			if (deck.cardsList.get(0).getImage().equals("default")) {
+				obrazek.setImage(award2);
+			} else {
+				file = new File(deck.cardsList.get(0).getImage());
+				obrazek.setImage(new Image(file.toURI().toString()));
+			}
+			break;
+		case 3:
+			deck.setHowManySmallCards(deck.getHowManySmallCards() - 1);
+			if (deck.cardsList.get(0).getImage().equals("default")) {
+				obrazek.setImage(award3);
+			} else {
+				file = new File(deck.cardsList.get(0).getImage());
+				obrazek.setImage(new Image(file.toURI().toString()));
+			}
+			break;
+		default:
+			obrazek.setImage(award4);
+			break;
+		}
 	}
 
 }

@@ -16,23 +16,38 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class StartController implements Initializable {
+	DrawCardController sampleController = new DrawCardController();
 	@FXML
 	private Button btnCreate;
 	@FXML
 	private Button btnDraw;
 	@FXML
 	private Label info;
-
 	private Stage primaryStage;
+	private ViewManager manager;
 
 	public void setPrimaryStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
 
-	private ViewManager manager;
-
 	public void setManager(ViewManager manager) {
 		this.manager = manager;
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		//TODO: polaczenia z baza danych w innej klasie
+		sampleController.readDeckInfo();
+		if (DrawCardController.isStarted == 0) {
+			// scenaKarta(null);
+			System.out.println("Start: takia nie rozpoczęta");
+			btnDraw.setDisable(true);
+		}
+		// gdy jest utworzona
+		else {
+			System.out.println("rozpoczeta");
+			// btnDraw.setDisable(false);
+		}
 	}
 
 	@FXML
@@ -51,23 +66,4 @@ public class StartController implements Initializable {
 	private void goToStart() {
 		manager.showStart();
 	}
-
-	DrawCardController sampleController = new DrawCardController();
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		//
-		sampleController.readDeckInfo();
-		if (DrawCardController.isStarted == 0) {
-			// scenaKarta(null);
-			System.out.println("Start: takia nie rozpoczęta");
-			btnDraw.setDisable(true);
-		}
-		// gdy jest utworzona
-		else {
-			System.out.println("rozpoczeta");
-			// btnDraw.setDisable(false);
-		}
-	}
-
 }

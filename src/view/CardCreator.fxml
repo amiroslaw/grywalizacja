@@ -24,7 +24,7 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
 <!--                   <MenuItem mnemonicParsing="false" onAction="#zapisz" text="zapisz" /> -->
-                  <MenuItem mnemonicParsing="false" onAction="#showDrawCard" text="Start" />
+                  <MenuItem mnemonicParsing="false" onAction="#showStartWindow" text="Start" />
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>

@@ -1,6 +1,7 @@
 package model;
 
 public class Card {
+	
 	private int type; // typ karty 1- nagroda 1, 2- nagroda 2, 4 nic
 	private String title, description, image;
 
@@ -58,8 +59,6 @@ public class Card {
 		this.image = image;
 	}
 	
-
-
 	public String toString() {
 		return "typ: " + type + "; \ntutuł: " + title + "; \nopis: " + description + "; \nlink: " + image;
 	}
