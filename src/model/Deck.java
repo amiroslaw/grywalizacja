@@ -6,19 +6,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
-/**
- * Zawiera metody {@link #readCards()}, {@link #createBlankCards()}, {@link #createDeck()}
- * {@link #cardsList} przechowuje objekty kart
- * 
- * @author miro
- *
- */
+
 public class Deck {
 
 	Connection conection;
 	public ArrayList<Card> cardsList = new ArrayList<Card>();
 	private int howManyCards, howManySmallCards, howManyMediumCards;
 	private String name;
+	private int isStarted = 0;
 
 	public Deck() {
 		// nazwa = "typowa talia";
@@ -41,32 +36,7 @@ public class Deck {
 	}
 
 	/**
-	 * czyta dane z BD z tabeli karta
-	 */
-	public void readCards() {
-		conection = (Connection) SqliteConnection.Connector();
-		if (conection == null) {
-
-			System.out.println("connection not successful");
-			System.exit(1);
-		}
-		try {
-			Statement mySta = conection.createStatement();
-			ResultSet rs = mySta.executeQuery("select * from karta");
-			while (rs.next()) {
-				cardsList.add(new Card(rs.getInt("typ"), rs.getString("tytul"), rs.getString("opis"),
-						rs.getString("obrazek")));
-			}
-			conection.close();
-		} catch (SQLException e) {
-			// 
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * tworzy domyslne karty dla 3 kategorii
-	 * 
+	 * tworzy domyslne karty dla 3 kategorii TODO: nieuzywana
 	 */
 	public void createBlankCards() {
 		// na razie najlepsza tworzona na poczatku
@@ -77,9 +47,7 @@ public class Deck {
 		for (int i = 0; i < howManySmallCards; i++) {
 			cardsList.add(new Card(3, "nagroda nr3"));
 		}
-		// for (int i = 0; i < ileKart-1-ileMalych-ileSrednich; i++) {
-		// arrayTalia.add(new Karta());
-		// }
+
 	}
 
 	/**
@@ -94,7 +62,15 @@ public class Deck {
 		}
 		Collections.shuffle(cardsList);
 		cardsList.add(temp);
-		System.out.println("ile kart czytaTalie"+cardsList.size());
+		System.out.println("ile kart czytaTalie" + cardsList.size());
+	}
+
+	public int getIsStarted() {
+		return isStarted;
+	}
+
+	public void setIsStarted(int isStarted) {
+		this.isStarted = isStarted;
 	}
 
 	public int getHowManyCards() {
@@ -128,9 +104,9 @@ public class Deck {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String toString() {
-		return "nazwa: " + name + "; \nile Kart: " + howManyCards + "; \nile Malych: " + howManySmallCards + "; \nile Srednich: "
-				+ howManyMediumCards;
-	}	
+		return "nazwa: " + name + "; \nile Kart: " + howManyCards + "; \nile Malych: " + howManySmallCards
+				+ "; \nile Srednich: " + howManyMediumCards;
+	}
 }

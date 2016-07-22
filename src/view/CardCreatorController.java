@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Card;
+import model.DBmanager;
 
 public class CardCreatorController implements Initializable {
 
@@ -21,7 +22,6 @@ public class CardCreatorController implements Initializable {
 	private ViewManager manager;
 	private Stage primaryStage;
 
-	// Talia talia = new Talia();
 	@FXML
 	private Label lblnrKarty;
 	@FXML
@@ -34,9 +34,7 @@ public class CardCreatorController implements Initializable {
 	private Button btnObrazek;
 	@FXML
 	private Button btnDalej;
-	/**
-	 * typ karty
-	 */
+
 	private File file;
 	private String linkToImage;
 	private int cardCounter = 1;
@@ -52,20 +50,13 @@ public class CardCreatorController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// for (int i = 0; i < SampleController.talia.arrayTalia.size(); i++) {
-		// System.out.println(SampleController.talia.arrayTalia.get(0));
-		// }
-		System.out.println("scena karta wczytanie");
-		// trzeba to zapisac do bd bo przy wczytaniu tamtej sceny czyta z bd
-		System.out.println("czy rozpoczęta " + DrawCardController.isStarted);
-		DrawCardController.isStarted = 0;
-		DrawCardController.deck.cardsList.clear();
-		// nastepnaKarta(null);
+		DBmanager.deck.setIsStarted(0);
+		DBmanager.deck.cardsList.clear();
 	}
 
 	@FXML
 	void showStartWindow(ActionEvent e) {
-		drawCardController.saveDB(null);
+		DBmanager.saveDB();
 		manager.showDrawCard();
 	}
 
@@ -101,7 +92,7 @@ public class CardCreatorController implements Initializable {
 
 		setCardProperties();
 
-		DrawCardController.deck.cardsList.add(card);
+		DBmanager.deck.cardsList.add(card);
 		cardCounter++;
 
 		lblnrKarty.setText(Integer.toString(cardCounter));
@@ -148,11 +139,11 @@ public class CardCreatorController implements Initializable {
 
 	private void endEdition() {
 		btnDalej.setDisable(true);
-		DrawCardController.isStarted = 1;
-		DrawCardController.deck.setHowManyCards(40);
-		DrawCardController.deck.setHowManySmallCards(6);
-		DrawCardController.deck.setHowManyMediumCards(3);
-		DrawCardController.deck.createDeck();
-		drawCardController.saveDB(null);
+		DBmanager.deck.setIsStarted(1);
+		DBmanager.deck.setHowManyCards(40);
+		DBmanager.deck.setHowManySmallCards(6);
+		DBmanager.deck.setHowManyMediumCards(3);
+		DBmanager.deck.createDeck();
+		DBmanager.saveDB();
 	}
 }
