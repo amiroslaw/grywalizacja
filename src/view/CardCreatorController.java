@@ -34,11 +34,14 @@ public class CardCreatorController implements Initializable {
 	private Button btnObrazek;
 	@FXML
 	private Button btnDalej;
+	@FXML
+	private Button btnPreviousCard;
+	
+	private Card card;
 
-	private File file;
+	private File fileChooserImage;
 	private String linkToImage;
 	private int cardCounter = 1;
-	private Card card = new Card();
 
 	public void setManager(ViewManager manager) {
 		this.manager = manager;
@@ -50,6 +53,7 @@ public class CardCreatorController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		btnPreviousCard.setDisable(true);
 		DBmanager.deck.setIsStarted(0);
 		DBmanager.deck.cardsList.clear();
 	}
@@ -57,7 +61,7 @@ public class CardCreatorController implements Initializable {
 	@FXML
 	void showStartWindow(ActionEvent e) {
 		DBmanager.saveDB();
-		manager.showDrawCard();
+		manager.showStart();
 	}
 
 	@FXML
@@ -70,24 +74,25 @@ public class CardCreatorController implements Initializable {
 		// new FileChooser.ExtensionFilter("All file", "*.*")
 		// );
 		// File file = new File(null);
-		file = fileChooser.showOpenDialog(new Stage());
-		if (file != null) {
-			linkToImage = file.getAbsolutePath();
+		fileChooserImage = fileChooser.showOpenDialog(new Stage());
+		if (fileChooserImage != null) {
+			linkToImage = fileChooserImage.getAbsolutePath();
 		}
 	}
 
 	@FXML
 	void saveDB(ActionEvent e) {
-		drawCardController.saveDB(null);
+		DBmanager.saveDB();
 	}
+
 
 	/**
 	 * zapisuje kartę do talii i odświerza scene
-	 * 
-	 * @param e
 	 */
 	@FXML
-	void nextCard(ActionEvent e) {
+	private void nextCard(ActionEvent e) {
+		btnPreviousCard.setDisable(false);
+		card = new Card();
 		viewTypeOfAward();
 
 		setCardProperties();
@@ -97,13 +102,30 @@ public class CardCreatorController implements Initializable {
 
 		lblnrKarty.setText(Integer.toString(cardCounter));
 
-		file = null;
-		txtNazwa.setText("");
-		txtOpis.setText("");
+		fileChooserImage = null;
+		// TODO: odkomentowac
+		// txtNazwa.setText("");
+		// txtOpis.setText("");
 
 		if (cardCounter == 11) {
+			//TODO: nazwę talii i zapis talii z samymi nagrodami do pozniejszej edycji i zapisu/wyboru
+			manager.showDeckNameDialog();
 			endEdition();
 		}
+	}
+	@FXML
+	private void previousCard(){
+		if(cardCounter==2){
+			btnPreviousCard.setDisable(true);
+		}
+		cardCounter--;
+		DBmanager.deck.cardsList.remove(cardCounter-1);
+//		Card tempCard = new Card();
+		Card tempCard = DBmanager.deck.cardsList.get(DBmanager.deck.cardsList.size()-1);
+		txtNazwa.setText(tempCard.getTitle());
+		txtOpis.setText(tempCard.getDescription());
+		lblnrKarty.setText(Integer.toString(cardCounter));
+		viewTypeOfAward();
 	}
 
 	private void viewTypeOfAward() {
@@ -116,7 +138,7 @@ public class CardCreatorController implements Initializable {
 	private void setCardProperties() {
 		card.setTitle(txtNazwa.getText());
 		card.setDescription(txtOpis.getText());
-		if (file != null) {
+		if (fileChooserImage != null) {
 			card.setImage(linkToImage);
 		} else {
 			card.setImage("default");
@@ -139,11 +161,16 @@ public class CardCreatorController implements Initializable {
 
 	private void endEdition() {
 		btnDalej.setDisable(true);
-		DBmanager.deck.setIsStarted(1);
+//		DBmanager.deck.setIsStarted(1);
 		DBmanager.deck.setHowManyCards(40);
 		DBmanager.deck.setHowManySmallCards(6);
 		DBmanager.deck.setHowManyMediumCards(3);
-		DBmanager.deck.createDeck();
+// TODO: przeniesc gdzies do wybierania decku
+//		 DBmanager.deck.createDeck();
 		DBmanager.saveDB();
+		manager.showStart();
+//		DBmanager.showDeck();
 	}
+	
+
 }

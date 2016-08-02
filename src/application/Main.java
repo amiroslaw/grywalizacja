@@ -6,6 +6,7 @@ import java.sql.Statement;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import model.DBmanager;
 import model.SqliteConnection;
 import view.DrawCardController;
 import view.ViewManager;
@@ -17,9 +18,8 @@ import javafx.fxml.FXMLLoader;
 		// ileMalych = 6;
 		// ileSrednich = 3;
 /**
- * Main uruchamianie głównego okna
  * 
- * @author miro
+ * @author Arkadiusz Mirosław
  *
  */
 public class Main extends Application {
@@ -29,27 +29,10 @@ public class Main extends Application {
 		ViewManager viewManager = new ViewManager(primaryStage);
 		viewManager.showStart();
 	}
-	static Connection conn=  (Connection) SqliteConnection.Connector();
-		static void createDB() {
-			if (conn == null) {
-
-				System.out.println("connection not successful");
-				System.exit(1);
-			}
-			try {
-				Statement mySta = conn.createStatement();
-				// usuwanie kart i tali
-				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS karta (id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , typ  INTEGER, tytul TEXT,  opis  TEXT,  obrazek  TEXT)");
-				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS talia (id INTEGER PRIMARY KEY  NOT NULL ,nazwa TEXT,ileKart INTEGER, ileMalych INTEGER,ileSrednich INTEGER, czyRozpoczeta INTEGER DEFAULT (0))");
-			
-
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+	
 	public static void main(String[] args) {
-		createDB();
+		DBmanager.createDB();
+		DBmanager.readConf();
 		launch(args);
 
 	}

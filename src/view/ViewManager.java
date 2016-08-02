@@ -107,5 +107,27 @@ public class ViewManager {
 			e.printStackTrace();
 		}
 	}
+	public void showDeckNameDialog() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("/view/DeckNameDialog.fxml"));
+			AnchorPane pane = (AnchorPane) loader.load();
 
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Nazwa talii");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(pane);
+			dialogStage.setScene(scene);
+
+			DeckNameDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setManager(this);
+
+			dialogStage.setResizable(false);
+			dialogStage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

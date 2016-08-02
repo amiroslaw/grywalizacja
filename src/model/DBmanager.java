@@ -8,17 +8,62 @@ import java.sql.Statement;
 
 public class DBmanager {
 	public static Deck deck = new Deck();
-	static Connection conection;
-
-	public static void readDeckInfo() {
-		conection = (Connection) SqliteConnection.Connector();
-		if (conection == null) {
+	public static int currentDeck; 
+	static Connection connection;
+	public static void createDB() {
+		connection = (Connection) SqliteConnection.Connector();
+		if (connection == null) {
 
 			System.out.println("connection not successful");
 			System.exit(1);
 		}
 		try {
-			Statement mySta = conection.createStatement();
+			Statement mySta = connection.createStatement();
+			// usuwanie kart i tali
+			mySta.executeUpdate(
+					"CREATE TABLE IF NOT EXISTS karta (id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL ,"
+					+ " typ  INTEGER, tytul TEXT,  opis  TEXT,  obrazek  TEXT,"
+					+ "idTalia INTEGER NOT NULL, FOREIGN KEY(idTalia) REFERENCES talia(id))");
+			mySta.executeUpdate(
+					"CREATE TABLE IF NOT EXISTS talia (id INTEGER PRIMARY KEY  NOT NULL ,nazwa TEXT,"
+					+ "ileKart INTEGER, ileMalych INTEGER,ileSrednich INTEGER, czyRozpoczeta INTEGER DEFAULT (0))");
+			mySta.executeUpdate(
+					"CREATE TABLE IF NOT EXISTS conf (currentDeck INTEGER NOT NULL)");
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void readConf() {
+		connection = (Connection) SqliteConnection.Connector();
+		if (connection == null) {
+
+			System.out.println("connection not successful");
+			System.exit(1);
+		}
+		try {
+			Statement mySta = connection.createStatement();
+			ResultSet rs = mySta.executeQuery("select * from conf");
+			while (rs.next()) {
+				currentDeck = rs.getInt("currentDeck");
+				
+			}
+			// TODO: zmienic jak dodam wybor talii
+			currentDeck = 1; 
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void readDeckInfo() {
+		connection = (Connection) SqliteConnection.Connector();
+		if (connection == null) {
+
+			System.out.println("connection not successful");
+			System.exit(1);
+		}
+		try {
+			Statement mySta = connection.createStatement();
 			ResultSet rs = mySta.executeQuery("select * from talia");
 			while (rs.next()) {
 				deck.setIsStarted(rs.getInt("czyRozpoczeta"));
@@ -29,8 +74,8 @@ public class DBmanager {
 			}
 			System.out.println("nazwa talii " + deck.getName());
 			System.out.println("ile malych" + deck.getHowManySmallCards());
-			System.out.println("ile malych" + deck.getIsStarted());
-			conection.close();
+			System.out.println("is started dbmanager" + deck.getIsStarted());
+			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -38,22 +83,24 @@ public class DBmanager {
 
 	/**
 	 * czyta dane z BD z tabeli karta
+	 * 
+	 * TODO: dodac where idTalia == currentDeck
 	 */
 	public static void readCards() {
-		conection = (Connection) SqliteConnection.Connector();
-		if (conection == null) {
+		connection = (Connection) SqliteConnection.Connector();
+		if (connection == null) {
 
 			System.out.println("connection not successful");
 			System.exit(1);
 		}
 		try {
-			Statement mySta = conection.createStatement();
+			Statement mySta = connection.createStatement();
 			ResultSet rs = mySta.executeQuery("select * from karta");
 			while (rs.next()) {
 				deck.cardsList.add(new Card(rs.getInt("typ"), rs.getString("tytul"), rs.getString("opis"),
 						rs.getString("obrazek")));
 			}
-			conection.close();
+			connection.close();
 		} catch (SQLException e) {
 			//
 			e.printStackTrace();
@@ -65,24 +112,25 @@ public class DBmanager {
 	 */
 
 	public static void saveDB() {
-		conection = (Connection) SqliteConnection.Connector();
-		if (conection == null) {
+		connection = (Connection) SqliteConnection.Connector();
+		if (connection == null) {
 
 			System.out.println("connection not successful");
 			System.exit(1);
 		}
 		try {
-			Statement mySta = conection.createStatement();
+			Statement mySta = connection.createStatement();
 			// usuwanie kart i tali
-			mySta.executeUpdate("DELETE FROM talia WHERE id=1");
-			mySta.executeUpdate("DELETE  FROM karta");
+//			mySta.executeUpdate("DELETE FROM talia WHERE id=1");
+//			mySta.executeUpdate("DELETE  FROM karta");
 			// zapisywanie zmiennych z talii
-			String query = "INSERT INTO talia VALUES (1, 'update talia', ?, ?, ?, ?)";
-			PreparedStatement preStmt = conection.prepareStatement(query);
-			preStmt.setInt(1, deck.getHowManyCards());
-			preStmt.setInt(2, deck.getHowManySmallCards());
-			preStmt.setInt(3, deck.getHowManyMediumCards());
-			preStmt.setInt(4, deck.getIsStarted());
+			String query = "INSERT INTO talia VALUES (NULL, ?, ?, ?, ?, ?)";
+			PreparedStatement preStmt = connection.prepareStatement(query);
+			preStmt.setString(1, deck.getName());
+			preStmt.setInt(2, deck.getHowManyCards());
+			preStmt.setInt(3, deck.getHowManySmallCards());
+			preStmt.setInt(4, deck.getHowManyMediumCards());
+			preStmt.setInt(5, deck.getIsStarted());
 
 			preStmt.executeUpdate();
 			System.out.println("zapisane dane, czyRozpoczeta" + deck.getIsStarted());
@@ -91,17 +139,25 @@ public class DBmanager {
 
 				query = "INSERT INTO karta VALUES (" + i + "," + deck.cardsList.get(i).getType() + ",'"
 						+ deck.cardsList.get(i).getTitle() + "','" + deck.cardsList.get(i).getDescription() + "','"
-						+ deck.cardsList.get(i).getImage() + "');";
+						+ deck.cardsList.get(i).getImage() + "','" + currentDeck+"');";
 				sql += query;
 			}
 			System.out.println(sql);
 			System.out.println("ile kart w talii zapisz()" + deck.cardsList.size());
 			mySta.executeUpdate(sql);
 
-			conection.close();
+			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	// testy
+	public static void showDeck() {
+		System.out.println("size cardsList: " + deck.cardsList.size());
+		for (int i = 0; i < deck.cardsList.size(); i++) {
+			System.out.println(deck.cardsList.get(i));
+		}
 	}
 }

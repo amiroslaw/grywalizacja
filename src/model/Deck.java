@@ -56,13 +56,14 @@ public class Deck {
 	public void createDeck() {
 		// kopiowanie najlepszej nagrody do temp bo w bd jest na koncu
 		Card temp = cardsList.get(0);
+		System.out.println("temp 1 nagroda "+temp);
 		cardsList.remove(0);
 		for (int i = 0; i < howManyCards - 1 - howManySmallCards - howManyMediumCards; i++) {
 			cardsList.add(new Card());
 		}
 		Collections.shuffle(cardsList);
 		cardsList.add(temp);
-		System.out.println("ile kart czytaTalie" + cardsList.size());
+//		System.out.println("ile kart czytaTalie" + cardsList.size());
 	}
 
 	public int getIsStarted() {

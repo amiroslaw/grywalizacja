@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import model.DBmanager;
 
 public class StartController implements Initializable {
-	DrawCardController sampleController = new DrawCardController();
+//	DrawCardController sampleController = new DrawCardController();
 	@FXML
 	private Button btnCreate;
 	@FXML
@@ -33,8 +33,9 @@ public class StartController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		DBmanager.readDeckInfo();
 		if (DBmanager.deck.getIsStarted()==0) {
-			System.out.println("Start: takia nie rozpoczęta");
-			btnDraw.setDisable(true);
+			System.out.println("Start: talia nie rozpoczęta");
+//			btnDraw.setDisable(true);
+			btnDraw.setVisible(false);
 		}
 		// gdy jest utworzona
 		else {

@@ -13,10 +13,10 @@ public class SqliteConnection {
 		try {
 			String path= System.getProperty("user.home"); 
 			path +="/Dokumenty/Ustawienia/sync/grywalizacja.sqlite";
-			System.out.println(path);
 			Class.forName("org.sqlite.JDBC");
 			//mozna dodac sciezke do w ktorej chce sie trzymac plik sqlite
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:"+path);
+//			Connection conn = DriverManager.getConnection("jdbc:sqlite:"+path);
+			Connection conn = DriverManager.getConnection("jdbc:sqlite:taliadb.sqlite");
 //			Connection conn = DriverManager.getConnection("jdbc:sqlite:/user.home/taliadb.sqlite");
 			return conn;
 		} catch (Exception e) {

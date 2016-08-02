@@ -57,7 +57,7 @@ public class DrawCardController implements Initializable {
 	@FXML
 	private Label pozostaloMalych;
 
-	private File file;
+	private File imageFile;
 
 	public void setManager(ViewManager manager) {
 		this.manager = manager;
@@ -103,10 +103,7 @@ public class DrawCardController implements Initializable {
 	/**
 	 * sprawdza czy jest pusta talia sprawdza jakiej kategorii jest nagroda i
 	 * wyświtla odpowiedni obrazek aktualizuje wyświtlanie ilości kart
-	 * 
-	 * @param event
 	 */
-	// TODO: przenies do nowej klasy
 	@FXML
 	void drawCard(ActionEvent event) {
 		if (DBmanager.deck.cardsList.size() == 0) {
@@ -137,8 +134,8 @@ public class DrawCardController implements Initializable {
 			if (DBmanager.deck.cardsList.get(0).getImage().equals("default")) {
 				obrazek.setImage(award1);
 			} else {
-				file = new File(DBmanager.deck.cardsList.get(0).getImage());
-				obrazek.setImage(new Image(file.toURI().toString()));
+				imageFile = new File(DBmanager.deck.cardsList.get(0).getImage());
+				obrazek.setImage(new Image(imageFile.toURI().toString()));
 			}
 			break;
 		case 2:
@@ -146,8 +143,8 @@ public class DrawCardController implements Initializable {
 			if (DBmanager.deck.cardsList.get(0).getImage().equals("default")) {
 				obrazek.setImage(award2);
 			} else {
-				file = new File(DBmanager.deck.cardsList.get(0).getImage());
-				obrazek.setImage(new Image(file.toURI().toString()));
+				imageFile = new File(DBmanager.deck.cardsList.get(0).getImage());
+				obrazek.setImage(new Image(imageFile.toURI().toString()));
 			}
 			break;
 		case 3:
@@ -155,8 +152,8 @@ public class DrawCardController implements Initializable {
 			if (DBmanager.deck.cardsList.get(0).getImage().equals("default")) {
 				obrazek.setImage(award3);
 			} else {
-				file = new File(DBmanager.deck.cardsList.get(0).getImage());
-				obrazek.setImage(new Image(file.toURI().toString()));
+				imageFile = new File(DBmanager.deck.cardsList.get(0).getImage());
+				obrazek.setImage(new Image(imageFile.toURI().toString()));
 			}
 			break;
 		default:
