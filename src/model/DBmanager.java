@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class DBmanager {
 	public static Deck deck = new Deck();
-	public static int currentDeck; 
+	public static int amountOfDecks; 
 	static Connection connection;
 	public static void createDB() {
 		connection = (Connection) SqliteConnection.Connector();
@@ -42,14 +42,19 @@ public class DBmanager {
 			System.exit(1);
 		}
 		try {
+			
 			Statement mySta = connection.createStatement();
-			ResultSet rs = mySta.executeQuery("select * from conf");
-			while (rs.next()) {
-				currentDeck = rs.getInt("currentDeck");
-				
-			}
+//			ResultSet rs = mySta.executeQuery("select * from conf");
+			// czytanie tylko ilosci wirszy z talii
+			ResultSet rs = mySta.executeQuery("SELECT COUNT(*) FROM talia;");
+				amountOfDecks = rs.getInt(1);
+//			while (rs.next()) {
+//				amountOfDecks = rs.getInt("currentDeck");
+//				
+//			}
+			System.out.println(amountOfDecks);
 			// TODO: zmienic jak dodam wybor talii
-			currentDeck = 1; 
+//			amountOfDecks = 1; 
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,6 +69,7 @@ public class DBmanager {
 		}
 		try {
 			Statement mySta = connection.createStatement();
+			// TODO dodac where
 			ResultSet rs = mySta.executeQuery("select * from talia");
 			while (rs.next()) {
 				deck.setIsStarted(rs.getInt("czyRozpoczeta"));
@@ -137,9 +143,9 @@ public class DBmanager {
 			String sql = "";
 			for (int i = 0; i < deck.cardsList.size(); i++) {
 
-				query = "INSERT INTO karta VALUES (" + i + "," + deck.cardsList.get(i).getType() + ",'"
+				query = "INSERT INTO karta VALUES (NULL," + deck.cardsList.get(i).getType() + ",'"
 						+ deck.cardsList.get(i).getTitle() + "','" + deck.cardsList.get(i).getDescription() + "','"
-						+ deck.cardsList.get(i).getImage() + "','" + currentDeck+"');";
+						+ deck.cardsList.get(i).getImage() + "','" + amountOfDecks+"');";
 				sql += query;
 			}
 			System.out.println(sql);

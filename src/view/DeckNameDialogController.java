@@ -42,6 +42,15 @@ public class DeckNameDialogController {
     	} else {
     	DBmanager.deck.setName(deckName);
     	dialogStage.close();
+		DBmanager.deck.setHowManyCards(40);
+		DBmanager.deck.setHowManySmallCards(6);
+		DBmanager.deck.setHowManyMediumCards(3);
+		DBmanager.deck.setIsStarted(1);
+		DBmanager.amountOfDecks++;
+// TODO: przeniesc gdzies do wybierania decku
+//		 DBmanager.deck.createDeck();
+		DBmanager.saveDB();
+		manager.showStart();
     	System.out.println(deckName);
 		}
     }

@@ -110,7 +110,7 @@ public class CardCreatorController implements Initializable {
 		if (cardCounter == 11) {
 			//TODO: nazwę talii i zapis talii z samymi nagrodami do pozniejszej edycji i zapisu/wyboru
 			manager.showDeckNameDialog();
-			endEdition();
+//			endEdition();
 		}
 	}
 	@FXML
@@ -160,17 +160,17 @@ public class CardCreatorController implements Initializable {
 	}
 
 	private void endEdition() {
-		btnDalej.setDisable(true);
+		// przeniesione do deckNameDialog
+//		btnDalej.setDisable(true);
 //		DBmanager.deck.setIsStarted(1);
-		DBmanager.deck.setHowManyCards(40);
-		DBmanager.deck.setHowManySmallCards(6);
-		DBmanager.deck.setHowManyMediumCards(3);
-// TODO: przeniesc gdzies do wybierania decku
-//		 DBmanager.deck.createDeck();
-		DBmanager.saveDB();
-		manager.showStart();
+//		DBmanager.deck.setHowManyCards(40);
+//		DBmanager.deck.setHowManySmallCards(6);
+//		DBmanager.deck.setHowManyMediumCards(3);
+//// TODO: przeniesc gdzies do wybierania decku
+////		 DBmanager.deck.createDeck();
+//		DBmanager.saveDB();
+//		manager.showStart();
 //		DBmanager.showDeck();
 	}
-	
 
 }

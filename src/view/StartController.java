@@ -31,11 +31,12 @@ public class StartController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		DBmanager.readDeckInfo();
-		if (DBmanager.deck.getIsStarted()==0) {
-			System.out.println("Start: talia nie rozpoczęta");
-//			btnDraw.setDisable(true);
-			btnDraw.setVisible(false);
+//		DBmanager.readDeckInfo();
+//		if (DBmanager.deck.getIsStarted()==0) {
+		if (DBmanager.amountOfDecks==0) {
+			System.out.println("Start: jest jakas talia");
+			btnDraw.setDisable(true);
+//			btnDraw.setVisible(false);
 		}
 		// gdy jest utworzona
 		else {
