@@ -9,6 +9,7 @@ import java.sql.Statement;
 public class DBmanager {
 	public static Deck deck = new Deck();
 	public static int amountOfDecks; 
+	public static  String [] listOfDecks; 
 	static Connection connection;
 	public static void createDB() {
 		connection = (Connection) SqliteConnection.Connector();
@@ -35,6 +36,9 @@ public class DBmanager {
 		}
 	}
 	public static void readConf() {
+	
+	}
+	public static void readListOfDecks(){
 		connection = (Connection) SqliteConnection.Connector();
 		if (connection == null) {
 
@@ -44,23 +48,23 @@ public class DBmanager {
 		try {
 			
 			Statement mySta = connection.createStatement();
-//			ResultSet rs = mySta.executeQuery("select * from conf");
 			// czytanie tylko ilosci wirszy z talii
 			ResultSet rs = mySta.executeQuery("SELECT COUNT(*) FROM talia;");
 				amountOfDecks = rs.getInt(1);
-//			while (rs.next()) {
-//				amountOfDecks = rs.getInt("currentDeck");
-//				
-//			}
-			System.out.println(amountOfDecks);
-			// TODO: zmienic jak dodam wybor talii
-//			amountOfDecks = 1; 
+			listOfDecks = new String [amountOfDecks];
+			int i=0;
+			rs = mySta.executeQuery("select nazwa from talia");
+			while (rs.next()) {
+				listOfDecks[i]=rs.getString("nazwa");
+				i++;
+			}
+			System.out.println("lista deków "+amountOfDecks+" pierwszy el. "+ listOfDecks[0]);
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	public static void readDeckInfo() {
+	public static void readDeckInfo(String deckName) {
 		connection = (Connection) SqliteConnection.Connector();
 		if (connection == null) {
 
@@ -70,17 +74,19 @@ public class DBmanager {
 		try {
 			Statement mySta = connection.createStatement();
 			// TODO dodac where
-			ResultSet rs = mySta.executeQuery("select * from talia");
+			ResultSet rs = mySta.executeQuery("select * from talia where nazwa ='"+deckName+"'");
 			while (rs.next()) {
 				deck.setIsStarted(rs.getInt("czyRozpoczeta"));
 				deck.setName(rs.getString("nazwa"));
 				deck.setHowManySmallCards(rs.getInt("ileMalych"));
 				deck.setHowManyMediumCards(rs.getInt("ileSrednich"));
 				deck.setHowManyCards(rs.getInt("ileKart"));
+				deck.setID(rs.getInt("id"));
 			}
+			System.out.println("redDeckInfo");
 			System.out.println("nazwa talii " + deck.getName());
 			System.out.println("ile malych" + deck.getHowManySmallCards());
-			System.out.println("is started dbmanager" + deck.getIsStarted());
+			System.out.println("is started dbmanager " + deck.getIsStarted());
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

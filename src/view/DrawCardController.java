@@ -58,6 +58,7 @@ public class DrawCardController implements Initializable {
 	private Label pozostaloMalych;
 
 	private File imageFile;
+	private String deckName;
 
 	public void setManager(ViewManager manager) {
 		this.manager = manager;
@@ -73,15 +74,7 @@ public class DrawCardController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		menuStart.setDisable(true);
-		DBmanager.readDeckInfo();
-		DBmanager.deck.cardsList.clear();
-		DBmanager.readCards(); 
-		obrazek.setImage(award4);
 
-		pozostalo.setText(Integer.toString(DBmanager.deck.getHowManyCards()));
-		pozostaloSrednich.setText(Integer.toString(DBmanager.deck.getHowManyMediumCards()));
-		pozostaloMalych.setText(Integer.toString(DBmanager.deck.getHowManySmallCards()));
 	}
 
 	@FXML
@@ -160,6 +153,22 @@ public class DrawCardController implements Initializable {
 			obrazek.setImage(award4);
 			break;
 		}
+	}
+
+	public void init(String deckName) {
+		this.deckName=deckName;
+		System.out.println("deckName in DrawCard");
+		
+		menuStart.setDisable(true);
+		DBmanager.readDeckInfo(deckName);
+		DBmanager.deck.cardsList.clear();
+		DBmanager.readCards(); 
+		obrazek.setImage(award4);
+
+		pozostalo.setText(Integer.toString(DBmanager.deck.getHowManyCards()));
+		pozostaloSrednich.setText(Integer.toString(DBmanager.deck.getHowManyMediumCards()));
+		pozostaloMalych.setText(Integer.toString(DBmanager.deck.getHowManySmallCards()));
+		
 	}
 
 }

@@ -41,7 +41,7 @@ public class ViewManager {
 		}
 	}
 
-	public void showDrawCard() {
+	public void showDrawCard(String deckName) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("/view/DrawCard.fxml"));
@@ -56,6 +56,7 @@ public class ViewManager {
 			DrawCardController controller = loader.getController();
 			controller.setPrimaryStage(this.primaryStage);
 			controller.setManager(this);
+			controller.init(deckName);
 			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();

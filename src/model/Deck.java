@@ -11,7 +11,7 @@ public class Deck {
 
 	Connection conection;
 	public ArrayList<Card> cardsList = new ArrayList<Card>();
-	private int howManyCards, howManySmallCards, howManyMediumCards;
+	private int howManyCards, howManySmallCards, howManyMediumCards, ID;
 	private String name;
 	private int isStarted = 0;
 
@@ -109,5 +109,13 @@ public class Deck {
 	public String toString() {
 		return "nazwa: " + name + "; \nile Kart: " + howManyCards + "; \nile Malych: " + howManySmallCards
 				+ "; \nile Srednich: " + howManyMediumCards;
+	}
+
+	public void setID(int ID) {
+		this.ID=ID;
+	}
+	
+	public int getID(){
+		return ID;
 	}
 }

@@ -33,7 +33,7 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		
 		DBmanager.createDB();
-		DBmanager.readConf();
+		DBmanager.readListOfDecks();
 		launch(args);
 
 	}
