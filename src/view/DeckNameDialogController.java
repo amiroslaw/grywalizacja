@@ -41,16 +41,17 @@ public class DeckNameDialogController {
     	            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
     	} else {
     	DBmanager.deck.setName(deckName);
-    	dialogStage.close();
+    	DBmanager.deck.setID(DBmanager.amountOfDecks);
+    	DBmanager.mapOfDecks.put(deckName, DBmanager.amountOfDecks);
+
 		DBmanager.deck.setHowManyCards(40);
 		DBmanager.deck.setHowManySmallCards(6);
 		DBmanager.deck.setHowManyMediumCards(3);
 		DBmanager.deck.setIsStarted(1);
 		DBmanager.amountOfDecks++;
-// TODO: przeniesc gdzies do wybierania decku
-//		 DBmanager.deck.createDeck();
+		 DBmanager.deck.createDeck();
 		DBmanager.saveDB();
-		manager.showStart();
+    	dialogStage.close();
     	System.out.println(deckName);
 		}
     }

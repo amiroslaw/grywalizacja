@@ -100,8 +100,9 @@ public class DrawCardController implements Initializable {
 	@FXML
 	void drawCard(ActionEvent event) {
 		if (DBmanager.deck.cardsList.size() == 0) {
-			DBmanager.deck.setIsStarted(0);
-			DBmanager.saveDB();
+			DBmanager.deck.setIsStarted(3);
+			DBmanager.mapOfDecks.remove(deckName);
+//			DBmanager.saveDB();
 			menuStart.setDisable(false);
 			wylosowane.setText("gratuluję zakończyłeś talię");
 		} else {
@@ -162,7 +163,7 @@ public class DrawCardController implements Initializable {
 		menuStart.setDisable(true);
 		DBmanager.readDeckInfo(deckName);
 		DBmanager.deck.cardsList.clear();
-		DBmanager.readCards(); 
+		DBmanager.readCards(DBmanager.mapOfDecks.get(deckName)); 
 		obrazek.setImage(award4);
 
 		pozostalo.setText(Integer.toString(DBmanager.deck.getHowManyCards()));

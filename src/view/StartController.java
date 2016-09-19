@@ -1,6 +1,7 @@
 package view;
 
 import java.net.URL;
+import java.util.Collection;
 import java.util.ResourceBundle;
 
 import javafx.beans.Observable;
@@ -40,6 +41,7 @@ public class StartController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 //		DBmanager.readDeckInfo();
 //		if (DBmanager.deck.getIsStarted()==0) {
+			createComboBox();
 		if (DBmanager.amountOfDecks==0) {
 			System.out.println("Start: jest jakas talia");
 			btnDraw.setDisable(true);
@@ -47,15 +49,18 @@ public class StartController implements Initializable {
 		}
 		// gdy jest utworzona
 		else {
-			createComboBox();
 			System.out.println("rozpoczeta");
 		}
 	}
 	public void createComboBox() {
 		ObservableList<String> observableList = FXCollections.observableArrayList();
-		for (int i = 0; i < DBmanager.listOfDecks.length; i++) {
-			observableList.add(DBmanager.listOfDecks[i]);
+//		Collection<String> listOfDecks = DBmanager.mapOfDecks.values();
+		for (String deck : DBmanager.mapOfDecks.keySet()) {
+			observableList.add(deck);
 		}
+//		for (int i = 0; i < DBmanager.listOfDecks.length; i++) {
+//			observableList.add(DBmanager.listOfDecks[i]);
+//		}
 		comboBoxOfDecks.setItems(observableList);
 		//TODO: problem z powtarzajacymi sie nazwami
 //		ObservableMapValue observableMap =  (ObservableMapValue) FXCollections.observableHashMap();
@@ -66,7 +71,12 @@ public class StartController implements Initializable {
 	}
 	@FXML
 	private void goToDrawCard() {
-		manager.showDrawCard(comboBoxOfDecks.getValue());
+		String deckName = comboBoxOfDecks.getValue();
+//		int deckID = DBmanager.mapOfDecks.get(deckName);
+		// to chyba nie potrzebne jak dodamy setName
+		manager.showDrawCard(deckName);
+		DBmanager.deck.setName(deckName);
+		DBmanager.deck.setID(DBmanager.mapOfDecks.get(deckName));
 //		System.out.println(comboBoxOfDecks.getValue());
 
 	}

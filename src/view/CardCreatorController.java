@@ -109,7 +109,9 @@ public class CardCreatorController implements Initializable {
 
 		if (cardCounter == 11) {
 			//TODO: nazwę talii i zapis talii z samymi nagrodami do pozniejszej edycji i zapisu/wyboru
+			primaryStage.close();
 			manager.showDeckNameDialog();
+		manager.showStart();
 //			endEdition();
 		}
 	}
