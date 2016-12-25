@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="183.0" prefWidth="284.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AboutController">
+<AnchorPane prefHeight="311.0" prefWidth="284.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AboutController">
    <children>
-      <Label alignment="CENTER" layoutX="176.0" layoutY="72.0" text="ePortfel" textFill="#b218a2" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="42.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/dum.jpg" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="176.0" layoutY="72.0" text="Grywalizacja" textFill="#b218a2" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
          <font>
             <Font size="30.0" />
          </font></Label>

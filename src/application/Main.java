@@ -3,6 +3,7 @@ package application;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Locale;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -31,7 +32,7 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
-		
+	    Locale.setDefault(new Locale("en"));
 		DBmanager.createDB();
 		DBmanager.readListOfDecks();
 		launch(args);

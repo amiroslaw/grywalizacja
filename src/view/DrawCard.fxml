@@ -33,14 +33,14 @@
    <center>
       <VBox alignment="CENTER" prefHeight="500.0" prefWidth="400.0" spacing="10.0" BorderPane.alignment="TOP_CENTER">
          <children>
-            <Button fx:id="zamknij" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#saveDB" text="Zapisz" />
+            <Button fx:id="zamknij" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#saveDB" text="%btn.save" />
             <ImageView fx:id="obrazek" fitHeight="209.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
            		<image>
            		<Image url="img/award1.png" />
            		</image>
             </ImageView>
             <Label fx:id="wylosowane" text="Label" />
-            <Button fx:id="los" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#drawCard" text="Losuj" />
+            <Button fx:id="los" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#drawCard" text="%btn.draw" />
          </children>
       </VBox>
    </center>
@@ -56,9 +56,9 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Pozostało:" GridPane.halignment="CENTER" />
-            <Label text="Małe:" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-            <Label text="Średnie:" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+            <Label text="%draw.other" GridPane.halignment="CENTER" />
+            <Label text="%draw.small" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Label text="%draw.medium" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
             <Label fx:id="pozostalo" text="Label" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
             <Label fx:id="pozostaloMalych" text="ilosc" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
             <Label fx:id="pozostaloSrednich" text="ilosc" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />

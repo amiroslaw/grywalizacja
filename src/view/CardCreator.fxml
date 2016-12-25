@@ -35,16 +35,16 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Label alignment="CENTER" text="Typ" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-      <Label alignment="CENTER" text="Nazwa" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-      <Label text="Opis" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-      <Label text="Obrazek" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-      <Button fx:id="btnDalej" contentDisplay="CENTER" mnemonicParsing="false" onAction="#nextCard" text="Dalej" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+      <Label alignment="CENTER" text="%creator.type" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <Label alignment="CENTER" text="%creator.name" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+      <Label text="%creator.description" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+      <Label text="%creator.image" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+      <Button fx:id="btnDalej" contentDisplay="CENTER" mnemonicParsing="false" onAction="#nextCard" text="%creator.next" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
       <Label fx:id="lblTyp" text="1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <TextField fx:id="txtNazwa" maxWidth="270.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <TextArea fx:id="txtOpis" maxWidth="270.0" prefHeight="200.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <Button fx:id="btnObrazek" mnemonicParsing="false" onAction="#chooseImage" text="Wybierz plik..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <Label fx:id="lblnrKarty" alignment="CENTER" text="nr karty 1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-      <Button fx:id="btnPreviousCard" mnemonicParsing="false" onAction="#previousCard" text="Wstecz" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <Button fx:id="btnObrazek" mnemonicParsing="false" onAction="#chooseImage" text="%creator.choice_image" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Label fx:id="lblnrKarty" alignment="CENTER" text="%creator.nr" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+      <Button fx:id="btnPreviousCard" mnemonicParsing="false" onAction="#previousCard" text="%creator.back" GridPane.columnIndex="1" GridPane.rowIndex="5" />
    </children>
 </GridPane>
