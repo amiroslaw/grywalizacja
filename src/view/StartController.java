@@ -16,7 +16,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import model.DBmanager;
 
-public class StartController implements Initializable {
+public class StartController   {
 //	DrawCardController sampleController = new DrawCardController();
 	@FXML
 	private Button btnCreate;
@@ -28,7 +28,7 @@ public class StartController implements Initializable {
 	private Label info;
 	private Stage primaryStage;
 	private ViewManager manager;
-
+	private DBmanager dataBase;
 	public void setPrimaryStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
@@ -36,26 +36,11 @@ public class StartController implements Initializable {
 	public void setManager(ViewManager manager) {
 		this.manager = manager;
 	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-//		DBmanager.readDeckInfo();
-//		if (DBmanager.deck.getIsStarted()==0) {
-			createComboBox();
-		if (DBmanager.amountOfDecks==0) {
-			System.out.println("Start: jest jakas talia");
-			btnDraw.setDisable(true);
-//			btnDraw.setVisible(false);
-		}
-		// gdy jest utworzona
-		else {
-			System.out.println("rozpoczeta");
-		}
-	}
+	
 	public void createComboBox() {
 		ObservableList<String> observableList = FXCollections.observableArrayList();
 //		Collection<String> listOfDecks = DBmanager.mapOfDecks.values();
-		for (String deck : DBmanager.mapOfDecks.keySet()) {
+		for (String deck : dataBase.getMapOfDecks().keySet()) {
 			observableList.add(deck);
 		}
 //		for (int i = 0; i < DBmanager.listOfDecks.length; i++) {
@@ -75,8 +60,8 @@ public class StartController implements Initializable {
 //		int deckID = DBmanager.mapOfDecks.get(deckName);
 		// to chyba nie potrzebne jak dodamy setName
 		manager.showDrawCard(deckName);
-		DBmanager.deck.setName(deckName);
-		DBmanager.deck.setID(DBmanager.mapOfDecks.get(deckName));
+		dataBase.getDeck().setName(deckName);
+		dataBase.getDeck().setID(dataBase.getMapOfDecks().get(deckName));
 //		System.out.println(comboBoxOfDecks.getValue());
 
 	}
@@ -84,11 +69,26 @@ public class StartController implements Initializable {
 	@FXML
 	private void goToCreate() {
 		manager.showCardCreator();
-
 	}
 
 	@FXML
 	private void goToStart() {
 		manager.showStart();
 	}
+
+    public void getDataBase(DBmanager dataBase) {
+       this.dataBase = dataBase;  
+       System.out.println("view constructior: "+dataBase.getMapOfDecks().get("a"));
+       System.out.println("amount "+ dataBase.getAmountOfDecks());
+       createComboBox();
+   if (dataBase.getAmountOfDecks() == 0) {
+       System.out.println("Start: jest jakas talia");
+       btnDraw.setDisable(true);
+//     btnDraw.setVisible(false);
+   }
+   // gdy jest utworzona
+   else {
+       System.out.println("rozpoczeta");
+   }
+    }
 }

@@ -8,13 +8,38 @@ import java.sql.Statement;
 import java.util.HashMap;
 
 public class DBmanager {
-	public static Deck deck = new Deck();
-	public static int amountOfDecks = 0;
-	public static String[] listOfDecks;
-	public static HashMap<String, Integer> mapOfDecks = new HashMap<>();
-	static Connection connection;
+    private Deck deck = new Deck();
+    private int amountOfDecks = 0;
+    private HashMap<String, Integer> mapOfDecks = new HashMap<>();
+    private  Connection connection;
+    
+	 public Deck getDeck() {
+        return deck;
+    }
 
-	public static void createDB() {
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
+
+    public int getAmountOfDecks() {
+        return amountOfDecks;
+    }
+
+    public void setAmountOfDecks(int amountOfDecks) {
+        this.amountOfDecks = amountOfDecks;
+    }
+
+    public HashMap<String, Integer> getMapOfDecks() {
+        return mapOfDecks;
+    }
+
+    public void setMapOfDecks(HashMap<String, Integer> mapOfDecks) {
+        this.mapOfDecks = mapOfDecks;
+    }
+
+    
+
+	public  void createDB() {
 		connection = (Connection) SqliteConnection.Connector();
 		if (connection == null) {
 
@@ -40,7 +65,7 @@ public class DBmanager {
 
 	}
 
-	public static void readListOfDecks() {
+	public  void readListOfDecks() {
 		connection = (Connection) SqliteConnection.Connector();
 		if (connection == null) {
 
@@ -77,7 +102,7 @@ public class DBmanager {
 		}
 	}
 
-	public static void readDeckInfo(String deckName) {
+	public  void readDeckInfo(String deckName) {
 		connection = (Connection) SqliteConnection.Connector();
 		if (connection == null) {
 
@@ -113,7 +138,7 @@ public class DBmanager {
 	 * 
 	 * @param integer
 	 */
-	public static void readCards(int deckID) {
+	public  void readCards(int deckID) {
 		connection = (Connection) SqliteConnection.Connector();
 		if (connection == null) {
 
@@ -138,7 +163,7 @@ public class DBmanager {
 	 * usuwa dane z BD i zapisuje zmienne talii i karty do niej
 	 */
 
-	public static void saveDB() {
+	public  void saveDB() {
 		connection = (Connection) SqliteConnection.Connector();
 		if (connection == null) {
 
@@ -186,7 +211,7 @@ public class DBmanager {
 	}
 
 	// testy
-	public static void showDeck() {
+	public  void showDeck() {
 		System.out.println("size cardsList: " + deck.cardsList.size());
 		for (int i = 0; i < deck.cardsList.size(); i++) {
 			System.out.println(deck.cardsList.get(i));

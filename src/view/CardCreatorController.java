@@ -16,12 +16,17 @@ import javafx.stage.Stage;
 import model.Card;
 import model.DBmanager;
 
-public class CardCreatorController implements Initializable {
+public class CardCreatorController  {
 
 	DrawCardController drawCardController = new DrawCardController();
 	private ViewManager manager;
 	private Stage primaryStage;
-
+	private Card card;
+    private DBmanager dataBase;
+    private File fileChooserImage;
+    private String linkToImage;
+    private int cardCounter = 1;
+    
 	@FXML
 	private Label lblnrKarty;
 	@FXML
@@ -37,12 +42,13 @@ public class CardCreatorController implements Initializable {
 	@FXML
 	private Button btnPreviousCard;
 	
-	private Card card;
-
-	private File fileChooserImage;
-	private String linkToImage;
-	private int cardCounter = 1;
-
+    public void getDataBase(DBmanager dataBase) {
+        btnPreviousCard.setDisable(true);
+        dataBase.getDeck().setIsStarted(0);
+        dataBase.getDeck().cardsList.clear();
+        this.dataBase = dataBase;  
+     }
+    
 	public void setManager(ViewManager manager) {
 		this.manager = manager;
 	}
@@ -51,16 +57,9 @@ public class CardCreatorController implements Initializable {
 		this.primaryStage = primaryStage;
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		btnPreviousCard.setDisable(true);
-		DBmanager.deck.setIsStarted(0);
-		DBmanager.deck.cardsList.clear();
-	}
-
 	@FXML
 	void showStartWindow(ActionEvent e) {
-		DBmanager.saveDB();
+	    dataBase.saveDB();
 		manager.showStart();
 	}
 
@@ -82,7 +81,7 @@ public class CardCreatorController implements Initializable {
 
 	@FXML
 	void saveDB(ActionEvent e) {
-		DBmanager.saveDB();
+	    dataBase.saveDB();
 	}
 
 
@@ -97,7 +96,7 @@ public class CardCreatorController implements Initializable {
 
 		setCardProperties();
 
-		DBmanager.deck.cardsList.add(card);
+		dataBase.getDeck().cardsList.add(card);
 		cardCounter++;
 
 		lblnrKarty.setText(Integer.toString(cardCounter));
@@ -121,9 +120,9 @@ public class CardCreatorController implements Initializable {
 			btnPreviousCard.setDisable(true);
 		}
 		cardCounter--;
-		DBmanager.deck.cardsList.remove(cardCounter-1);
+		dataBase.getDeck().cardsList.remove(cardCounter-1);
 //		Card tempCard = new Card();
-		Card tempCard = DBmanager.deck.cardsList.get(DBmanager.deck.cardsList.size()-1);
+		Card tempCard = dataBase.getDeck().cardsList.get(dataBase.getDeck().cardsList.size()-1);
 		txtNazwa.setText(tempCard.getTitle());
 		txtOpis.setText(tempCard.getDescription());
 		lblnrKarty.setText(Integer.toString(cardCounter));
@@ -174,5 +173,7 @@ public class CardCreatorController implements Initializable {
 //		manager.showStart();
 //		DBmanager.showDeck();
 	}
+
+
 
 }

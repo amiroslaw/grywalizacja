@@ -16,6 +16,7 @@ import model.DBmanager;
 public class DeckNameDialogController {
 	private Stage dialogStage;
 	private ViewManager manager; 
+	private DBmanager dataBase;
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
@@ -40,17 +41,17 @@ public class DeckNameDialogController {
     		tfDeckName.setBorder(new Border(new BorderStroke(Color.RED, 
     	            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
     	} else {
-    	DBmanager.deck.setName(deckName);
-    	DBmanager.deck.setID(DBmanager.amountOfDecks);
-    	DBmanager.mapOfDecks.put(deckName, DBmanager.amountOfDecks);
+    	    dataBase.getDeck().setName(deckName);
+    	    dataBase.getDeck().setID(dataBase.getAmountOfDecks());
+    	    dataBase.getMapOfDecks().put(deckName, dataBase.getAmountOfDecks());
 
-		DBmanager.deck.setHowManyCards(40);
-		DBmanager.deck.setHowManySmallCards(6);
-		DBmanager.deck.setHowManyMediumCards(3);
-		DBmanager.deck.setIsStarted(1);
-		DBmanager.amountOfDecks++;
-		 DBmanager.deck.createDeck();
-		DBmanager.saveDB();
+    	    dataBase.getDeck().setHowManyCards(40);
+    	    dataBase.getDeck().setHowManySmallCards(6);
+    	    dataBase.getDeck().setHowManyMediumCards(3);
+    	    dataBase.getDeck().setIsStarted(1);
+    	    dataBase.setAmountOfDecks(dataBase.getAmountOfDecks()+1);
+		dataBase.getDeck().createDeck();
+		dataBase.saveDB();
     	dialogStage.close();
     	System.out.println(deckName);
 		}
@@ -60,4 +61,8 @@ public class DeckNameDialogController {
     void cancel(ActionEvent event) {
     	dialogStage.close();
     }
+    public void getDataBase(DBmanager dataBase) {
+        this.dataBase = dataBase;  
+     }
+
 }

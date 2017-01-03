@@ -33,8 +33,8 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 	    Locale.setDefault(new Locale("en"));
-		DBmanager.createDB();
-		DBmanager.readListOfDecks();
+//		DBmanager.createDB();
+//		DBmanager.readListOfDecks();
 		launch(args);
 
 	}

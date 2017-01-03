@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import model.DBmanager;
 import model.Deck;
+import model.Instrument;
 import model.SqliteConnection;
 
 /**
@@ -28,7 +29,7 @@ import model.SqliteConnection;
  * @author miro
  *
  */
-public class DrawCardController implements Initializable {
+public class DrawCardController  {
 
 	
 	private ViewManager manager;
@@ -59,7 +60,7 @@ public class DrawCardController implements Initializable {
 
 	private File imageFile;
 	private String deckName;
-
+	private DBmanager dataBase;
 	public void setManager(ViewManager manager) {
 		this.manager = manager;
 	}
@@ -72,10 +73,6 @@ public class DrawCardController implements Initializable {
 	 * sprawdza czy takia została zaczęta czy nie, wywołuje odpowiednie metody i
 	 * wyświtla ilość kart
 	 */
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-
-	}
 
 	@FXML
 	void showAbout(ActionEvent e) {
@@ -90,7 +87,7 @@ public class DrawCardController implements Initializable {
 
 	@FXML
 	void saveDB(ActionEvent event) {
-		DBmanager.saveDB();
+	    dataBase.saveDB();
 	}
 
 	/**
@@ -99,54 +96,54 @@ public class DrawCardController implements Initializable {
 	 */
 	@FXML
 	void drawCard(ActionEvent event) {
-		if (DBmanager.deck.cardsList.size() == 0) {
-			DBmanager.deck.setIsStarted(3);
-			DBmanager.mapOfDecks.remove(deckName);
+		if (dataBase.getDeck().cardsList.size() == 0) {
+		    dataBase.getDeck().setIsStarted(3);
+		    dataBase.getMapOfDecks().remove(deckName);
 //			DBmanager.saveDB();
 			menuStart.setDisable(false);
 			wylosowane.setText("gratuluję zakończyłeś talię");
 		} else {
-			DBmanager.deck.setIsStarted(1);
-			String teskt = DBmanager.deck.cardsList.get(0).toString();
+		    dataBase.getDeck().setIsStarted(1);
+			String teskt = dataBase.getDeck().cardsList.get(0).toString();
 			wylosowane.setText(teskt);
-			DBmanager.deck.setHowManyCards(DBmanager.deck.getHowManyCards() - 1);
+			dataBase.getDeck().setHowManyCards(dataBase.getDeck().getHowManyCards() - 1);
 			checkTypeAndSetImage();
 
-			pozostalo.setText(Integer.toString(DBmanager.deck.getHowManyCards()));
-			pozostaloSrednich.setText(Integer.toString(DBmanager.deck.getHowManyMediumCards()));
-			pozostaloMalych.setText(Integer.toString(DBmanager.deck.getHowManySmallCards()));
+			pozostalo.setText(Integer.toString(dataBase.getDeck().getHowManyCards()));
+			pozostaloSrednich.setText(Integer.toString(dataBase.getDeck().getHowManyMediumCards()));
+			pozostaloMalych.setText(Integer.toString(dataBase.getDeck().getHowManySmallCards()));
 
-			DBmanager.deck.cardsList.remove(0);
+			dataBase.getDeck().cardsList.remove(0);
 		}
 
 	}
 
 	private void checkTypeAndSetImage() {
-		int typeOfCard = DBmanager.deck.cardsList.get(0).getType();
+		int typeOfCard = dataBase.getDeck().cardsList.get(0).getType();
 		switch (typeOfCard) {
 		case 1:
-			if (DBmanager.deck.cardsList.get(0).getImage().equals("default")) {
+			if (dataBase.getDeck().cardsList.get(0).getImage().equals("default")) {
 				obrazek.setImage(award1);
 			} else {
-				imageFile = new File(DBmanager.deck.cardsList.get(0).getImage());
+				imageFile = new File(dataBase.getDeck().cardsList.get(0).getImage());
 				obrazek.setImage(new Image(imageFile.toURI().toString()));
 			}
 			break;
 		case 2:
-			DBmanager.deck.setHowManyMediumCards(DBmanager.deck.getHowManyMediumCards() - 1);
-			if (DBmanager.deck.cardsList.get(0).getImage().equals("default")) {
+		    dataBase.getDeck().setHowManyMediumCards(dataBase.getDeck().getHowManyMediumCards() - 1);
+			if (dataBase.getDeck().cardsList.get(0).getImage().equals("default")) {
 				obrazek.setImage(award2);
 			} else {
-				imageFile = new File(DBmanager.deck.cardsList.get(0).getImage());
+				imageFile = new File(dataBase.getDeck().cardsList.get(0).getImage());
 				obrazek.setImage(new Image(imageFile.toURI().toString()));
 			}
 			break;
 		case 3:
-			DBmanager.deck.setHowManySmallCards(DBmanager.deck.getHowManySmallCards() - 1);
-			if (DBmanager.deck.cardsList.get(0).getImage().equals("default")) {
+		    dataBase.getDeck().setHowManySmallCards(dataBase.getDeck().getHowManySmallCards() - 1);
+			if (dataBase.getDeck().cardsList.get(0).getImage().equals("default")) {
 				obrazek.setImage(award3);
 			} else {
-				imageFile = new File(DBmanager.deck.cardsList.get(0).getImage());
+				imageFile = new File(dataBase.getDeck().cardsList.get(0).getImage());
 				obrazek.setImage(new Image(imageFile.toURI().toString()));
 			}
 			break;
@@ -156,19 +153,21 @@ public class DrawCardController implements Initializable {
 		}
 	}
 
-	public void init(String deckName) {
-		this.deckName=deckName;
+	public void init(String deckName, DBmanager dataBase) {
+		this.dataBase = dataBase;
+		this.deckName = deckName; 
+		
 		System.out.println("deckName in DrawCard");
 		
 		menuStart.setDisable(true);
-		DBmanager.readDeckInfo(deckName);
-		DBmanager.deck.cardsList.clear();
-		DBmanager.readCards(DBmanager.mapOfDecks.get(deckName)); 
+		dataBase.readDeckInfo(deckName);
+		dataBase.getDeck().cardsList.clear();
+		dataBase.readCards(dataBase.getMapOfDecks().get(deckName)); 
 		obrazek.setImage(award4);
 
-		pozostalo.setText(Integer.toString(DBmanager.deck.getHowManyCards()));
-		pozostaloSrednich.setText(Integer.toString(DBmanager.deck.getHowManyMediumCards()));
-		pozostaloMalych.setText(Integer.toString(DBmanager.deck.getHowManySmallCards()));
+		pozostalo.setText(Integer.toString(dataBase.getDeck().getHowManyCards()));
+		pozostaloSrednich.setText(Integer.toString(dataBase.getDeck().getHowManyMediumCards()));
+		pozostaloMalych.setText(Integer.toString(dataBase.getDeck().getHowManySmallCards()));
 		
 	}
 
