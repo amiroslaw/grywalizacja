@@ -1,5 +1,7 @@
 package view;
 
+import java.util.HashMap;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,11 +14,14 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.DBmanager;
+import model.Deck;
 
 public class DeckNameDialogController {
 	private Stage dialogStage;
 	private ViewManager manager; 
 	private DBmanager dataBase;
+	private int amoutOfDeck; 
+	private HashMap<String, Integer> mapOfDecks = new HashMap<>(); 
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
@@ -33,6 +38,7 @@ public class DeckNameDialogController {
 
     @FXML
     private Button btnCancel;
+    private Deck deck;
 
     @FXML
     void accept(ActionEvent event) {
@@ -41,17 +47,17 @@ public class DeckNameDialogController {
     		tfDeckName.setBorder(new Border(new BorderStroke(Color.RED, 
     	            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
     	} else {
-    	    dataBase.getDeck().setName(deckName);
-    	    dataBase.getDeck().setID(dataBase.getAmountOfDecks());
-    	    dataBase.getMapOfDecks().put(deckName, dataBase.getAmountOfDecks());
+    	    deck.setName(deckName);
+    	    deck.setID(amoutOfDeck);
+    	    mapOfDecks.put(deckName, amoutOfDeck);
 
-    	    dataBase.getDeck().setHowManyCards(40);
-    	    dataBase.getDeck().setHowManySmallCards(6);
-    	    dataBase.getDeck().setHowManyMediumCards(3);
-    	    dataBase.getDeck().setIsStarted(1);
-    	    dataBase.setAmountOfDecks(dataBase.getAmountOfDecks()+1);
-		dataBase.getDeck().createDeck();
-		dataBase.saveDB();
+    	    deck.setHowManyCards(40);
+    	    deck.setHowManySmallCards(6);
+    	    deck.setHowManyMediumCards(3);
+    	    deck.setIsStarted(1);
+    	    amoutOfDeck ++;
+		deck.createDeck();
+		dataBase.saveDB(deck);
     	dialogStage.close();
     	System.out.println(deckName);
 		}
@@ -61,8 +67,11 @@ public class DeckNameDialogController {
     void cancel(ActionEvent event) {
     	dialogStage.close();
     }
-    public void getDataBase(DBmanager dataBase) {
-        this.dataBase = dataBase;  
+    public void init(Deck deck, HashMap<String, Integer> mapOfDecks, DBmanager dbManager) {
+        this.deck = deck;   
+        this.mapOfDecks = mapOfDecks;
+        amoutOfDeck = mapOfDecks.size();
+        dataBase = dbManager; 
      }
 
 }

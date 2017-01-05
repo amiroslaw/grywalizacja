@@ -1,16 +1,11 @@
 package model;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Deck {
 
-	Connection conection;
-	public ArrayList<Card> cardsList = new ArrayList<Card>();
+    public ArrayList<Card> cardsList = new ArrayList<Card>();   //TODO: zmienic na private
 	private int howManyCards, howManySmallCards, howManyMediumCards, ID;
 	private String deckName;
 	private int isStarted = 0;

@@ -15,6 +15,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Card;
 import model.DBmanager;
+import model.Deck;
 
 public class CardCreatorController  {
 
@@ -22,6 +23,7 @@ public class CardCreatorController  {
 	private ViewManager manager;
 	private Stage primaryStage;
 	private Card card;
+	private Deck deck = new Deck();
     private DBmanager dataBase;
     private File fileChooserImage;
     private String linkToImage;
@@ -42,11 +44,11 @@ public class CardCreatorController  {
 	@FXML
 	private Button btnPreviousCard;
 	
-    public void getDataBase(DBmanager dataBase) {
+    public void init(Deck deck) {
+        this.deck = deck;  
         btnPreviousCard.setDisable(true);
-        dataBase.getDeck().setIsStarted(0);
-        dataBase.getDeck().cardsList.clear();
-        this.dataBase = dataBase;  
+        deck.setIsStarted(0);
+        deck.cardsList.clear();
      }
     
 	public void setManager(ViewManager manager) {
@@ -59,7 +61,7 @@ public class CardCreatorController  {
 
 	@FXML
 	void showStartWindow(ActionEvent e) {
-	    dataBase.saveDB();
+	    dataBase.saveDB(deck);
 		manager.showStart();
 	}
 
@@ -81,7 +83,7 @@ public class CardCreatorController  {
 
 	@FXML
 	void saveDB(ActionEvent e) {
-	    dataBase.saveDB();
+	    dataBase.saveDB(deck);
 	}
 
 
@@ -96,7 +98,7 @@ public class CardCreatorController  {
 
 		setCardProperties();
 
-		dataBase.getDeck().cardsList.add(card);
+		deck.cardsList.add(card);
 		cardCounter++;
 
 		lblnrKarty.setText(Integer.toString(cardCounter));
@@ -120,9 +122,9 @@ public class CardCreatorController  {
 			btnPreviousCard.setDisable(true);
 		}
 		cardCounter--;
-		dataBase.getDeck().cardsList.remove(cardCounter-1);
+		deck.cardsList.remove(cardCounter-1);
 //		Card tempCard = new Card();
-		Card tempCard = dataBase.getDeck().cardsList.get(dataBase.getDeck().cardsList.size()-1);
+		Card tempCard = deck.cardsList.get(deck.cardsList.size()-1);
 		txtNazwa.setText(tempCard.getTitle());
 		txtOpis.setText(tempCard.getDescription());
 		lblnrKarty.setText(Integer.toString(cardCounter));
