@@ -7,8 +7,26 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<VBox alignment="CENTER" prefHeight="400.0" prefWidth="400.0" spacing="50.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.StartController">
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="400.0" spacing="50.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StartController">
    <children>
+      <MenuBar prefHeight="29.0" prefWidth="406.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="%start.menu.window">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#goToDrawCard" text="%start.menu.draw" />
+                  <MenuItem mnemonicParsing="false" onAction="#goToCreate" text="%start.menu.creator" />
+                  <MenuItem mnemonicParsing="false" text="%start.menu.deck_manager" />
+                  <MenuItem mnemonicParsing="false" text="%start.menu.close" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="%start.menu.help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="%start.menu.help_ctx" />
+                  <MenuItem mnemonicParsing="false" onAction="#showAbout" text="%title.about" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
       <Text fill="#71099e" strokeType="OUTSIDE" strokeWidth="0.0" text="%start.title" textAlignment="CENTER">
          <font>
             <Font name="Ubuntu Bold" size="60.0" />

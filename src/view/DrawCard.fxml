@@ -8,15 +8,15 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.image.Image?>
 
-<BorderPane prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.DrawCardController">
+<BorderPane prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DrawCardController">
    <top>
       <HBox prefHeight="30.0" prefWidth="400.0" BorderPane.alignment="CENTER">
          <children>
-            <MenuBar prefHeight="29.0" prefWidth="406.0">
+            <MenuBar prefHeight="29.0" prefWidth="406.0" visible="false">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                        <MenuItem mnemonicParsing="false" onAction="#saveDB" text="Zapisz" />
+                        <MenuItem mnemonicParsing="false" onAction="#goToStart" text="Zapisz" />
                     <MenuItem fx:id="menuStart" mnemonicParsing="false" onAction="#showStart" text="Start" />
                     <MenuItem mnemonicParsing="false" text="Close" />
                   </items>
@@ -33,14 +33,14 @@
    <center>
       <VBox alignment="CENTER" prefHeight="500.0" prefWidth="400.0" spacing="10.0" BorderPane.alignment="TOP_CENTER">
          <children>
-            <Button fx:id="zamknij" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#saveDB" text="%btn.save" />
-            <ImageView fx:id="obrazek" fitHeight="209.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <Button fx:id="los" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#drawCard" text="%btn.draw" />
+            <ImageView fx:id="obrazek" fitHeight="354.0" fitWidth="282.0" pickOnBounds="true" preserveRatio="true">
            		<image>
            		<Image url="img/award1.png" />
            		</image>
             </ImageView>
             <Label fx:id="wylosowane" text="Label" />
-            <Button fx:id="los" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#drawCard" text="%btn.draw" />
+            <Button fx:id="goToStart" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#goToStart" text="%btn.exit" />
          </children>
       </VBox>
    </center>

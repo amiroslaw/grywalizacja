@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="147.0" prefWidth="337.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.DeckNameDialogController">
+<AnchorPane prefHeight="147.0" prefWidth="337.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DeckNameDialogController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-9.0" layoutY="17.0" text="%deck_name.reco" textAlignment="CENTER" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
       <TextField fx:id="tfDeckName" layoutX="58.0" layoutY="57.0" prefHeight="26.0" prefWidth="228.0" />

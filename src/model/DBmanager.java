@@ -198,11 +198,6 @@ public class DBmanager {
 
     }
 
-    // testy
-    public static void readConf() {
-
-    }
-
     public void showDeck(Deck deck) {
         System.out.println("size cardsList: " + deck.cardsList.size());
         for (int i = 0; i < deck.cardsList.size(); i++) {

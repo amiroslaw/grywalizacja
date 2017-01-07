@@ -58,7 +58,7 @@ public class Card {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	
+	@Override
 	public String toString() {
 		return "typ: " + type + "; \ntutuł: " + title + "; \nopis: " + description + "; \nlink: " + image;
 	}

@@ -5,12 +5,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Locale;
 
+import controller.DrawCardController;
+import controller.ViewManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.DBmanager;
 import model.SqliteConnection;
-import view.DrawCardController;
-import view.ViewManager;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.fxml.FXMLLoader;
