@@ -1,46 +1,44 @@
 package controller;
 
-import java.net.URL;
-import java.util.Collection;
-import java.util.Map;
-import java.util.ResourceBundle;
+import static javafx.application.Application.STYLESHEET_CASPIAN;
+import static javafx.application.Application.STYLESHEET_MODENA;
 
-import javafx.beans.Observable;
-import javafx.beans.value.ObservableMapValue;
+import java.util.Map;
+
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import model.DBmanager;
 import view.DialogsUtils;
 
 public class StartController {
     // DrawCardController sampleController = new DrawCardController();
-//    ResourceBundle bundle = ResourceBundle.getBundle("bundles.bundle");
-    @FXML
-    private Button btnCreate;
-    @FXML
-    private ComboBox<String> comboBoxOfDecks;
+    // ResourceBundle bundle = ResourceBundle.getBundle("bundles.bundle");
+
+    // @FXML
+    // private MenuItem miDraw;
+    // @FXML
+    // private MenuItem miCreate;
+    // @FXML
+    // private Button btnCreate;
     @FXML
     private Button btnDraw;
+    @FXML
+    private ComboBox<String> comboBoxOfDecks;
+
     @FXML
     private Label info;
     private Stage primaryStage;
     private ViewManager manager;
 
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
-
-    public void setManager(ViewManager manager) {
-        this.manager = manager;
-    }
-    public void init(Map<String,Integer> mapOfDecks) {
+    public void init(Map<String, Integer> mapOfDecks) {
         createComboBox(mapOfDecks);
         if (mapOfDecks.size() == 0) {
             btnDraw.setDisable(true);
@@ -51,7 +49,8 @@ public class StartController {
             System.out.println("rozpoczeta");
         }
     }
-    private void createComboBox(Map<String,Integer> mapOfDecks) {
+
+    private void createComboBox(Map<String, Integer> mapOfDecks) {
         ObservableList<String> observableList = FXCollections.observableArrayList();
         // Collection<String> listOfDecks = DBmanager.mapOfDecks.values();
         for (String deck : mapOfDecks.keySet()) {
@@ -66,32 +65,73 @@ public class StartController {
         // }
         // comboBoxOfDecks.setItem(observableMap.get());
     }
+
     @FXML
     void showAbout(ActionEvent e) {
         manager.showAbout();
     }
 
     @FXML
-    private void goToDrawCard() {
+    private void showCardCreator() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                manager.showCardCreator();
+            }
+        });
+
+    }
+
+    // @FXML
+    // private void menuCreateDeck() {
+    // manager.showCardCreator();
+    // }
+    @FXML
+    private void menuDrawCard() {
+        showDrawCard();
+    }
+
+    @FXML
+    private void btnDrawCard() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                showDrawCard();
+            }
+        });
+    }
+
+    private void showDrawCard() {
         String deckName = comboBoxOfDecks.getValue();
-      
-        if(deckName != null){
-        manager.showDrawCard(deckName);
+
+        if (deckName != null) {
+            manager.showDrawCard(deckName);
         } else {
             String inf = manager.bundle.getString("dialog.inf.chooseDeck");
             DialogsUtils.dialogInformation(inf);
         }
     }
-
     @FXML
-    private void goToCreate() {
-        manager.showCardCreator();
+    private void setCaspian() {
+        Application.setUserAgentStylesheet(STYLESHEET_CASPIAN);
+    }
+    @FXML
+    private void setModena() {
+        Application.setUserAgentStylesheet(STYLESHEET_MODENA);
+    }
+    @FXML
+    private void setAlwaysOnTop(ActionEvent actionEvent) {
+//        Stage stage = (Stage) primaryStage;
+         boolean value = ((CheckMenuItem) actionEvent.getSource()).selectedProperty().get();
+         primaryStage.setAlwaysOnTop(value);
+     }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 
-    @FXML
-    private void goToStart() {
-        manager.showStart();
+    public void setManager(ViewManager manager) {
+        this.manager = manager;
     }
 
-    
 }

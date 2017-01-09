@@ -13,11 +13,28 @@
          <menus>
             <Menu mnemonicParsing="false" text="%start.menu.window">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#goToDrawCard" text="%start.menu.draw" />
-                  <MenuItem mnemonicParsing="false" onAction="#goToCreate" text="%start.menu.creator" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuDrawCard" text="%start.menu.draw" />
+                  <MenuItem mnemonicParsing="false" onAction="#showCardCreator" text="%start.menu.creator" />
                   <MenuItem mnemonicParsing="false" text="%start.menu.deck_manager" />
                   <MenuItem mnemonicParsing="false" text="%start.menu.close" />
                </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="%start.menu.edit">
+              <items>
+                  <Menu mnemonicParsing="false" text="%start.menu.style">
+                     <items>
+                        <RadioMenuItem mnemonicParsing="false" onAction="#setCaspian" text="Caspian">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="styleGroup" />
+                           </toggleGroup>
+                        </RadioMenuItem>
+                        <RadioMenuItem mnemonicParsing="false" onAction="#setModena" selected="true" text="Modena" toggleGroup="$styleGroup" />
+                     </items>
+                  </Menu>
+                  <CheckMenuItem mnemonicParsing="false" onAction="#setAlwaysOnTop" text="%start.menu.onTop" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+              </items>
             </Menu>
             <Menu mnemonicParsing="false" text="%start.menu.help">
                <items>
@@ -35,7 +52,7 @@
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
             <ComboBox fx:id="comboBoxOfDecks" prefHeight="26.0" prefWidth="217.0" />
-            <Button fx:id="btnDraw" mnemonicParsing="false" onAction="#goToDrawCard" prefHeight="62.0" prefWidth="156.0" text="%start.draw">
+            <Button fx:id="btnDraw" mnemonicParsing="false" onAction="#btnDrawCard" prefHeight="62.0" prefWidth="156.0" text="%start.draw">
                <font>
                   <Font size="24.0" />
                </font>
@@ -48,7 +65,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </HBox>
-      <Button fx:id="btnCreate" alignment="CENTER" mnemonicParsing="false" onAction="#goToCreate" prefWidth="250.0" text="%start.create" textAlignment="CENTER">
+      <Button fx:id="btnCreate" alignment="CENTER" mnemonicParsing="false" onAction="#showCardCreator" prefWidth="250.0" text="%start.create" textAlignment="CENTER">
          <font>
             <Font size="33.0" />
          </font>

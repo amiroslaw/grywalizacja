@@ -161,6 +161,7 @@ public class DBmanager {
         try {
             Statement mySta = connection.createStatement();
             // usuwanie kart i tali
+            mySta.executeUpdate("DELETE FROM talia WHERE id=0");
             mySta.executeUpdate("DELETE FROM talia WHERE id=" + deck.getID());
             mySta.executeUpdate("DELETE  FROM karta WHERE idTalia=" + deck.getID());
             // zapisywanie zmiennych z talii
@@ -176,7 +177,7 @@ public class DBmanager {
 
                 preStmt.executeUpdate();
 
-                // zapisywanie talii kart
+                // zapisywanie  kart
                 System.out.println("zapisane dane, czyRozpoczeta" + deck.getIsStarted());
                 String sql = "";
                 for (int i = 0; i < deck.cardsList.size(); i++) {

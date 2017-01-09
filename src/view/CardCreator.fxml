@@ -20,22 +20,6 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <MenuBar visible="false" GridPane.columnSpan="2">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-<!--                   <MenuItem mnemonicParsing="false" onAction="#zapisz" text="zapisz" /> -->
-                  <MenuItem mnemonicParsing="false" onAction="#showStartWindow" text="Start" />
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
       <Label alignment="CENTER" text="%creator.type" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
       <Label alignment="CENTER" text="%creator.name" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
       <Label text="%creator.description" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
