@@ -54,13 +54,19 @@ public class DBmanager {
                     + "idTalia INTEGER NOT NULL, FOREIGN KEY(idTalia) REFERENCES talia(id))");
             mySta.executeUpdate("CREATE TABLE IF NOT EXISTS talia (id INTEGER PRIMARY KEY  NOT NULL ,nazwa TEXT,"
                     + "ileKart INTEGER, ileMalych INTEGER,ileSrednich INTEGER, czyRozpoczeta INTEGER DEFAULT (0))");
-            mySta.executeUpdate("CREATE TABLE IF NOT EXISTS conf (currentDeck INTEGER NOT NULL)");
+            mySta.executeUpdate("CREATE TABLE IF NOT EXISTS conf (currentDeck INTEGER NOT NULL, imgDir TEXT, style TEXT)");
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
+    //TODO: czytanie i zapis folderu img, stylu
+    public void readPreferences(){
+        
+    }
+    public void writePreferences(){
+        
+    }
     public HashMap<String, Integer> readListOfDecks() {
             HashMap<String, Integer> mapOfDecks = new HashMap<>();
         connection = (Connection) SqliteConnection.Connector();

@@ -16,7 +16,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#menuDrawCard" text="%start.menu.draw" />
                   <MenuItem mnemonicParsing="false" onAction="#showCardCreator" text="%start.menu.creator" />
                   <MenuItem mnemonicParsing="false" text="%start.menu.deck_manager" />
-                  <MenuItem mnemonicParsing="false" text="%start.menu.close" />
+                  <MenuItem mnemonicParsing="false" onAction="#closeApp" text="%start.menu.close" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="%start.menu.edit">
@@ -33,7 +33,7 @@
                   </Menu>
                   <CheckMenuItem mnemonicParsing="false" onAction="#setAlwaysOnTop" text="%start.menu.onTop" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" onAction="#setImgDir" text="%start.menu.imgDir" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="%start.menu.help">

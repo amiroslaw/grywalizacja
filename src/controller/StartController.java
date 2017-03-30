@@ -125,6 +125,14 @@ public class StartController {
          boolean value = ((CheckMenuItem) actionEvent.getSource()).selectedProperty().get();
          primaryStage.setAlwaysOnTop(value);
      }
+    @FXML
+    private void closeApp(){
+        primaryStage.close();
+    }
+    @FXML
+    private void setImgDir(){
+        
+    }
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
