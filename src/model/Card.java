@@ -1,11 +1,41 @@
 package model;
 
-public class Card {
-	
-	private int type; // typ karty 1- nagroda 1, 2- nagroda 2, 4 nic
-	private String title, description, image;
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
 
-	public Card() {
+@DatabaseTable
+public class Card implements BaseModel {
+    @DatabaseField(generatedId = true)
+    private int id;
+    @DatabaseField(canBeNull = true)
+	private int type; // typ karty 1- nagroda 1, 2- nagroda 2, 4 nic
+    @DatabaseField(canBeNull = true)
+	private String title;
+    @DatabaseField
+	private String description, image;
+    // nie wiem przy potrzebne
+    @ForeignCollectionField
+    private ForeignCollection<Deck> decks;
+    
+	public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public ForeignCollection<Deck> getDecks() {
+        return decks;
+    }
+
+    public void setDecks(ForeignCollection<Deck> decks) {
+        this.decks = decks;
+    }
+
+    public Card() {
 		type = 4;
 		title = "pusta karta";
 		description = "szablon karty z konstruktora";

@@ -3,12 +3,25 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Deck {
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
+@DatabaseTable
+public class Deck implements BaseModel {
 
-    public ArrayList<Card> cardsList = new ArrayList<Card>();   //TODO: zmienic na private
-	private int howManyCards, howManySmallCards, howManyMediumCards, ID;
+    @DatabaseField(generatedId=true) 
+    private int id; 
+    @DatabaseField
+	private int howManyCards, howManySmallCards, howManyMediumCards;
+    @DatabaseField(unique = true, canBeNull = false)
 	private String deckName;
-	private int isStarted = 0;
+	@DatabaseField(dataType=DataType.INTEGER)
+    private int isStarted = 0;
+	@DatabaseField(foreign=true, foreignAutoCreate=true, foreignAutoRefresh=true, canBeNull=false)
+	private Card card;
+	// nie wiem czy bedzie dalej potrzebne lub zmienić na @ForeignCollectionField 
+    public ArrayList<Card> cardsList = new ArrayList<Card>();   //TODO: zmienic na private
 
 	public Deck() {
 		// nazwa = "typowa talia";
@@ -77,7 +90,15 @@ public class Deck {
 		this.howManyCards = howManyCards;
 	}
 
-	public int getHowManySmallCards() {
+	public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
+    }
+
+    public int getHowManySmallCards() {
 		return howManySmallCards;
 	}
 
@@ -107,10 +128,10 @@ public class Deck {
 	}
 
 	public void setID(int ID) {
-		this.ID=ID;
+		this.id=ID;
 	}
 	
 	public int getID(){
-		return ID;
+		return id;
 	}
 }

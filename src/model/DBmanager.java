@@ -60,13 +60,7 @@ public class DBmanager {
             e.printStackTrace();
         }
     }
-    //TODO: czytanie i zapis folderu img, stylu
-    public void readPreferences(){
-        
-    }
-    public void writePreferences(){
-        
-    }
+    
     public HashMap<String, Integer> readListOfDecks() {
             HashMap<String, Integer> mapOfDecks = new HashMap<>();
         connection = (Connection) SqliteConnection.Connector();
@@ -204,7 +198,13 @@ public class DBmanager {
         }
 
     }
-
+  //TODO: czytanie i zapis folderu img, stylu
+    public void readPreferences(){
+        
+    }
+    public void writePreferences(){
+        
+    }
     public void showDeck(Deck deck) {
         System.out.println("size cardsList: " + deck.cardsList.size());
         for (int i = 0; i < deck.cardsList.size(); i++) {

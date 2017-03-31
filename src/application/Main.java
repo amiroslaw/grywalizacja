@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import controller.DrawCardController;
 import controller.ViewManager;
+import database.DbManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.DBmanager;
@@ -35,6 +36,7 @@ public class Main extends Application {
 	    Locale.setDefault(new Locale("en"));
 //		DBmanager.createDB();
 //		DBmanager.readListOfDecks();
+	    DbManager.initDatabase();
 		launch(args);
 
 	}
