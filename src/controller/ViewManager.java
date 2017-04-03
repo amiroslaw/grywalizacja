@@ -2,9 +2,12 @@ package controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.Main;
+import database.DbManager;
+import database.FillDBUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -15,6 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.DBmanager;
 import model.Deck;
+import view.DialogsUtils;
 
 public class ViewManager {
     public final Stage primaryStage;
@@ -34,6 +38,9 @@ public class ViewManager {
         // if(mapOfDecks.size() > 0){
         // isDeck = true;
         // }
+        DbManager.initDatabase();
+        FillDBUtils.createDeck();
+        FillDBUtils.createCard();
     }
 
     public void showStart() {
@@ -88,8 +95,8 @@ public class ViewManager {
     private void fillDeck(String deckName) {
         // int deckID = DBmanager.mapOfDecks.get(deckName);
         // to chyba nie potrzebne jak dodamy setName
-        deck.setName(deckName);
-        deck.setID(mapOfDecks.get(deckName));
+        deck.setDeckName(deckName);
+        deck.setId(mapOfDecks.get(deckName));
         deck = dataBase.readDeckInfo(deckName);
         deck.cardsList = dataBase.readCards(mapOfDecks.get(deckName));
 
@@ -111,7 +118,8 @@ public class ViewManager {
             CardCreatorController controller = loader.getController();
             controller.setPrimaryStage(this.primaryStage);
             controller.setManager(this);
-            controller.init(deck);
+//            controller.init(deck);
+            controller.init();
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -141,6 +149,9 @@ public class ViewManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+      
+        
+        
     }
 
     public void showDeckNameDialog() {

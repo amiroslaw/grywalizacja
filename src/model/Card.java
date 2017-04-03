@@ -7,33 +7,20 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
 public class Card implements BaseModel {
+    
     @DatabaseField(generatedId = true)
     private int id;
-    @DatabaseField(canBeNull = true)
+    @DatabaseField(canBeNull = false)
 	private int type; // typ karty 1- nagroda 1, 2- nagroda 2, 4 nic
-    @DatabaseField(canBeNull = true)
+    @DatabaseField(canBeNull = false)
 	private String title;
     @DatabaseField
 	private String description, image;
-    // nie wiem przy potrzebne
-    @ForeignCollectionField
-    private ForeignCollection<Deck> decks;
+	@DatabaseField(foreign=true, foreignAutoCreate=true, foreignAutoRefresh=true, canBeNull=false)
+	private Deck deck;
+
     
-	public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public ForeignCollection<Deck> getDecks() {
-        return decks;
-    }
-
-    public void setDecks(ForeignCollection<Deck> decks) {
-        this.decks = decks;
-    }
+	
 
     public Card() {
 		type = 4;
@@ -56,7 +43,20 @@ public class Card implements BaseModel {
 		this.description = description;
 		this.image = image;
 	}
-	
+	public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
 	public int getType() {
 		return type;
 	}

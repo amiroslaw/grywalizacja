@@ -55,7 +55,10 @@ public class DbManager {
             TableUtils.createTableIfNotExists(connectionSource, Deck.class);
             TableUtils.createTableIfNotExists(connectionSource, Card.class);
         } catch (SQLException e) {
-            DialogsUtils.errorDialog(e.getMessage());
+            //TODO: odkomentowac
+            System.out.println("error createTable dbManager");
+            System.out.println(e.getMessage());
+//            DialogsUtils.errorDialog(e.getMessage());
         }
     }
 
@@ -64,7 +67,9 @@ public class DbManager {
             TableUtils.dropTable(connectionSource, Deck.class, true);
             TableUtils.dropTable(connectionSource, Card.class, true);
         } catch (SQLException e) {
-            DialogsUtils.errorDialog(e.getMessage());
+            //TODO: odkomentowac
+//            DialogsUtils.errorDialog(e.getMessage());
+//            DialogsUtils.errorDialog("dropTable error");
         }
     }
 }

@@ -99,14 +99,14 @@ public class DBmanager {
             ResultSet rs = mySta.executeQuery("select * from talia where nazwa ='" + deckName + "'");
             while (rs.next()) {
                 deck.setIsStarted(rs.getInt("czyRozpoczeta"));
-                deck.setName(rs.getString("nazwa"));
+                deck.setDeckName(rs.getString("nazwa"));
                 deck.setHowManySmallCards(rs.getInt("ileMalych"));
                 deck.setHowManyMediumCards(rs.getInt("ileSrednich"));
                 deck.setHowManyCards(rs.getInt("ileKart"));
-                deck.setID(rs.getInt("id"));
+                deck.setId(rs.getInt("id"));
             }
             System.out.println("redDeckInfo");
-            System.out.println("nazwa talii " + deck.getName());
+            System.out.println("nazwa talii " + deck.getDeckName());
             System.out.println("ile malych" + deck.getHowManySmallCards());
             System.out.println("is started dbmanager " + deck.getIsStarted());
             connection.close();
@@ -162,14 +162,14 @@ public class DBmanager {
             Statement mySta = connection.createStatement();
             // usuwanie kart i tali
             mySta.executeUpdate("DELETE FROM talia WHERE id=0");
-            mySta.executeUpdate("DELETE FROM talia WHERE id=" + deck.getID());
-            mySta.executeUpdate("DELETE  FROM karta WHERE idTalia=" + deck.getID());
+            mySta.executeUpdate("DELETE FROM talia WHERE id=" + deck.getId());
+            mySta.executeUpdate("DELETE  FROM karta WHERE idTalia=" + deck.getId());
             // zapisywanie zmiennych z talii
             if (deck.getIsStarted() != 3) {
                 String query = "INSERT INTO talia VALUES (?, ?, ?, ?, ?, ?)";
                 PreparedStatement preStmt = connection.prepareStatement(query);
-                preStmt.setInt(1, deck.getID());
-                preStmt.setString(2, deck.getName());
+                preStmt.setInt(1, deck.getId());
+                preStmt.setString(2, deck.getDeckName());
                 preStmt.setInt(3, deck.getHowManyCards());
                 preStmt.setInt(4, deck.getHowManySmallCards());
                 preStmt.setInt(5, deck.getHowManyMediumCards());
@@ -184,7 +184,7 @@ public class DBmanager {
 
                     query = "INSERT INTO karta VALUES (NULL," + deck.cardsList.get(i).getType() + ",'"
                             + deck.cardsList.get(i).getTitle() + "','" + deck.cardsList.get(i).getDescription() + "','"
-                            + deck.cardsList.get(i).getImage() + "','" + deck.getID() + "');";
+                            + deck.cardsList.get(i).getImage() + "','" + deck.getId() + "');";
                     sql += query;
                 }
 

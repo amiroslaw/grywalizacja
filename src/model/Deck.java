@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -18,12 +19,19 @@ public class Deck implements BaseModel {
 	private String deckName;
 	@DatabaseField(dataType=DataType.INTEGER)
     private int isStarted = 0;
-	@DatabaseField(foreign=true, foreignAutoCreate=true, foreignAutoRefresh=true, canBeNull=false)
+//    TODO: usuń jak dodasz orm
 	private Card card;
 	// nie wiem czy bedzie dalej potrzebne lub zmienić na @ForeignCollectionField 
+//	@DatabaseField nie mozna robic listy
+//    TODO: usuń jak dodasz orm
     public ArrayList<Card> cardsList = new ArrayList<Card>();   //TODO: zmienic na private
 
-	public Deck() {
+    @ForeignCollectionField
+    private ForeignCollection<Card> cards;
+    
+	
+
+    public Deck() {
 		// nazwa = "typowa talia";
 		// ileKart = 40;
 		// ileMalych = 6;
@@ -73,7 +81,13 @@ public class Deck implements BaseModel {
 		cardsList.add(biggestCard);
 //		System.out.println("ile kart czytaTalie" + cardsList.size());
 	}
+	public ForeignCollection<Card> getCards() {
+        return cards;
+    }
 
+    public void setCards(ForeignCollection<Card> cards) {
+        this.cards = cards;
+    }
 	public int getIsStarted() {
 		return isStarted;
 	}
@@ -114,24 +128,26 @@ public class Deck implements BaseModel {
 		this.howManyMediumCards = howManyMediumCards;
 	}
 
-	public String getName() {
-		return deckName;
-	}
-
-	public void setName(String name) {
-		this.deckName = name;
-	}
+	
 
 	public String toString() {
 		return "nazwa: " + deckName + "; \nile Kart: " + howManyCards + "; \nile Malych: " + howManySmallCards
 				+ "; \nile Srednich: " + howManyMediumCards;
 	}
 
-	public void setID(int ID) {
+	public void setId(int ID) {
 		this.id=ID;
 	}
 	
-	public int getID(){
+	public int getId(){
 		return id;
 	}
+
+    public String getDeckName() {
+        return deckName;
+    }
+
+    public void setDeckName(String deckName) {
+        this.deckName = deckName;
+    }
 }

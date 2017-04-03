@@ -2,6 +2,8 @@ package controller;
 
 import java.util.HashMap;
 
+import dao.DeckDao;
+import database.DbManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.DBmanager;
 import model.Deck;
+import view.DialogsUtils;
 
 public class DeckNameDialogController {
 	private Stage dialogStage;
@@ -47,8 +50,8 @@ public class DeckNameDialogController {
     		tfDeckName.setBorder(new Border(new BorderStroke(Color.RED, 
     	            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
     	} else {
-    	    deck.setName(deckName);
-    	    deck.setID(amoutOfDeck);
+    	    deck.setDeckName(deckName);
+    	    deck.setId(amoutOfDeck);
     	    mapOfDecks.put(deckName, amoutOfDeck);
 
     	    deck.setHowManyCards(40);
@@ -56,8 +59,11 @@ public class DeckNameDialogController {
     	    deck.setHowManyMediumCards(3);
     	    deck.setIsStarted(1);
     	    amoutOfDeck ++;
-		deck.createDeck();
+//		deck.createDeck();
+		
 		dataBase.saveDB(deck);
+		
+		
     	dialogStage.close();
     	System.out.println(deckName);
 		}

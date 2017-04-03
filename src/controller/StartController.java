@@ -5,6 +5,8 @@ import static javafx.application.Application.STYLESHEET_MODENA;
 
 import java.util.Map;
 
+import database.DbManager;
+import database.FillDBUtils;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -39,13 +41,13 @@ public class StartController {
     private ViewManager manager;
 
     public void init(Map<String, Integer> mapOfDecks) {
-        createComboBox(mapOfDecks);
         if (mapOfDecks.size() == 0) {
             btnDraw.setDisable(true);
             // btnDraw.setVisible(false);
         }
         // gdy jest utworzona
         else {
+            createComboBox(mapOfDecks);
             System.out.println("rozpoczeta");
         }
     }
@@ -111,27 +113,32 @@ public class StartController {
             DialogsUtils.dialogInformation(inf);
         }
     }
+
     @FXML
     private void setCaspian() {
         Application.setUserAgentStylesheet(STYLESHEET_CASPIAN);
     }
+
     @FXML
     private void setModena() {
         Application.setUserAgentStylesheet(STYLESHEET_MODENA);
     }
+
     @FXML
     private void setAlwaysOnTop(ActionEvent actionEvent) {
-//        Stage stage = (Stage) primaryStage;
-         boolean value = ((CheckMenuItem) actionEvent.getSource()).selectedProperty().get();
-         primaryStage.setAlwaysOnTop(value);
-     }
+        // Stage stage = (Stage) primaryStage;
+        boolean value = ((CheckMenuItem) actionEvent.getSource()).selectedProperty().get();
+        primaryStage.setAlwaysOnTop(value);
+    }
+
     @FXML
-    private void closeApp(){
+    private void closeApp() {
         primaryStage.close();
     }
+
     @FXML
-    private void setImgDir(){
-        
+    private void setImgDir() {
+
     }
 
     public void setPrimaryStage(Stage primaryStage) {
