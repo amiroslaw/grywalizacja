@@ -7,8 +7,6 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import model.Card;
-import model.Deck;
 import view.DialogsUtils;
 
 public class DbManager {
@@ -20,7 +18,7 @@ public class DbManager {
 
     public static void initDatabase(){
         createConnectionSource();
-        dropTable();
+//        dropTable();
         createTable();
         closeConnectionSource();
     }

@@ -1,4 +1,4 @@
-package model;
+package database;
 
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
@@ -19,16 +19,17 @@ public class Card implements BaseModel {
 	@DatabaseField(foreign=true, foreignAutoCreate=true, foreignAutoRefresh=true, canBeNull=false)
 	private Deck deck;
 
-    
-	
 
     public Card() {
-		type = 4;
-		title = "pusta karta";
-		description = "szablon karty z konstruktora";
-		image = "link";
-
-	}
+        
+    }
+//    public Card() {
+//		type = 4;
+//		title = "pusta karta";
+//		description = "szablon karty z konstruktora";
+//		image = "link";
+//
+//	}
 
 	public Card(int type, String title) {
 		this();

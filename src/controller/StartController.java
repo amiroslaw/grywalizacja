@@ -3,9 +3,12 @@ package controller;
 import static javafx.application.Application.STYLESHEET_CASPIAN;
 import static javafx.application.Application.STYLESHEET_MODENA;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import database.DbManager;
+import database.Deck;
 import database.FillDBUtils;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -18,6 +21,7 @@ import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import model.DeckModel;
 import view.DialogsUtils;
 
 public class StartController {
@@ -39,37 +43,32 @@ public class StartController {
     private Label info;
     private Stage primaryStage;
     private ViewManager manager;
+    private DeckModel deckModel;
+    private List<Deck> deckList;
 
     public void init(Map<String, Integer> mapOfDecks) {
-        if (mapOfDecks.size() == 0) {
+        deckModel = new DeckModel();
+        deckModel.getAllDecks();
+        deckList = deckModel.getDeckList();
+        if (deckList.size() == 0) {
             btnDraw.setDisable(true);
             // btnDraw.setVisible(false);
         }
         // gdy jest utworzona
         else {
-            createComboBox(mapOfDecks);
+            createComboBox(deckList);
             System.out.println("rozpoczeta");
         }
     }
 
-    private void createComboBox(Map<String, Integer> mapOfDecks) {
+    private void createComboBox(List<Deck> decks) {
         ObservableList<String> observableList = FXCollections.observableArrayList();
-        // Collection<String> listOfDecks = DBmanager.mapOfDecks.values();
-        for (String deck : mapOfDecks.keySet()) {
-            observableList.add(deck);
-        }
+        decks.forEach(e -> observableList.add(e.getDeckName()));
         comboBoxOfDecks.setItems(observableList);
-        // TODO: problem z powtarzajacymi sie nazwami
-        // ObservableMapValue observableMap = (ObservableMapValue)
-        // FXCollections.observableHashMap();
-        // for (int i = 0; i < DBmanager.listOfDecks.length; i++) {
-        // observableMap.put("key", DBmanager.listOfDecks[i]);
-        // }
-        // comboBoxOfDecks.setItem(observableMap.get());
     }
 
     @FXML
-    void showAbout(ActionEvent e) {
+    private void showAbout(ActionEvent e) {
         manager.showAbout();
     }
 
@@ -84,10 +83,6 @@ public class StartController {
 
     }
 
-    // @FXML
-    // private void menuCreateDeck() {
-    // manager.showCardCreator();
-    // }
     @FXML
     private void menuDrawCard() {
         showDrawCard();
@@ -107,7 +102,8 @@ public class StartController {
         String deckName = comboBoxOfDecks.getValue();
 
         if (deckName != null) {
-            manager.showDrawCard(deckName);
+            Deck deck = deckList.stream().filter(e -> e.getDeckName().contains(deckName)).findFirst().orElse(null);
+            manager.showDrawCard(deck.getId());
         } else {
             String inf = manager.bundle.getString("dialog.inf.chooseDeck");
             DialogsUtils.dialogInformation(inf);

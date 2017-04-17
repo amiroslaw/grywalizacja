@@ -6,7 +6,8 @@ import com.j256.ormlite.logger.Logger;
 import com.j256.ormlite.logger.LoggerFactory;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
-import model.BaseModel;
+
+import database.BaseModel;
 import view.DialogsUtils;
 
 import java.sql.SQLException;

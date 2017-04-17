@@ -1,14 +1,14 @@
 package controller;
 
 import java.io.File;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
-import javafx.application.Platform;
+import database.Card;
+import database.Deck;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -16,9 +16,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.Card;
-import model.DBmanager;
-import model.Deck;
+import model.CardModel;
+import model.DeckModel;
 import view.DialogsUtils;
 
 public class CardCreatorController {
@@ -26,9 +25,10 @@ public class CardCreatorController {
     DrawCardController drawCardController = new DrawCardController();
     private ViewManager manager;
     private Stage primaryStage;
-    private Card card;
+    private Card card = new Card();
+    private List<Card> cardsList = new ArrayList<>();
     private Deck deck = new Deck();
-    private DBmanager dataBase;
+//    private DBmanager dataBase;
     private File fileChooserImage;
     private String linkToImage;
     private int cardCounter = 1;
@@ -63,7 +63,7 @@ public class CardCreatorController {
         // this.deck = deck;
         btnPreviousCard.setDisable(true);
         deck.setIsStarted(0);
-        deck.cardsList.clear();
+//        deck.cardsList.clear();
     }
 
     @FXML
@@ -92,6 +92,7 @@ public class CardCreatorController {
         fileChooserImage = fileChooser.showOpenDialog(new Stage());
         if (fileChooserImage != null) {
             linkToImage = fileChooserImage.getAbsolutePath();
+//            card.setImage(fileChooserImage.getAbsolutePath());
         }
     }
 
@@ -101,12 +102,11 @@ public class CardCreatorController {
     @FXML
     private void nextCard(ActionEvent e) {
         btnPreviousCard.setDisable(false);
-        card = new Card();
         viewTypeOfAward();
 
         setCardProperties();
 
-        deck.cardsList.add(card);
+        cardsList.add(card);
         cardCounter++;
 
         lblnrKarty.setText(Integer.toString(cardCounter));
@@ -121,6 +121,7 @@ public class CardCreatorController {
             // edycji i zapisu/wyboru
             endCreate();
         }
+        card = new Card();
     }
 
     @FXML
@@ -129,9 +130,10 @@ public class CardCreatorController {
             btnPreviousCard.setDisable(true);
         }
         cardCounter--;
-        deck.cardsList.remove(cardCounter - 1);
+//        deck.cardsList.remove(cardCounter - 1);
+        cardsList.remove(cardCounter - 1);
         // Card tempCard = new Card();
-        Card tempCard = deck.cardsList.get(deck.cardsList.size() - 1);
+        Card tempCard = cardsList.get(deck.cardsList.size() - 1);
         txtNazwa.setText(tempCard.getTitle());
         txtOpis.setText(tempCard.getDescription());
         lblnrKarty.setText(Integer.toString(cardCounter));
@@ -171,18 +173,32 @@ public class CardCreatorController {
 
     private void endCreate() {
 
+        addPropertiesToDeck();
+        DeckModel deckModel = new DeckModel();
+        deckModel.saveDeckInDataBase(deck);
+        CardModel cardModel = new CardModel();
+        cardsList.forEach(card -> cardModel.saveCardInDataBase(card));
+//        cardModel.saveAllCardsInDataBase(cardsList);
         primaryStage.close();
-        showDeckNameDialog();
+
         manager.showStart();
     }
 
-    private void showDeckNameDialog() {
+    private void addPropertiesToDeck() {
         Optional<String> deckName = DialogsUtils.inputText();
-        if (deckName.isPresent()) {
-            System.out.println(deckName.get());
-        } else {
+        if (!deckName.isPresent()) {
+            //TODO: cancel button
             System.out.println("cancel");
         }
+        deck.setDeckName(deckName.get());
+//        deck.setId(amoutOfDeck);
+        // TODO: change how many cards = blank cards
+        deck.setHowManyCards(30);
+        deck.setHowManySmallCards(6);
+        deck.setHowManyMediumCards(3);
+        deck.setIsStarted(1); 
+        cardsList.forEach(card -> card.setDeck(deck));
     }
+
 
 }

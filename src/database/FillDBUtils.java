@@ -2,8 +2,6 @@ package database;
 
 import dao.CardDao;
 import dao.DeckDao;
-import model.Card;
-import model.Deck;
 import view.DialogsUtils;
 
 public class FillDBUtils {

@@ -1,21 +1,10 @@
 package application;
 	
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Locale;
 
-import controller.DrawCardController;
 import controller.ViewManager;
-import database.DbManager;
-import database.FillDBUtils;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import model.DBmanager;
-import model.SqliteConnection;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
-import javafx.fxml.FXMLLoader;
 		// nazwa = "typowa talia";
 		// ileKart = 40;
 		// ileMalych = 6;
