@@ -3,13 +3,9 @@ package controller;
 import static javafx.application.Application.STYLESHEET_CASPIAN;
 import static javafx.application.Application.STYLESHEET_MODENA;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import database.DbManager;
 import database.Deck;
-import database.FillDBUtils;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -25,8 +21,6 @@ import model.DeckModel;
 import view.DialogsUtils;
 
 public class StartController {
-    // DrawCardController sampleController = new DrawCardController();
-    // ResourceBundle bundle = ResourceBundle.getBundle("bundles.bundle");
 
     // @FXML
     // private MenuItem miDraw;
@@ -38,23 +32,21 @@ public class StartController {
     private Button btnDraw;
     @FXML
     private ComboBox<String> comboBoxOfDecks;
-
     @FXML
     private Label info;
+    
     private Stage primaryStage;
     private ViewManager manager;
     private DeckModel deckModel;
     private List<Deck> deckList;
 
-    public void init(Map<String, Integer> mapOfDecks) {
+    public void init() {
         deckModel = new DeckModel();
         deckModel.getAllDecks();
         deckList = deckModel.getDeckList();
         if (deckList.size() == 0) {
             btnDraw.setDisable(true);
-            // btnDraw.setVisible(false);
         }
-        // gdy jest utworzona
         else {
             createComboBox(deckList);
             System.out.println("rozpoczeta");

@@ -1,147 +1,72 @@
 package database;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+
 @DatabaseTable
 public class Deck implements BaseModel {
 
-    @DatabaseField(generatedId=true) 
-    private int id; 
+    @DatabaseField(generatedId = true)
+    private int id;
     @DatabaseField
-	private int howManyCards, howManySmallCards, howManyMediumCards;
+    private int howManyBlankCards;
     @DatabaseField(unique = true, canBeNull = false)
-	private String deckName;
-	@DatabaseField(dataType=DataType.INTEGER)
+    private String deckName;
+    @DatabaseField(dataType = DataType.INTEGER)
     private int isStarted = 0;
-//    TODO: usuń jak dodasz orm
-	private Card card;
-	// nie wiem czy bedzie dalej potrzebne lub zmienić na @ForeignCollectionField 
-//	@DatabaseField nie mozna robic listy
-//    TODO: usuń jak dodasz orm
-    public ArrayList<Card> cardsList = new ArrayList<Card>();   //TODO: zmienic na private
 
     @ForeignCollectionField
     private ForeignCollection<Card> cards;
-    
-	
 
     public Deck() {
-		// nazwa = "typowa talia";
-		// ileKart = 40;
-		// ileMalych = 6;
-		// ileSrednich = 3;
 
-	}
+    }
 
-	public Deck(String deckName) {
-		this();
-		this.deckName = deckName;
-	}
+    public Deck(String deckName) {
+        this();
+        this.deckName = deckName;
+    }
 
-	public Deck(int howManyCards, int howManySmallCards, int howManyMediumCards, String deckName) {
-		this(deckName);
-		this.howManyCards = howManyCards;
-		this.howManySmallCards = howManySmallCards;
-		this.howManyMediumCards = howManyMediumCards;
-	}
+    public Deck(int howManyCards, String deckName) {
+        this(deckName);
+        this.howManyBlankCards = howManyCards;
 
-	/**
-	 * tworzy domyslne karty dla 3 kategorii TODO: nieuzywana
-	 */
-//	public void createBlankCards() {
-//		// na razie najlepsza tworzona na poczatku
-//		cardsList.add(new Card(1, "nagroda najlepsza"));
-//		for (int i = 0; i < howManyMediumCards; i++) {
-//			cardsList.add(new Card(2, "nagroda nr2"));
-//		}
-//		for (int i = 0; i < howManySmallCards; i++) {
-//			cardsList.add(new Card(3, "nagroda nr3"));
-//		}
-//
-//	}
-
-	/**
-	 * dopełnia do istniejących kart z nagrodami karty puste i sortuje je
-	 */
-	public void createDeck() {
-		// kopiowanie najlepszej nagrody do temp bo w bd jest na koncu
-		Card biggestCard = cardsList.get(0);
-		System.out.println("temp 1 nagroda "+biggestCard);
-		cardsList.remove(0);
-		for (int i = 0; i < howManyCards - 1 - howManySmallCards - howManyMediumCards; i++) {
-			cardsList.add(new Card());
-		}
-		Collections.shuffle(cardsList);
-		cardsList.add(biggestCard);
-//		System.out.println("ile kart czytaTalie" + cardsList.size());
-	}
-	public ForeignCollection<Card> getCards() {
+    }
+ 
+    public ForeignCollection<Card> getCards() {
         return cards;
     }
 
     public void setCards(ForeignCollection<Card> cards) {
         this.cards = cards;
     }
-	public int getIsStarted() {
-		return isStarted;
-	}
 
-	public void setIsStarted(int isStarted) {
-		this.isStarted = isStarted;
-	}
+    public int getIsStarted() {
+        return isStarted;
+    }
 
-	public int getHowManyCards() {
-		return howManyCards;
-	}
+    public void setIsStarted(int isStarted) {
+        this.isStarted = isStarted;
+    }
 
-	public void setHowManyCards(int howManyCards) {
-		this.howManyCards = howManyCards;
-	}
+    public int getHowManyBlankCards() {
+        return howManyBlankCards;
+    }
 
-//	public Card getCard() {
-//        return card;
-//    }
-//
-//    public void setCard(Card card) {
-//        this.card = card;
-//    }
+    public void setHowManyBlankCards(int howManyBlankCards) {
+        this.howManyBlankCards = howManyBlankCards;
+    }
 
-    public int getHowManySmallCards() {
-		return howManySmallCards;
-	}
+    public void setId(int ID) {
+        this.id = ID;
+    }
 
-	public void setHowManySmallCards(int howManySmallCards) {
-		this.howManySmallCards = howManySmallCards;
-	}
-
-	public int getHowManyMediumCards() {
-		return howManyMediumCards;
-	}
-
-	public void setHowManyMediumCards(int howManyMediumCards) {
-		this.howManyMediumCards = howManyMediumCards;
-	}
-
-	
-
-	public String toString() {
-		return "nazwa: " + deckName + "; \nile Kart: " + howManyCards + "; \nile Malych: " + howManySmallCards
-				+ "; \nile Srednich: " + howManyMediumCards;
-	}
-
-	public void setId(int ID) {
-		this.id=ID;
-	}
-	
-	public int getId(){
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
     public String getDeckName() {
         return deckName;
@@ -150,4 +75,12 @@ public class Deck implements BaseModel {
     public void setDeckName(String deckName) {
         this.deckName = deckName;
     }
+
+    @Override
+    public String toString() {
+        return "Deck [id=" + id + ", howManyCards=" + howManyBlankCards + ", deckName=" + deckName + ", isStarted="
+                + isStarted + ", cards=" + cards + "]";
+    }
+
+
 }

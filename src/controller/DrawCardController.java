@@ -48,9 +48,6 @@ public class DrawCardController {
     private Image award4 = new Image("img/cow.png");
 
     private File imageFile;
-    private String deckName;
-    // private HashMap<String, Integer> mapOfDecks = new HashMap<>();
-    // private DBmanager dBmanager = new DBmanager();
     private DeckModel deckModel;
     private CardModel cardModel;
     private Deck deck;
@@ -67,14 +64,8 @@ public class DrawCardController {
         deckModel = new DeckModel();
         deckModel.getDeckById(id);
         deck = deckModel.getCurrentDeck();
-        // System.out.println("deck " + deckModel.getCurrentDeck());
-        // deckModel.getAllDecks();
         cardsList = new ArrayList<>(deckModel.getCurrentDeck().getCards());
-        // ForeignCollection<Card> list =
-        // deckModel.getDeckList().get(0).getCards();
-        // list.forEach(System.out::println);
-        // cardsList.forEach(System.out::println);
-        // System.out.println("karta 0 "+ cardList.get(0).getTitle());
+   
 
         fillData();
     }
@@ -82,10 +73,8 @@ public class DrawCardController {
     private void fillData() {
 
         obrazek.setImage(award4);
-        howManyCards = deck.getHowManyCards();
-        // howManyCards = deck.getHowManyCards();
-        // howManySmallCards = deck.getHowManySmallCards();
-        // howManyMediumCards = deck.getHowManyMediumCards();
+        howManyCards = deck.getHowManyBlankCards();
+        
         try {
             howManyMediumCards = cardModel.getAmountOfMediumRewards(deck.getId());
             howManySmallCards = cardModel.getAmountOfSmallRewards(deck.getId());
@@ -160,12 +149,10 @@ public class DrawCardController {
             break;
         case 2:
             howManyMediumCards--;
-            // deck.setHowManyMediumCards(--howManyMediumCards);
             showImage(award2, randomIndex);
             break;
         case 3:
             howManySmallCards--;
-            // deck.setHowManySmallCards(--howManySmallCards);
             showImage(award3, randomIndex);
             break;
         default:
@@ -204,7 +191,7 @@ public class DrawCardController {
         if (deck.getIsStarted() == 3) {
             deckModel.deleteDeckById(deck);
         } else {
-            deck.setHowManyCards(howManyCards);
+            deck.setHowManyBlankCards(howManyCards);
             deckModel.saveDeckInDataBase(deck);
         }
     }
@@ -217,9 +204,6 @@ public class DrawCardController {
         this.primaryStage = primaryStage;
     }
 
-    /**
-     * sprawdza czy takia została zaczęta czy nie, wywołuje odpowiednie metody i
-     * wyświtla ilość kart
-     */
+   
 
 }

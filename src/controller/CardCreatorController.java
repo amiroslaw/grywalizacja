@@ -28,7 +28,6 @@ public class CardCreatorController {
     private Card card = new Card();
     private List<Card> cardsList = new ArrayList<>();
     private Deck deck = new Deck();
-//    private DBmanager dataBase;
     private File fileChooserImage;
     private String linkToImage;
     private int cardCounter = 1;
@@ -58,9 +57,7 @@ public class CardCreatorController {
         this.primaryStage = primaryStage;
     }
 
-    // public void init(Deck deck) {
     public void init() {
-        // this.deck = deck;
         btnPreviousCard.setDisable(true);
         deck.setIsStarted(0);
 //        deck.cardsList.clear();
@@ -73,7 +70,6 @@ public class CardCreatorController {
         Optional<ButtonType> result = DialogsUtils.cancelCreateDeckDialog();
         if (result.get() == ButtonType.OK) {
             primaryStage.close();
-            // dataBase.saveDB(deck);
             manager.showStart();
         }
 
@@ -96,9 +92,7 @@ public class CardCreatorController {
         }
     }
 
-    /**
-     * zapisuje kartę do talii i odświerza scene
-     */
+    
     @FXML
     private void nextCard(ActionEvent e) {
         btnPreviousCard.setDisable(false);
@@ -112,13 +106,11 @@ public class CardCreatorController {
         lblnrKarty.setText(Integer.toString(cardCounter));
 
         fileChooserImage = null;
-        // TODO: odkomentowac
+        // TODO: uncomment when will you finish
         // txtNazwa.setText("");
         // txtOpis.setText("");
 
         if (cardCounter == 11) {
-            // TODO: nazwę talii i zapis talii z samymi nagrodami do pozniejszej
-            // edycji i zapisu/wyboru
             endCreate();
         }
         card = new Card();
@@ -130,10 +122,9 @@ public class CardCreatorController {
             btnPreviousCard.setDisable(true);
         }
         cardCounter--;
-//        deck.cardsList.remove(cardCounter - 1);
         cardsList.remove(cardCounter - 1);
         // Card tempCard = new Card();
-        Card tempCard = cardsList.get(deck.cardsList.size() - 1);
+        Card tempCard = cardsList.get(cardsList.size() - 1);
         txtNazwa.setText(tempCard.getTitle());
         txtOpis.setText(tempCard.getDescription());
         lblnrKarty.setText(Integer.toString(cardCounter));
@@ -155,7 +146,6 @@ public class CardCreatorController {
         } else {
             card.setImage("default");
         }
-        // TODO: dodac metode czytajaca link do obrazka
         switch (cardCounter) {
         case 1:
             card.setType(1);
@@ -191,11 +181,8 @@ public class CardCreatorController {
             System.out.println("cancel");
         }
         deck.setDeckName(deckName.get());
-//        deck.setId(amoutOfDeck);
-        // TODO: change how many cards = blank cards
-        deck.setHowManyCards(30);
-        deck.setHowManySmallCards(6);
-        deck.setHowManyMediumCards(3);
+        deck.setHowManyBlankCards(30);
+
         deck.setIsStarted(1); 
         cardsList.forEach(card -> card.setDeck(deck));
     }

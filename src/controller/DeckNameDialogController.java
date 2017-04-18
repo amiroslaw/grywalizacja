@@ -16,18 +16,19 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class DeckNameDialogController {
-	private Stage dialogStage;
-	private ViewManager manager; 
-	private int amoutOfDeck; 
-	private HashMap<String, Integer> mapOfDecks = new HashMap<>(); 
-	public void setDialogStage(Stage dialogStage) {
-		this.dialogStage = dialogStage;
-	}
+    private Stage dialogStage;
+    private ViewManager manager;
+    private int amoutOfDeck;
+    private HashMap<String, Integer> mapOfDecks = new HashMap<>();
 
-	public void setManager(ViewManager manager) {
-		this.manager = manager;
-	}
-	
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
+    }
+
+    public void setManager(ViewManager manager) {
+        this.manager = manager;
+    }
+
     @FXML
     private TextField tfDeckName;
 
@@ -40,31 +41,26 @@ public class DeckNameDialogController {
 
     @FXML
     void accept(ActionEvent event) {
-    	String deckName = tfDeckName.getText();
-    	if(deckName.isEmpty()){
-    		tfDeckName.setBorder(new Border(new BorderStroke(Color.RED, 
-    	            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-    	} else {
-    	    deck.setDeckName(deckName);
-    	    deck.setId(amoutOfDeck);
-    	    mapOfDecks.put(deckName, amoutOfDeck);
+        String deckName = tfDeckName.getText();
+        if (deckName.isEmpty()) {
+            tfDeckName.setBorder(new Border(
+                    new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        } else {
+            deck.setDeckName(deckName);
+            deck.setId(amoutOfDeck);
+            mapOfDecks.put(deckName, amoutOfDeck);
 
-    	    deck.setHowManyCards(40);
-    	    deck.setHowManySmallCards(6);
-    	    deck.setHowManyMediumCards(3);
-    	    deck.setIsStarted(1);
-    	    amoutOfDeck ++;
+            deck.setIsStarted(1);
+            amoutOfDeck++;
 
-		
-    	dialogStage.close();
-    	System.out.println(deckName);
-		}
+            dialogStage.close();
+            System.out.println(deckName);
+        }
     }
 
     @FXML
     void cancel(ActionEvent event) {
-    	dialogStage.close();
+        dialogStage.close();
     }
-  
 
 }

@@ -10,26 +10,25 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class AboutController implements Initializable {
-	private Stage dialogStage;
-	private ViewManager manager; 
-	public void setDialogStage(Stage dialogStage) {
-		this.dialogStage = dialogStage;
-	}
+    private Stage dialogStage;
+    private ViewManager manager;
+    @FXML
+    private TextField tfTest;
+    @FXML
+    private Button btnTest;
+    
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
+    }
 
-	public void setManager(ViewManager manager) {
-		this.manager = manager;
-	}
-	@FXML
-	private TextField tfTest;
-	@FXML
-	private Button btnTest;
-	
+    public void setManager(ViewManager manager) {
+        this.manager = manager;
+    }
+
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
 
-  
-    
-	
 }
-

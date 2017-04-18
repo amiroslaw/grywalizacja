@@ -9,8 +9,6 @@ import database.Card;
 import database.DbManager;
 
 
-
-
 public class CardModel {
     private List <Card> cardList = new ArrayList<>();
     public void getAllCards() {
