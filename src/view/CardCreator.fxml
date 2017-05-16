@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CardCreatorController">
+<GridPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CardCreatorController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" prefWidth="101.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.0" minWidth="10.0" prefWidth="299.0" />
@@ -25,8 +25,8 @@
       <Label text="%creator.description" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
       <Label text="%creator.image" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
       <Label fx:id="lblTyp" text="1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <TextField fx:id="txtNazwa" maxWidth="270.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextArea fx:id="txtOpis" maxWidth="270.0" prefHeight="200.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <TextField fx:id="txtNazwa" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+      <TextArea fx:id="txtOpis" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
       <Button fx:id="btnObrazek" mnemonicParsing="false" onAction="#chooseImage" text="%creator.choice_image" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <Label fx:id="lblnrKarty" alignment="CENTER" text="%creator.nr" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
       <Button fx:id="btnDalej" contentDisplay="CENTER" mnemonicParsing="false" onAction="#nextCard" text="%creator.next" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />

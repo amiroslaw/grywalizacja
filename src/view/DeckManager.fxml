@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="581.0" prefWidth="282.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DeckManagerController">
+   <children>
+      <VBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="%deckManager.header">
+               <font>
+                  <Font size="34.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" spacing="15.0">
+               <children>
+                  <Button fx:id="btnAddDeck" mnemonicParsing="false" onAction="#addDeck" text="%deckManager.btn.add" />
+              <!--     <Button fx:id="btnEditDeck" mnemonicParsing="false" onAction="#oneditDeck" text="%deckManager.btn.edit" />
+                  <Button fx:id="btnDeleteDeck" mnemonicParsing="false" onAction="#deleteDeck" text="%deckManager.btn.delete" /> -->
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <ListView fx:id="deckListView" editable="true" onEditCommit="#onEditName" VBox.vgrow="ALWAYS">
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                        <MenuItem fx:id="imCopyDeck" mnemonicParsing="false" onAction="#copyDeck" text="%deckManager.btn.copy" />
+                      <MenuItem fx:id="imEditDeck" mnemonicParsing="false" onAction="#showEditCards" text="%deckManager.btn.edit" />
+                        <MenuItem fx:id="imDeleteDeck" mnemonicParsing="false" onAction="#deleteDeck" text="%deckManager.btn.delete" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
+            </ListView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

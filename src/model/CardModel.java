@@ -23,7 +23,12 @@ public class CardModel {
         DbManager.closeConnectionSource();
         getAllCards();
     }
-
+    public void deleteAllCardsInDataBase(List <Card> cards)   {
+        CardDao cardDao = new CardDao(DbManager.getConnectionSource());
+        cards.forEach(card -> cardDao.deleteById(Card.class, card.getId()));
+        DbManager.closeConnectionSource();
+//        getAllCards();
+    }
     public void saveAllCardsInDataBase(List <Card> cards)   {
         CardDao cardDao = new CardDao(DbManager.getConnectionSource());
         cards.forEach(card -> cardDao.creatOrUpdate(card));

@@ -15,7 +15,7 @@
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#menuDrawCard" text="%start.menu.draw" />
                   <MenuItem mnemonicParsing="false" onAction="#showCardCreator" text="%start.menu.creator" />
-                  <MenuItem mnemonicParsing="false" text="%start.menu.deck_manager" />
+                  <MenuItem mnemonicParsing="false" onAction="#showDeckManager" text="%start.menu.deck_manager" />
                   <MenuItem mnemonicParsing="false" onAction="#closeApp" text="%start.menu.close" />
                </items>
             </Menu>

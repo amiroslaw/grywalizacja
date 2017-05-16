@@ -63,7 +63,10 @@ public class StartController {
     private void showAbout(ActionEvent e) {
         manager.showAbout();
     }
-
+    @FXML
+    private void showDeckManager(ActionEvent e) {
+        manager.showDeckManager();
+    }
     @FXML
     private void showCardCreator() {
         Platform.runLater(new Runnable() {

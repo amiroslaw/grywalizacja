@@ -1,5 +1,9 @@
 package database;
 
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
@@ -7,7 +11,7 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
-public class Deck implements BaseModel {
+public class Deck implements BaseModel, Cloneable {
 
     @DatabaseField(generatedId = true)
     private int id;
@@ -25,7 +29,7 @@ public class Deck implements BaseModel {
 
     }
 
-    public Deck(String deckName) {
+    public Deck(String deckName) {  
         this();
         this.deckName = deckName;
     }
@@ -33,9 +37,25 @@ public class Deck implements BaseModel {
     public Deck(int howManyCards, String deckName) {
         this(deckName);
         this.howManyBlankCards = howManyCards;
-
     }
- 
+
+//    public Deck(Deck deck, ArrayList<Card> cards) {
+    public Deck(Deck deck) {
+        this.cards = deck.cards;
+//        deck.cards.clear();
+//        this.cards = null;
+//        for (Card card : deck.getCards() ) {
+//            Card c = new Card(card);
+//            c.setDescription("Deck constructor");
+//            System.out.println(c);
+//            cards.add(c);
+//        }
+        // this.id = deck.id;
+        this.deckName = deck.deckName;
+        this.isStarted = deck.isStarted;
+        this.howManyBlankCards = deck.howManyBlankCards;
+    }
+
     public ForeignCollection<Card> getCards() {
         return cards;
     }
@@ -82,5 +102,9 @@ public class Deck implements BaseModel {
                 + isStarted + ", cards=" + cards + "]";
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
 }

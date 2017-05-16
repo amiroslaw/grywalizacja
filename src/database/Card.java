@@ -34,6 +34,14 @@ public class Card implements BaseModel {
         this.description = description;
         this.image = image;
     }
+    public Card(Card card){
+//        this.id = id;
+        this.deck = null;
+        this.type = card.type;
+        this.title = card.title;
+        this.description = card.description;
+        this.image = card.image;
+    }
 
     public int getId() {
         return id;
@@ -85,7 +93,8 @@ public class Card implements BaseModel {
 
     @Override
     public String toString() {
-        return "typ: " + type + "; \ntutuł: " + title + "; \nopis: " + description + "; \nlink: " + image;
+        return "Card [id=" + id + ", type=" + type + ", title=" + title + ", description=" + description + ", image="
+                + image + ", deck=" + deck + "]";
     }
 
 }

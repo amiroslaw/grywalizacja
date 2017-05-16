@@ -176,15 +176,13 @@ public class CardCreatorController {
 
     private void addPropertiesToDeck() {
         Optional<String> deckName = DialogsUtils.inputText();
-        if (!deckName.isPresent()) {
-            //TODO: cancel button
-            System.out.println("cancel");
-        }
+        if (deckName.isPresent()) {
         deck.setDeckName(deckName.get());
         deck.setHowManyBlankCards(30);
 
         deck.setIsStarted(1); 
         cardsList.forEach(card -> card.setDeck(deck));
+        }
     }
 
 
