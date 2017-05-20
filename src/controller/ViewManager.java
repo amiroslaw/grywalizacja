@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import application.Main;
 import database.DbManager;
+import database.Deck;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -142,22 +143,26 @@ public class ViewManager {
     }
   
 
-    public void showEditCards(int deckId) {
+    public void showEditCards(Deck deck) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("/view/EditCards.fxml"));
             loader.setResources(bundle);
             AnchorPane layout = (AnchorPane) loader.load();
 
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle(bundle.getString("title.creator"));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            
             Scene scene = new Scene(layout);
-            primaryStage.setTitle(bundle.getString("title.creator"));
-            primaryStage.setScene(scene);
+            dialogStage.setScene(scene);
 
             EditCardsController controller = loader.getController();
             controller.setPrimaryStage(this.primaryStage);
             controller.setManager(this);
-            controller.init(deckId);
-            primaryStage.showAndWait();
+            controller.init(deck);
+            dialogStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }

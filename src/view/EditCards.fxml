@@ -1,8 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+<AnchorPane minWidth="700.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditCardsController">
+   <children>
+      <VBox alignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <children>
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <ComboBox fx:id="typeCB" prefHeight="26.0" prefWidth="89.0" promptText="%creator.type" />
+                  <TextField fx:id="titleTF" prefHeight="26.0" prefWidth="124.0" promptText="%creator.name" />
+                  <TextField fx:id="descriptionTF" prefHeight="26.0" prefWidth="286.0" promptText="%creator.description" />
+                  <Button fx:id="imageBtn" mnemonicParsing="false" onAction="#getImage" text="%creator.image" />
+                  <Button fx:id="btnAddCard" alignment="CENTER" mnemonicParsing="false" onAction="#addCard" text="%btn.addCard" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <TableView fx:id="cardsTableView" editable="true" VBox.vgrow="ALWAYS">
+              <columns>
+                <TableColumn fx:id="typeColumn" onEditCommit="#onEditType" prefWidth="50.0" text="%creator.type" />
+                <TableColumn fx:id="nameColumn" onEditCommit="#onEditName" prefWidth="100.0" text="%creator.name" />
+                  <TableColumn fx:id="descriptionColumn" minWidth="-1.0" onEditCommit="#onEditDescription" prefWidth="62.0" text="%creator.description" />
+                  <TableColumn fx:id="imageColumn" onEditCommit="#onEditImage" prefWidth="270.0" text="%creator.image" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                      <MenuItem fx:id="deleteMenuItem" mnemonicParsing="false" onAction="#deleteCard" text="%deckManager.btn.delete" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>
-

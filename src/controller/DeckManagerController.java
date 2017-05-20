@@ -128,8 +128,9 @@ public class DeckManagerController {
     void showEditCards(ActionEvent event) {
         selected = deckListView.getSelectionModel();
         if (!selected.isEmpty()) {
-            int deckId = deckList.get(selected.getSelectedIndex()).getId();
-            manager.showEditCards(deckId);
+//            int deckId = deckList.get(selected.getSelectedIndex()).getId();
+            Deck deck = deckList.get(selected.getSelectedIndex());
+            manager.showEditCards(deck);
             System.out.println(selected.getSelectedItem());
         }
     }

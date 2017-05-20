@@ -25,8 +25,6 @@ public class Card implements BaseModel {
         this();
         this.type = type;
         this.title = title;
-        // opis="szablon pustej karty z konstruktora";
-        // obrazek="link";
     }
 
     public Card(int type, String title, String description, String image) {

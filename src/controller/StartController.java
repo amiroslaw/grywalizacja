@@ -62,6 +62,7 @@ public class StartController {
     @FXML
     private void showAbout(ActionEvent e) {
         manager.showAbout();
+//        manager.showEditCards(0);
     }
     @FXML
     private void showDeckManager(ActionEvent e) {
