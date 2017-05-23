@@ -26,7 +26,6 @@ public class CardModel {
     public void init(Deck deck) {
         this.deck = deck;
         CardDao cardDao = new CardDao(DbManager.getConnectionSource());
-        // TODO: read only cards from deck not all
         this.cardFxObservableList.clear();
         // List<Card> cardList = cardDao.queryForAll(Card.class);
         List<Card> cardList;

@@ -35,6 +35,7 @@
                <contextMenu>
                   <ContextMenu>
                     <items>
+                        <MenuItem fx:id="copyMenuItem" mnemonicParsing="false" onAction="#copyCard" text="%deckManager.btn.copy" />
                       <MenuItem fx:id="deleteMenuItem" mnemonicParsing="false" onAction="#deleteCard" text="%deckManager.btn.delete" />
                     </items>
                   </ContextMenu>
