@@ -75,9 +75,7 @@ public class DeckManagerController {
         if (!selected.isEmpty()) {
             Deck selectedDeck = deckList.get(selected.getSelectedIndex());
             cardModel.deleteAllCardsInDataBase(new ArrayList<Card>(selectedDeck.getCards()));
-            // cardModel.saveAllCardsInDataBase(arrayList);
             deckModel.deleteDeckById(selectedDeck);
-            // selected.getSelectedItem();
             deckListView.getItems().remove(selected.getSelectedIndex());
         }
     }
@@ -124,10 +122,9 @@ public class DeckManagerController {
     }
 
     @FXML
-    void showEditCards(ActionEvent event) {
+    private void showEditCards() {
         selected = deckListView.getSelectionModel();
         if (!selected.isEmpty()) {
-            // int deckId = deckList.get(selected.getSelectedIndex()).getId();
             Deck deck = deckList.get(selected.getSelectedIndex());
             manager.showEditCards(deck);
             System.out.println(selected.getSelectedItem());
@@ -135,9 +132,7 @@ public class DeckManagerController {
     }
 
     @FXML
-    void onEditName(ActionEvent event) {
-        System.out.println("edit");
-
+    private void onEditName() {
     }
 
 }

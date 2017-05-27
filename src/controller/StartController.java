@@ -49,7 +49,6 @@ public class StartController {
         }
         else {
             createComboBox(deckList);
-            System.out.println("rozpoczeta");
         }
     }
 
@@ -62,7 +61,6 @@ public class StartController {
     @FXML
     private void showAbout(ActionEvent e) {
         manager.showAbout();
-//        manager.showEditCards(0);
     }
     @FXML
     private void showDeckManager(ActionEvent e) {
@@ -118,7 +116,6 @@ public class StartController {
 
     @FXML
     private void setAlwaysOnTop(ActionEvent actionEvent) {
-        // Stage stage = (Stage) primaryStage;
         boolean value = ((CheckMenuItem) actionEvent.getSource()).selectedProperty().get();
         primaryStage.setAlwaysOnTop(value);
     }

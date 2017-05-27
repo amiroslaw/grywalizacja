@@ -91,8 +91,7 @@ public class Card implements BaseModel {
 
     @Override
     public String toString() {
-        return "Card [id=" + id + ", type=" + type + ", title=" + title + ", description=" + description + ", image="
-                + image + ", deck=" + deck + "]";
+        return "type " + type + "; " + title + ": " + description;
     }
 
 }

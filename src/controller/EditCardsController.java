@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.File;
+import java.util.ResourceBundle;
 
 import database.Card;
 import database.Deck;
@@ -12,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -52,12 +52,11 @@ public class EditCardsController {
     private MenuItem deleteMenuItem;
     @FXML
     private MenuItem copyMenuItem;
-    private SelectionModel<CardFx> selected;
 
+    ResourceBundle bundle = ResourceBundle.getBundle("bundles.bundle");
     private CardModel cardModel;
     private Deck deck;
     private File fileChooserImage;
-    // private ObservableValue<? extends String> imageLink;
     private StringProperty imageLink = new SimpleStringProperty();
 
     public void init(Deck deck) {
@@ -70,8 +69,6 @@ public class EditCardsController {
     }
 
     private void fileComboBox() {
-        // ObservableList<String> options = FXCollections.observableArrayList(
-        // "1", "2", "3");
         ObservableList<Integer> options = FXCollections.observableArrayList(1, 2, 3);
         typeCB.setItems(options);
     }
@@ -145,16 +142,20 @@ public class EditCardsController {
     @FXML
     private void copyCard() {
         CardFx selected = cardsTableView.getSelectionModel().getSelectedItem();
+        Card card = convertCardFx(selected);
+        cardModel.saveCardInDataBase(card);
+        cardModel.init(deck);
+       
+    }
+
+    private Card convertCardFx(CardFx selected) {
         Card card = new Card();
         card.setTitle(selected.getTitleString());
         card.setDescription(selected.getDescriptionString());
         card.setImage(selected.getImageString());
         card.setType(selected.getTypeInt());
         card.setDeck(deck);
-        Card duplicateCart = new Card(card);
-        cardModel.saveCardInDataBase(card);
-        cardModel.init(deck);
-       
+        return card;
     }
 
     @FXML
@@ -186,7 +187,7 @@ public class EditCardsController {
     @FXML
     private void getImage() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("choose image");
+        fileChooser.setTitle(bundle.getString("creator.choice_image"));
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         fileChooserImage = fileChooser.showOpenDialog(new Stage());
         if (fileChooserImage != null) {

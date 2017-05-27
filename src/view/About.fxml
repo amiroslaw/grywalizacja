@@ -7,13 +7,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="311.0" prefWidth="284.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AboutController">
+<AnchorPane prefHeight="295.0" prefWidth="307.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AboutController">
    <children>
-      <Label alignment="CENTER" layoutX="176.0" layoutY="72.0" text="Grywalizacja" textFill="#b218a2" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+      <Label alignment="CENTER" layoutX="176.0" layoutY="72.0" text="%about.header" textFill="#b218a2" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
          <font>
             <Font size="30.0" />
          </font></Label>
-      <Label alignment="CENTER" layoutX="63.0" layoutY="149.0" text="Wersja: 1.0&#10;Data: 2016-06-20&#10;Autor: Arkadiusz Mirosław" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">
+      <Label alignment="CENTER" layoutX="79.0" layoutY="91.0" prefHeight="101.0" prefWidth="247.0" text="%about.info" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="63.0" layoutY="149.0" text="%about.content" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

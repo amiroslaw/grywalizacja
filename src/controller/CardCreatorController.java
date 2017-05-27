@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import database.Card;
 import database.Deck;
-import javafx.event.ActionEvent;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -31,19 +31,22 @@ public class CardCreatorController {
     private File fileChooserImage;
     private String linkToImage;
     private int cardCounter = 1;
+    private SimpleBooleanProperty isImage = new SimpleBooleanProperty(false);
 
     @FXML
-    private Label lblnrKarty;
+    private Label lblnrCard;
     @FXML
-    private Label lblTyp;
+    private Label lblType;
     @FXML
-    private TextField txtNazwa;
+    private TextField txtName;
     @FXML
-    private TextArea txtOpis;
+    private TextArea txtDescription;
     @FXML
-    private Button btnObrazek;
+    private TextField urlTF;
     @FXML
-    private Button btnDalej;
+    private Button btnImage;
+    @FXML
+    private Button btnNext;
     @FXML
     private Button btnPreviousCard;
     @FXML
@@ -60,23 +63,26 @@ public class CardCreatorController {
     public void init() {
         btnPreviousCard.setDisable(true);
         deck.setIsStarted(0);
-//        deck.cardsList.clear();
+        bind();
+    }
+
+    private void bind() {
+        btnNext.disableProperty().bind(txtName.textProperty().isEmpty());
+        btnImage.disableProperty().bind(urlTF.textProperty().isNotEmpty());
+        urlTF.disableProperty().bind(isImage);
     }
 
     @FXML
-   private void showStartWindow(ActionEvent e) {
-        // Optional.ofNullable(deck).ifPresent(d -> dataBase.saveDB(d));
-        // Optional.ofNullable(deck).ifPresent(dataBase::saveDB);
+    private void showStartWindow() {
         Optional<ButtonType> result = DialogsUtils.cancelCreateDeckDialog();
         if (result.get() == ButtonType.OK) {
             primaryStage.close();
             manager.showStart();
         }
-
     }
 
     @FXML
-    private void chooseImage(ActionEvent e) {
+    private void chooseImage() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("wybierz obrazek");
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
@@ -88,32 +94,32 @@ public class CardCreatorController {
         fileChooserImage = fileChooser.showOpenDialog(new Stage());
         if (fileChooserImage != null) {
             linkToImage = fileChooserImage.getAbsolutePath();
-//            card.setImage(fileChooserImage.getAbsolutePath());
-        }
+            isImage.set(true);
+        } 
     }
 
-    
     @FXML
-    private void nextCard(ActionEvent e) {
+    private void nextCard() {
         btnPreviousCard.setDisable(false);
         viewTypeOfAward();
-
         setCardProperties();
-
         cardsList.add(card);
         cardCounter++;
-
-        lblnrKarty.setText(Integer.toString(cardCounter));
-
-        fileChooserImage = null;
-        // TODO: uncomment when will you finish
-        // txtNazwa.setText("");
-        // txtOpis.setText("");
-
+        lblnrCard.setText(Integer.toString(cardCounter));
+        resetValues();
         if (cardCounter == 11) {
             endCreate();
         }
         card = new Card();
+    }
+
+    private void resetValues() {
+        fileChooserImage = null;
+        isImage.set(false);
+        // TODO: uncomment when will you finish
+        // txtNazwa.setText("");
+        // txtOpis.setText("");
+//        urlTF.setText("");
     }
 
     @FXML
@@ -123,25 +129,26 @@ public class CardCreatorController {
         }
         cardCounter--;
         cardsList.remove(cardCounter - 1);
-        // Card tempCard = new Card();
         Card tempCard = cardsList.get(cardsList.size() - 1);
-        txtNazwa.setText(tempCard.getTitle());
-        txtOpis.setText(tempCard.getDescription());
-        lblnrKarty.setText(Integer.toString(cardCounter));
+        txtName.setText(tempCard.getTitle());
+        txtDescription.setText(tempCard.getDescription());
+        lblnrCard.setText(Integer.toString(cardCounter));
         viewTypeOfAward();
     }
 
     private void viewTypeOfAward() {
         if (cardCounter > 0 && cardCounter < 4)
-            lblTyp.setText(Integer.toString(2));
+            lblType.setText(Integer.toString(2));
         else
-            lblTyp.setText(Integer.toString(3));
+            lblType.setText(Integer.toString(3));
     }
 
     private void setCardProperties() {
-        card.setTitle(txtNazwa.getText());
-        card.setDescription(txtOpis.getText());
-        if (fileChooserImage != null) {
+        card.setTitle(txtName.getText());
+        card.setDescription(txtDescription.getText());
+        if (!urlTF.getText().equals("")){
+            card.setImage(urlTF.getText());
+        } else if (fileChooserImage != null) {
             card.setImage(linkToImage);
         } else {
             card.setImage("default");
@@ -162,28 +169,28 @@ public class CardCreatorController {
     }
 
     private void endCreate() {
-
         addPropertiesToDeck();
+        saveDataBase();
+        primaryStage.close();
+        manager.showStart();
+    }
+
+    private void saveDataBase() {
         DeckModel deckModel = new DeckModel();
         deckModel.saveDeckInDataBase(deck);
         CardModel cardModel = new CardModel();
         cardsList.forEach(card -> cardModel.saveCardInDataBase(card));
-//        cardModel.saveAllCardsInDataBase(cardsList);
-        primaryStage.close();
-
-        manager.showStart();
     }
 
     private void addPropertiesToDeck() {
         Optional<String> deckName = DialogsUtils.inputText();
         if (deckName.isPresent()) {
-        deck.setDeckName(deckName.get());
-        deck.setHowManyBlankCards(30);
+            deck.setDeckName(deckName.get());
+            deck.setHowManyBlankCards(30);
 
-        deck.setIsStarted(1); 
-        cardsList.forEach(card -> card.setDeck(deck));
+            deck.setIsStarted(1);
+            cardsList.forEach(card -> card.setDeck(deck));
         }
     }
-
 
 }

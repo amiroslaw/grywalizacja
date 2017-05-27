@@ -17,9 +17,9 @@ public class DbManager {
 
     public static void initDatabase() {
         // TODO: change DB path
-        // String path = System.getProperty("user.home");
-        // path += "/Dokumenty/Ustawienia/sync";
-        // JDBC_DRIVER = "jdbc:sqlite:"+path+"/gamificationDB.sqlite";
+//         String path = System.getProperty("user.home");
+//         path += "/Dokumenty/Ustawienia/sync";
+//         JDBC_DRIVER = "jdbc:sqlite:"+path+"/gamificationDB.sqlite";
         createConnectionSource();
         // dropTable();
         createTable();

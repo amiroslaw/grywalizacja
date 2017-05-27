@@ -8,18 +8,17 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.image.Image?>
 
-<BorderPane prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DrawCardController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DrawCardController">
    <top>
      
    </top>
    <center>
-      <VBox alignment="CENTER" prefHeight="500.0" prefWidth="400.0" spacing="10.0" BorderPane.alignment="TOP_CENTER">
+      <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="TOP_CENTER">
          <children>
-            <Button fx:id="los" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#drawCard" text="%btn.draw" />
-            <ImageView fx:id="obrazek" fitHeight="354.0" fitWidth="282.0" pickOnBounds="true" preserveRatio="true">
-           		<image>
-           		<Image url="img/award1.png" />
-           		</image>
+            <ImageView fx:id="obrazek" fitHeight="400.0" fitWidth="400.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
             </ImageView>
             <Label fx:id="cardDescription" text="Label" />
             <Button fx:id="goToStart" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#goToStart" text="%btn.exit" />
@@ -50,4 +49,11 @@
          </padding>
       </GridPane>
    </bottom>
+   <top>
+      <Button fx:id="los" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#drawCard" text="%btn.draw" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+      </Button>
+   </top>
 </BorderPane>

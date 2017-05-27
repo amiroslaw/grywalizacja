@@ -102,7 +102,6 @@ public class CardModel {
         CardDao cardDao = new CardDao(DbManager.getConnectionSource());
         cards.forEach(card -> cardDao.deleteById(Card.class, card.getId()));
         DbManager.closeConnectionSource();
-        // getAllCards();
     }
 
     public void saveAllCardsInDataBase(List<Card> cards) {
@@ -162,21 +161,5 @@ public class CardModel {
     public void setCardFxObjectPropertyEdit(CardFx cardFxObjectPropertyEdit) {
         this.cardFxObjectPropertyEdit.set(cardFxObjectPropertyEdit);
     }
-
-    // public void updateCardInDataBase() {
-    // CardDao cardDao = new CardDao(DbManager.getConnectionSource());
-    // Category tempCategory = cardDao.findById(Card.class,
-    // getCategory().getId());
-    // tempCategory.setName(getCategory().getName());
-    // cardDao.creatOrUpdate(tempCategory);
-    // DbManager.closeConnectionSource();
-    // getAllCards();
-    // }
 }
-// public void saveAuthorInDataBase() throws ApplicationException {
-// AuthorDao authorDao = new AuthorDao(DbManager.getConnectionSource());
-// Author author =
-// ConverterAuthor.convertAuthorFxToAuthor(this.getAuthorFxObjectProperty());
-// authorDao.creatOrUpdate(author);
-// DbManager.closeConnectionSource();
-// }
+

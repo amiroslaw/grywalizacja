@@ -33,12 +33,12 @@
                   </Menu>
                   <CheckMenuItem mnemonicParsing="false" onAction="#setAlwaysOnTop" text="%start.menu.onTop" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                <MenuItem mnemonicParsing="false" onAction="#setImgDir" text="%start.menu.imgDir" />
+                <MenuItem mnemonicParsing="false" onAction="#setImgDir" text="%start.menu.imgDir" visible="false" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="%start.menu.help">
                <items>
-                  <MenuItem mnemonicParsing="false" text="%start.menu.help_ctx" />
+                  <MenuItem mnemonicParsing="false" text="%start.menu.help_ctx" visible="false" />
                   <MenuItem mnemonicParsing="false" onAction="#showAbout" text="%title.about" />
                </items>
             </Menu>

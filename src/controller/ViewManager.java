@@ -23,7 +23,6 @@ public class ViewManager {
     public ViewManager(Stage primaryStage) {
         this.primaryStage = primaryStage;
         DbManager.initDatabase();
-        // FillDBUtils.createCard();
     }
 
     public void showStart() {
@@ -102,7 +101,7 @@ public class ViewManager {
             dialogStage.setTitle(bundle.getString("title.about"));
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
-            
+
             Scene scene = new Scene(pane);
             dialogStage.setScene(scene);
 
@@ -116,32 +115,33 @@ public class ViewManager {
             e.printStackTrace();
         }
     }
-  
+
     public void showDeckManager() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("/view/DeckManager.fxml"));
             loader.setResources(bundle);
             AnchorPane deckManager = (AnchorPane) loader.load();
-            
+
             Stage dialogStage = new Stage();
-            dialogStage.setTitle(bundle.getString("title.creator"));
+            dialogStage.setTitle(bundle.getString("title.manager"));
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
-            
+
             Scene scene = new Scene(deckManager);
             dialogStage.setScene(scene);
 
             DeckManagerController controller = loader.getController();
             controller.setPrimaryStage(this.primaryStage);
             controller.setManager(this);
-//            controller.init();
+
+            dialogStage.setOnCloseRequest(e -> showStart());
             dialogStage.showAndWait();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-  
 
     public void showEditCards(Deck deck) {
         try {
@@ -151,10 +151,10 @@ public class ViewManager {
             AnchorPane layout = (AnchorPane) loader.load();
 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle(bundle.getString("title.creator"));
+            dialogStage.setTitle(bundle.getString("title.editor"));
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
-            
+
             Scene scene = new Scene(layout);
             dialogStage.setScene(scene);
 
@@ -168,27 +168,3 @@ public class ViewManager {
         }
     }
 }
-// public void showDeckNameDialog() {
-// try {
-// FXMLLoader loader = new FXMLLoader();
-// loader.setLocation(Main.class.getResource("/view/DeckNameDialog.fxml"));
-// loader.setResources(bundle);
-// AnchorPane pane = (AnchorPane) loader.load();
-//
-// Stage dialogStage = new Stage();
-// dialogStage.setTitle(bundle.getString("title.deck_name"));
-// dialogStage.initModality(Modality.WINDOW_MODAL);
-// dialogStage.initOwner(primaryStage);
-// Scene scene = new Scene(pane);
-// dialogStage.setScene(scene);
-//
-// DeckNameDialogController controller = loader.getController();
-// controller.setDialogStage(dialogStage);
-// controller.setManager(this);
-// controller.init(deck, mapOfDecks, dataBase);
-// dialogStage.setResizable(false);
-// dialogStage.showAndWait();
-// } catch (IOException e) {
-// e.printStackTrace();
-// }
-// }

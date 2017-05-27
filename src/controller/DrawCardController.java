@@ -4,10 +4,8 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
-
 import database.Card;
 import database.Deck;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,12 +15,6 @@ import javafx.stage.Stage;
 import model.CardModel;
 import model.DeckModel;
 
-/**
- * Kontroler do losowania z metodą {@link #readDeckInfo()}
- * 
- * @author miro
- *
- */
 public class DrawCardController {
 
     @FXML
@@ -42,10 +34,10 @@ public class DrawCardController {
 
     private ViewManager manager;
     private Stage primaryStage;
-    private Image award1 = new Image("img/award1.png");
-    private Image award2 = new Image("img/award2.png");
-    private Image award3 = new Image("img/award3.png");
-    private Image award4 = new Image("img/cow.png");
+    private final Image award1 = new Image("img/award1.png");
+    private final Image award2 = new Image("img/award2.png");
+    private final Image award3 = new Image("img/award3.png");
+    private final Image award4 = new Image("img/cow.png");
 
     private File imageFile;
     private DeckModel deckModel;
@@ -56,8 +48,15 @@ public class DrawCardController {
     private int howManyMediumCards;
     private ArrayList<Card> cardsList;
 
-    public void init(int id) {
+    public void setManager(ViewManager manager) {
+        this.manager = manager;
+    }
 
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    public void init(int id) {
         primaryStage.setOnCloseRequest(e -> updateDatabase());
         cardModel = new CardModel();
         cardModel.getAllCards();
@@ -65,44 +64,39 @@ public class DrawCardController {
         deckModel.getDeckById(id);
         deck = deckModel.getCurrentDeck();
         cardsList = new ArrayList<>(deckModel.getCurrentDeck().getCards());
-   
 
         fillData();
     }
 
     private void fillData() {
-
         obrazek.setImage(award4);
-        howManyCards = deck.getHowManyBlankCards();
-        
         try {
+            howManyCards = deck.getHowManyBlankCards();
             howManyMediumCards = cardModel.getAmountOfMediumRewards(deck.getId());
             howManySmallCards = cardModel.getAmountOfSmallRewards(deck.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        setText();
+    }
 
-        pozostalo.setText(Integer.toString(howManyCards));
+    private void setText() {
+        pozostalo.setText(Integer.toString(howManyCards + howManyMediumCards + howManySmallCards + 1));
         pozostaloSrednich.setText(Integer.toString(howManyMediumCards));
         pozostaloMalych.setText(Integer.toString(howManySmallCards));
     }
 
-    /**
-     * sprawdza czy jest pusta talia sprawdza jakiej kategorii jest nagroda i
-     * wyświtla odpowiedni obrazek aktualizuje wyświtlanie ilości kart
-     */
     @FXML
-    void drawCard(ActionEvent event) {
+    private void drawCard() {
         if (cardsList.size() == 1 && howManyCards == 0) {
             deck.setIsStarted(3);
             los.setDisable(true);
             String teskt = cardsList.get(0).toString();
             cardDescription.setText(teskt);
+            pozostalo.setText("0");
             showImage(award1, 0);
             cardModel.deleteCardById(cardsList.get(0));
-            // cardDescription.setText("gratuluję zakończyłeś talię");
         } else {
-            // deck.setHowManyCards(--howManyCards);
             deck.setIsStarted(1);
             int randomIndex = getRandomIndex();
             if (randomIndex >= 0) {
@@ -118,7 +112,6 @@ public class DrawCardController {
             }
             setText();
         }
-
     }
 
     private int getRandomIndex() {
@@ -132,13 +125,6 @@ public class DrawCardController {
         } else {
             return randomIndex;
         }
-    }
-
-    private void setText() {
-
-        pozostalo.setText(Integer.toString(howManyCards));
-        pozostaloSrednich.setText(Integer.toString(howManyMediumCards));
-        pozostaloMalych.setText(Integer.toString(howManySmallCards));
     }
 
     private void checkType(int randomIndex) {
@@ -156,32 +142,33 @@ public class DrawCardController {
             showImage(award3, randomIndex);
             break;
         default:
-
             break;
         }
     }
 
     private void showImage(Image award, int index) {
-        if (cardsList.get(index).getImage().equals("default")) {
-            obrazek.setImage(award);
-        } else {
-            imageFile = new File(cardsList.get(index).getImage());
-            obrazek.setImage(new Image(imageFile.toURI().toString()));
+         final   String imageSource = cardsList.get(index).getImage();
+         Image image; 
+        if (isDefault(index)) {
+            image = award;
+        } else if(isURL(imageSource)) {
+            image = new Image(imageSource);
+        }else {
+            imageFile = new File(imageSource);
+            image = new Image(imageFile.toURI().toString());
         }
+            obrazek.setImage(image);
+    }
+    private boolean isURL(String source) {
+        return source.matches("http.*");
     }
 
+    private boolean isDefault(int index) {
+        return cardsList.get(index).getImage().equals("default");
+    }
+   
     @FXML
-    private void goToStart(ActionEvent event) {
-        // cardsList.forEach(System.out::println);
-        // deckModel.getCurrentDeck().getCards().forEach(e -> {
-        // e.setDescription("zmienione");
-        // cardModel.saveCardInDataBase(e);
-        // });
-        // cardsList.forEach(card -> cardModel.saveCardInDataBase(card));
-        // cardModel.saveAllCardsInDataBase(cardsList);
-        // cardModel.saveCardInDataBase(new Card(1,"nowa"));
-
-        // dBmanager.saveDB(deck);
+    private void goToStart() {
         updateDatabase();
         primaryStage.close();
         manager.showStart();
@@ -195,15 +182,4 @@ public class DrawCardController {
             deckModel.saveDeckInDataBase(deck);
         }
     }
-
-    public void setManager(ViewManager manager) {
-        this.manager = manager;
-    }
-
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
-
-   
-
 }
