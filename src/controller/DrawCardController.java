@@ -1,9 +1,10 @@
 package controller;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import application.AwardImage;
 import database.Card;
 import database.Deck;
 import javafx.fxml.FXML;
@@ -17,20 +18,13 @@ import model.DeckModel;
 
 public class DrawCardController {
 
-    @FXML
-    private ImageView obrazek;
-    @FXML
-    private Button goToStart;
-    @FXML
-    private Button los;
-    @FXML
-    private Label cardDescription;
-    @FXML
-    private Label pozostalo;
-    @FXML
-    private Label pozostaloSrednich;
-    @FXML
-    private Label pozostaloMalych;
+    @FXML private ImageView obrazek;
+    @FXML private Button goToStart;
+    @FXML private Button los;
+    @FXML private Label cardDescription;
+    @FXML private Label pozostalo;
+    @FXML private Label pozostaloSrednich;
+    @FXML private Label pozostaloMalych;
 
     private ViewManager manager;
     private Stage primaryStage;
@@ -39,7 +33,6 @@ public class DrawCardController {
     private final Image award3 = new Image("img/award3.png");
     private final Image award4 = new Image("img/cow.png");
 
-    private File imageFile;
     private DeckModel deckModel;
     private CardModel cardModel;
     private Deck deck;
@@ -85,10 +78,11 @@ public class DrawCardController {
         pozostaloSrednich.setText(Integer.toString(howManyMediumCards));
         pozostaloMalych.setText(Integer.toString(howManySmallCards));
     }
-
+// TODO: zmniejszyc
     @FXML
     private void drawCard() {
-        if (cardsList.size() == 1 && howManyCards == 0) {
+        final boolean isMainAward = cardsList.size() == 1 && howManyCards == 0;
+        if (isMainAward) {
             deck.setIsStarted(3);
             los.setDisable(true);
             String teskt = cardsList.get(0).toString();
@@ -115,7 +109,7 @@ public class DrawCardController {
     }
 
     private int getRandomIndex() {
-        int maxIndex = howManyMediumCards + howManySmallCards;
+        final int maxIndex = howManyMediumCards + howManySmallCards;
         if (maxIndex == 0 && howManyCards == 0)
             return 0;
         Random random = new Random();
@@ -142,25 +136,14 @@ public class DrawCardController {
             showImage(award3, randomIndex);
             break;
         default:
-            break;
+           throw new IllegalArgumentException();
         }
     }
 
     private void showImage(Image award, int index) {
          final   String imageSource = cardsList.get(index).getImage();
-         Image image; 
-        if (isDefault(index)) {
-            image = award;
-        } else if(isURL(imageSource)) {
-            image = new Image(imageSource);
-        }else {
-            imageFile = new File(imageSource);
-            image = new Image(imageFile.toURI().toString());
-        }
-            obrazek.setImage(image);
-    }
-    private boolean isURL(String source) {
-        return source.matches("http.*");
+         Image   image = new AwardImage(award,index,imageSource).getSource(isDefault(index));
+         obrazek.setImage(image);
     }
 
     private boolean isDefault(int index) {

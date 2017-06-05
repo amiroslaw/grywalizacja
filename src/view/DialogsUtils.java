@@ -4,7 +4,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -57,7 +60,14 @@ public class DialogsUtils {
          Optional<String> result = dialog.showAndWait();
         
         return result;
-
     }
-
+    public static String getImagePathDialog() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle(bundle.getString("creator.choice_image"));
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("img", "*.jpg", "*JPG", "*.jpeg","*.JPEG", "PNG", "*.png", "*.PNG"),
+                new FileChooser.ExtensionFilter("All file", "*.*"));
+        File fileChooserImage = fileChooser.showOpenDialog(new Stage());
+        return fileChooserImage != null ? fileChooserImage.getAbsolutePath() : "";
+    }
 }

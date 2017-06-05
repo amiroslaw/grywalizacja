@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +13,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.CardModel;
 import model.DeckModel;
@@ -28,29 +26,18 @@ public class CardCreatorController {
     private Card card = new Card();
     private List<Card> cardsList = new ArrayList<>();
     private Deck deck = new Deck();
-    private File fileChooserImage;
     private String linkToImage;
     private int cardCounter = 1;
     private SimpleBooleanProperty isImage = new SimpleBooleanProperty(false);
-
-    @FXML
-    private Label lblnrCard;
-    @FXML
-    private Label lblType;
-    @FXML
-    private TextField txtName;
-    @FXML
-    private TextArea txtDescription;
-    @FXML
-    private TextField urlTF;
-    @FXML
-    private Button btnImage;
-    @FXML
-    private Button btnNext;
-    @FXML
-    private Button btnPreviousCard;
-    @FXML
-    private Button btnCancel;
+    @FXML private Label lblnrCard;
+    @FXML private Label lblType;
+    @FXML private TextField txtName;
+    @FXML private TextArea txtDescription;
+    @FXML private TextField urlTF;
+    @FXML private Button btnImage;
+    @FXML private Button btnNext;
+    @FXML private Button btnPreviousCard;
+    @FXML private Button btnCancel;
 
     public void setManager(ViewManager manager) {
         this.manager = manager;
@@ -83,19 +70,11 @@ public class CardCreatorController {
 
     @FXML
     private void chooseImage() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("wybierz obrazek");
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        // fileChooser.getExtensionFilters().addAll(
-        // new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-        // new FileChooser.ExtensionFilter("All file", "*.*")
-        // );
-        // File file = new File(null);
-        fileChooserImage = fileChooser.showOpenDialog(new Stage());
-        if (fileChooserImage != null) {
-            linkToImage = fileChooserImage.getAbsolutePath();
+       String path = DialogsUtils.getImagePathDialog();
+        if (!path.equals("")) {
+            linkToImage = path;
             isImage.set(true);
-        } 
+        }
     }
 
     @FXML
@@ -114,12 +93,12 @@ public class CardCreatorController {
     }
 
     private void resetValues() {
-        fileChooserImage = null;
+        linkToImage = null;
         isImage.set(false);
         // TODO: uncomment when will you finish
         // txtNazwa.setText("");
         // txtOpis.setText("");
-//        urlTF.setText("");
+        // urlTF.setText("");
     }
 
     @FXML
@@ -146,26 +125,24 @@ public class CardCreatorController {
     private void setCardProperties() {
         card.setTitle(txtName.getText());
         card.setDescription(txtDescription.getText());
-        if (!urlTF.getText().equals("")){
-            card.setImage(urlTF.getText());
-        } else if (fileChooserImage != null) {
-            card.setImage(linkToImage);
-        } else {
-            card.setImage("default");
+        card.setType(getType());
+        card.setImage(getLink());
+    }
+
+    private int getType() {
+        if(cardCounter == 1) return 1;
+        if(cardCounter > 1 && cardCounter < 5) return 2;
+        return 3;
+    }
+
+    private String getLink() {
+        if (!urlTF.getText().equals("")) {
+            return urlTF.getText();
         }
-        switch (cardCounter) {
-        case 1:
-            card.setType(1);
-            break;
-        case 2:
-        case 3:
-        case 4:
-            card.setType(2);
-            break;
-        default:
-            card.setType(3);
-            break;
+        if (linkToImage != null) {
+            return linkToImage;
         }
+        return "default";
     }
 
     private void endCreate() {
@@ -175,22 +152,21 @@ public class CardCreatorController {
         manager.showStart();
     }
 
-    private void saveDataBase() {
-        DeckModel deckModel = new DeckModel();
-        deckModel.saveDeckInDataBase(deck);
-        CardModel cardModel = new CardModel();
-        cardsList.forEach(card -> cardModel.saveCardInDataBase(card));
-    }
-
     private void addPropertiesToDeck() {
         Optional<String> deckName = DialogsUtils.inputText();
         if (deckName.isPresent()) {
             deck.setDeckName(deckName.get());
             deck.setHowManyBlankCards(30);
-
             deck.setIsStarted(1);
             cardsList.forEach(card -> card.setDeck(deck));
         }
+    }
+    
+    private void saveDataBase() {
+        DeckModel deckModel = new DeckModel();
+        deckModel.saveDeckInDataBase(deck);
+        CardModel cardModel = new CardModel();
+        cardsList.forEach(card -> cardModel.saveCardInDataBase(card));
     }
 
 }

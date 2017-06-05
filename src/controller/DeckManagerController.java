@@ -8,7 +8,6 @@ import database.Card;
 import database.Deck;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -21,26 +20,18 @@ import view.DialogsUtils;
 
 public class DeckManagerController {
 
-    @FXML
-    private Button btnAddDeck;
-    @FXML
-    private Button btnEditDeck;
-    @FXML
-    private Button btnDeleteDeck;
-    @FXML
-    private MenuItem imCopyDeck;
-    @FXML
-    private MenuItem imEditDeck;
-    @FXML
-    private MenuItem imDeleteDeck;
-    @FXML
-    private ListView<String> deckListView;
+    @FXML private Button btnAddDeck;
+    @FXML private Button btnEditDeck;
+    @FXML private Button btnDeleteDeck;
+    @FXML private MenuItem imCopyDeck;
+    @FXML private MenuItem imEditDeck;
+    @FXML private MenuItem imDeleteDeck;
+    @FXML private ListView<String> deckListView;
     private Stage primaryStage;
     private ViewManager manager;
     private DeckModel deckModel;
     private CardModel cardModel;
     private List<Deck> deckList;
-    private SelectionModel<String> selected;
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -56,6 +47,11 @@ public class DeckManagerController {
         createListView(deckList);
     }
 
+    private void refreshObjects() {
+        deckModel.getAllDecks();
+        deckList = deckModel.getDeckList();
+    }
+
     private void createListView(List<Deck> decks) {
         ObservableList<String> observableList = FXCollections.observableArrayList();
         decks.forEach(e -> observableList.add(e.getDeckName()));
@@ -63,27 +59,31 @@ public class DeckManagerController {
     }
 
     @FXML
-    void addDeck(ActionEvent event) {
+    void addDeck() {
         primaryStage.close();
         manager.showCardCreator();
     }
 
     @FXML
-    void deleteDeck(ActionEvent event) {
-        cardModel = new CardModel();
-        selected = deckListView.getSelectionModel();
+    void deleteDeck() {
+        SelectionModel<String> selected = deckListView.getSelectionModel();
         if (!selected.isEmpty()) {
-            Deck selectedDeck = deckList.get(selected.getSelectedIndex());
-            cardModel.deleteAllCardsInDataBase(new ArrayList<Card>(selectedDeck.getCards()));
-            deckModel.deleteDeckById(selectedDeck);
+            deleteFromDB(selected);
             deckListView.getItems().remove(selected.getSelectedIndex());
         }
     }
 
-    @FXML
-    void copyDeck(ActionEvent event) {
+    private void deleteFromDB(SelectionModel<String> selected) {
+        Deck selectedDeck = deckList.get(selected.getSelectedIndex());
         cardModel = new CardModel();
-        selected = deckListView.getSelectionModel();
+        cardModel.deleteAllCardsInDataBase(new ArrayList<Card>(selectedDeck.getCards()));
+        deckModel.deleteDeckById(selectedDeck);
+    }
+
+    @FXML
+    void copyDeck() {
+        cardModel = new CardModel();
+        SelectionModel<String> selected = deckListView.getSelectionModel();
         Deck selectedDeck = deckList.get(selected.getSelectedIndex());
         if (!selected.isEmpty()) {
             Optional<String> deckName = DialogsUtils.inputText();
@@ -116,18 +116,12 @@ public class DeckManagerController {
         cards = new ArrayList<>();
     }
 
-    private void refreshObjects() {
-        deckModel.getAllDecks();
-        deckList = deckModel.getDeckList();
-    }
-
     @FXML
     private void showEditCards() {
-        selected = deckListView.getSelectionModel();
+        SelectionModel<String> selected = deckListView.getSelectionModel();
         if (!selected.isEmpty()) {
             Deck deck = deckList.get(selected.getSelectedIndex());
             manager.showEditCards(deck);
-            System.out.println(selected.getSelectedItem());
         }
     }
 

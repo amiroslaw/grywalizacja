@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.File;
 import java.util.ResourceBundle;
 
 import database.Card;
@@ -17,7 +16,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import model.CardFx;
@@ -27,37 +25,32 @@ import view.DialogsUtils;
 public class EditCardsController {
     private Stage primaryStage;
     private ViewManager manager;
-    @FXML
-    private TextField titleTF;
-    @FXML
-    private TextField descriptionTF;
-    @FXML
-    private Button imageBtn;
-    @FXML
-    private Button btnAddCard;
-    @FXML
-    private TableView<CardFx> cardsTableView;
-    @FXML
-    private ComboBox<Integer> typeCB;
-    @FXML
-    // private TableColumn<CardFx, Number> typeColumn; //number instead Integer
-    private TableColumn<CardFx, Integer> typeColumn;
-    @FXML
-    private TableColumn<CardFx, String> nameColumn;
-    @FXML
-    private TableColumn<CardFx, String> descriptionColumn;
-    @FXML
-    private TableColumn<CardFx, String> imageColumn;
-    @FXML
-    private MenuItem deleteMenuItem;
-    @FXML
-    private MenuItem copyMenuItem;
+    @FXML private TextField titleTF;
+    @FXML private TextField descriptionTF;
+    @FXML private Button imageBtn;
+    @FXML private Button btnAddCard;
+    @FXML private TableView<CardFx> cardsTableView;
+    @FXML private ComboBox<Integer> typeCB;
+//    @FXML  private TableColumn<CardFx, Number> typeColumn; //number instead Integer
+    @FXML private TableColumn<CardFx, Integer> typeColumn;
+    @FXML private TableColumn<CardFx, String> nameColumn;
+    @FXML private TableColumn<CardFx, String> descriptionColumn;
+    @FXML private TableColumn<CardFx, String> imageColumn;
+    @FXML private MenuItem deleteMenuItem;
+    @FXML private MenuItem copyMenuItem;
 
     ResourceBundle bundle = ResourceBundle.getBundle("bundles.bundle");
     private CardModel cardModel;
     private Deck deck;
-    private File fileChooserImage;
     private StringProperty imageLink = new SimpleStringProperty();
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    public void setManager(ViewManager manager) {
+        this.manager = manager;
+    }
 
     public void init(Deck deck) {
         fileComboBox();
@@ -75,7 +68,6 @@ public class EditCardsController {
 
     private void bindingsTableView() {
         cardsTableView.setItems(this.cardModel.getCardFxObservableList());
-
         // this.typeColumn.setCellValueFactory(cellData ->
         // cellData.getValue().getType());
         typeColumn.setCellValueFactory(cellData -> cellData.getValue().getType().asObject());
@@ -104,18 +96,8 @@ public class EditCardsController {
 
         btnAddCard.disableProperty()
                 .bind(this.titleTF.textProperty().isEmpty().or(this.typeCB.valueProperty().isNull()));
-        deleteMenuItem.disableProperty()
-                .bind(this.cardsTableView.getSelectionModel().selectedItemProperty().isNull());
-        copyMenuItem.disableProperty()
-                .bind(this.cardsTableView.getSelectionModel().selectedItemProperty().isNull());
-    }
-
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
-
-    public void setManager(ViewManager manager) {
-        this.manager = manager;
+        deleteMenuItem.disableProperty().bind(this.cardsTableView.getSelectionModel().selectedItemProperty().isNull());
+        copyMenuItem.disableProperty().bind(this.cardsTableView.getSelectionModel().selectedItemProperty().isNull());
     }
 
     @FXML
@@ -125,9 +107,18 @@ public class EditCardsController {
         } catch (RuntimeException e) {
             DialogsUtils.errorDialog(e.getMessage());
         }
+        resetValues();
+    }
+
+    private void resetValues() {
         titleTF.clear();
         descriptionTF.clear();
         typeCB.getItems().clear();
+    }
+
+    @FXML
+    private void getImage() {
+        imageLink.set(DialogsUtils.getImagePathDialog());
     }
 
     @FXML
@@ -145,7 +136,7 @@ public class EditCardsController {
         Card card = convertCardFx(selected);
         cardModel.saveCardInDataBase(card);
         cardModel.init(deck);
-       
+
     }
 
     private Card convertCardFx(CardFx selected) {
@@ -182,17 +173,6 @@ public class EditCardsController {
         cardModel.getCardFxPropertyEdit().setType(cellEdit.getNewValue());
         updateInDatabase();
 
-    }
-
-    @FXML
-    private void getImage() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle(bundle.getString("creator.choice_image"));
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        fileChooserImage = fileChooser.showOpenDialog(new Stage());
-        if (fileChooserImage != null) {
-            imageLink.set(fileChooserImage.getAbsolutePath());
-        }
     }
 
     private void updateInDatabase() {

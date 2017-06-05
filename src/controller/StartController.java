@@ -22,23 +22,21 @@ import view.DialogsUtils;
 
 public class StartController {
 
-    // @FXML
-    // private MenuItem miDraw;
-    // @FXML
-    // private MenuItem miCreate;
-    // @FXML
-    // private Button btnCreate;
-    @FXML
-    private Button btnDraw;
-    @FXML
-    private ComboBox<String> comboBoxOfDecks;
-    @FXML
-    private Label info;
-    
+    @FXML private Button btnDraw;
+    @FXML private ComboBox<String> comboBoxOfDecks;
+    @FXML private Label info;
     private Stage primaryStage;
     private ViewManager manager;
     private DeckModel deckModel;
     private List<Deck> deckList;
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    public void setManager(ViewManager manager) {
+        this.manager = manager;
+    }
 
     public void init() {
         deckModel = new DeckModel();
@@ -46,8 +44,7 @@ public class StartController {
         deckList = deckModel.getDeckList();
         if (deckList.size() == 0) {
             btnDraw.setDisable(true);
-        }
-        else {
+        } else {
             createComboBox(deckList);
         }
     }
@@ -59,13 +56,15 @@ public class StartController {
     }
 
     @FXML
-    private void showAbout(ActionEvent e) {
+    private void showAbout() {
         manager.showAbout();
     }
+
     @FXML
-    private void showDeckManager(ActionEvent e) {
+    private void showDeckManager() {
         manager.showDeckManager();
     }
+
     @FXML
     private void showCardCreator() {
         Platform.runLater(new Runnable() {
@@ -94,7 +93,6 @@ public class StartController {
 
     private void showDrawCard() {
         String deckName = comboBoxOfDecks.getValue();
-
         if (deckName != null) {
             Deck deck = deckList.stream().filter(e -> e.getDeckName().contains(deckName)).findFirst().orElse(null);
             manager.showDrawCard(deck.getId());
@@ -128,14 +126,6 @@ public class StartController {
     @FXML
     private void setImgDir() {
 
-    }
-
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
-
-    public void setManager(ViewManager manager) {
-        this.manager = manager;
     }
 
 }

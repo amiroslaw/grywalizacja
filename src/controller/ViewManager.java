@@ -18,7 +18,12 @@ import javafx.stage.Stage;
 public class ViewManager {
     public final Stage primaryStage;
     ResourceBundle bundle = ResourceBundle.getBundle("bundles.bundle");
+    private static final String EDIT_CARDS_FXML = "/view/EditCards.fxml";
+    private static final String DECK_MANAGER_FXML = "/view/DeckManager.fxml";
     private static final String START_FXML = "/view/Start.fxml";
+    private static final String DRAW_CARD_FXML = "/view/DrawCard.fxml";
+    private static final String ABOUT_FXML = "/view/About.fxml";
+    private static final String CARD_CREATOR_FXML = "/view/CardCreator.fxml";
 
     public ViewManager(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -27,10 +32,7 @@ public class ViewManager {
 
     public void showStart() {
         try {
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource(START_FXML));
-            loader.setResources(bundle);
+            FXMLLoader loader = getLoader(START_FXML);
             VBox vboxStart = (VBox) loader.load();
 
             Scene scene = new Scene(vboxStart);
@@ -49,9 +51,7 @@ public class ViewManager {
 
     public void showDrawCard(int id) {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("/view/DrawCard.fxml"));
-            loader.setResources(bundle);
+            FXMLLoader loader = getLoader(DRAW_CARD_FXML);
             BorderPane borderPane = (BorderPane) loader.load();
 
             Scene scene = new Scene(borderPane);
@@ -71,9 +71,7 @@ public class ViewManager {
 
     public void showCardCreator() {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("/view/CardCreator.fxml"));
-            loader.setResources(bundle);
+            FXMLLoader loader = getLoader(CARD_CREATOR_FXML);
             GridPane cardCreatorLayout = (GridPane) loader.load();
 
             Scene scene = new Scene(cardCreatorLayout);
@@ -92,9 +90,7 @@ public class ViewManager {
 
     public void showAbout() {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("/view/About.fxml"));
-            loader.setResources(bundle);
+            FXMLLoader loader = getLoader(ABOUT_FXML);
             AnchorPane pane = (AnchorPane) loader.load();
 
             Stage dialogStage = new Stage();
@@ -118,9 +114,8 @@ public class ViewManager {
 
     public void showDeckManager() {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("/view/DeckManager.fxml"));
-            loader.setResources(bundle);
+          
+            FXMLLoader loader = getLoader(DECK_MANAGER_FXML);
             AnchorPane deckManager = (AnchorPane) loader.load();
 
             Stage dialogStage = new Stage();
@@ -145,9 +140,7 @@ public class ViewManager {
 
     public void showEditCards(Deck deck) {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("/view/EditCards.fxml"));
-            loader.setResources(bundle);
+            FXMLLoader loader = getLoader(EDIT_CARDS_FXML);
             AnchorPane layout = (AnchorPane) loader.load();
 
             Stage dialogStage = new Stage();
@@ -166,5 +159,12 @@ public class ViewManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private FXMLLoader getLoader(String fxmlPath) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource(fxmlPath));
+        loader.setResources(bundle);
+        return loader;
     }
 }
