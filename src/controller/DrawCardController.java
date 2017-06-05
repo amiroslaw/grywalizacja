@@ -18,20 +18,24 @@ import model.DeckModel;
 
 public class DrawCardController {
 
-    @FXML private ImageView obrazek;
-    @FXML private Button goToStart;
-    @FXML private Button los;
-    @FXML private Label cardDescription;
-    @FXML private Label pozostalo;
-    @FXML private Label pozostaloSrednich;
-    @FXML private Label pozostaloMalych;
+    @FXML
+    private ImageView obrazek;
+    @FXML
+    private Button goToStart;
+    @FXML
+    private Button los;
+    @FXML
+    private Label cardDescription;
+    @FXML
+    private Label pozostalo;
+    @FXML
+    private Label pozostaloSrednich;
+    @FXML
+    private Label pozostaloMalych;
 
     private ViewManager manager;
     private Stage primaryStage;
-    private final Image award1 = new Image("img/award1.png");
-    private final Image award2 = new Image("img/award2.png");
-    private final Image award3 = new Image("img/award3.png");
-    private final Image award4 = new Image("img/cow.png");
+
 
     private DeckModel deckModel;
     private CardModel cardModel;
@@ -62,7 +66,7 @@ public class DrawCardController {
     }
 
     private void fillData() {
-        obrazek.setImage(award4);
+        obrazek.setImage(AwardImage.AWARD4);
         try {
             howManyCards = deck.getHowManyBlankCards();
             howManyMediumCards = cardModel.getAmountOfMediumRewards(deck.getId());
@@ -78,30 +82,28 @@ public class DrawCardController {
         pozostaloSrednich.setText(Integer.toString(howManyMediumCards));
         pozostaloMalych.setText(Integer.toString(howManySmallCards));
     }
-// TODO: zmniejszyc
+
     @FXML
     private void drawCard() {
         final boolean isMainAward = cardsList.size() == 1 && howManyCards == 0;
         if (isMainAward) {
             deck.setIsStarted(3);
             los.setDisable(true);
-            String teskt = cardsList.get(0).toString();
-            cardDescription.setText(teskt);
+            cardDescription.setText(cardsList.get(0).toString());
             pozostalo.setText("0");
-            showImage(award1, 0);
+            showImage(AwardImage.AWARD1, 0);
             cardModel.deleteCardById(cardsList.get(0));
         } else {
             deck.setIsStarted(1);
             int randomIndex = getRandomIndex();
             if (randomIndex >= 0) {
                 checkType(randomIndex);
-                String teskt = cardsList.get(randomIndex).toString();
-                cardDescription.setText(teskt);
+                cardDescription.setText(cardsList.get(randomIndex).toString());
                 cardModel.deleteCardById(cardsList.get(randomIndex));
                 cardsList.remove(randomIndex);
             } else {
                 howManyCards--;
-                obrazek.setImage(award4);
+                obrazek.setImage(AwardImage.AWARD4);
                 cardDescription.setText("Blank card");
             }
             setText();
@@ -125,31 +127,31 @@ public class DrawCardController {
         int typeOfCard = cardsList.get(randomIndex).getType();
         switch (typeOfCard) {
         case 1:
-            showImage(award1, randomIndex);
+            showImage(AwardImage.AWARD1, randomIndex);
             break;
         case 2:
             howManyMediumCards--;
-            showImage(award2, randomIndex);
+            showImage(AwardImage.AWARD2, randomIndex);
             break;
         case 3:
             howManySmallCards--;
-            showImage(award3, randomIndex);
+            showImage(AwardImage.AWARD3, randomIndex);
             break;
         default:
-           throw new IllegalArgumentException();
+            throw new IllegalArgumentException();
         }
     }
 
     private void showImage(Image award, int index) {
-         final   String imageSource = cardsList.get(index).getImage();
-         Image   image = new AwardImage(award,index,imageSource).getSource(isDefault(index));
-         obrazek.setImage(image);
+        final String imageSource = cardsList.get(index).getImage();
+        Image image = new AwardImage(award, index, imageSource).getSource(isDefault(index));
+        obrazek.setImage(image);
     }
 
     private boolean isDefault(int index) {
         return cardsList.get(index).getImage().equals("default");
     }
-   
+
     @FXML
     private void goToStart() {
         updateDatabase();

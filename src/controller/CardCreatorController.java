@@ -96,9 +96,9 @@ public class CardCreatorController {
         linkToImage = null;
         isImage.set(false);
         // TODO: uncomment when will you finish
-        // txtNazwa.setText("");
-        // txtOpis.setText("");
-        // urlTF.setText("");
+         txtName.setText("");
+         txtDescription.setText("");
+         urlTF.setText("");
     }
 
     @FXML

@@ -25,31 +25,16 @@ public class CardModel {
 
     public void init(Deck deck) {
         this.deck = deck;
-        CardDao cardDao = new CardDao(DbManager.getConnectionSource());
         this.cardFxObservableList.clear();
-        // List<Card> cardList = cardDao.queryForAll(Card.class);
-        List<Card> cardList;
+        List<Card> cards;
         try {
-            cardList = getCardFromDeck(deck.getId());
-            fillObservableList(cardList);
+            cards = getCardFromDeck(deck.getId());
+            cards.forEach(card -> this.cardFxObservableList.add(ConverterUtils.convertCard(card)));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-    }
-
-    private void fillObservableList(List<Card> cardList) {
-        cardList.forEach(card -> {
-            // CardFx cardFx = ConverterAuthor.convertToAuthorFx(card);
-            CardFx cardFx = new CardFx();
-            cardFx.setId(card.getId());
-            cardFx.setType(card.getType());
-            cardFx.setTitle(card.getTitle());
-            cardFx.setDescription(card.getDescription());
-            cardFx.setImage(card.getImage());
-
-            this.cardFxObservableList.add(cardFx);
-        });
     }
 
     public void saveCardEdit() {
@@ -135,9 +120,10 @@ public class CardModel {
     // public CardFx getCardFxObjectProperty(){
     // return cardFxObjectProperty.get();
     // }
-     public CardFx getCardFxPropertyEdit(){
-     return cardFxObjectPropertyEdit.get();
-     }
+    public CardFx getCardFxPropertyEdit() {
+        return cardFxObjectPropertyEdit.get();
+    }
+
     public ObjectProperty<CardFx> getCardFxObjectProperty() {
         return cardFxObjectProperty;
     }
@@ -162,4 +148,3 @@ public class CardModel {
         this.cardFxObjectPropertyEdit.set(cardFxObjectPropertyEdit);
     }
 }
-

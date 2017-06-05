@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import model.CardFx;
 import model.CardModel;
+import model.ConverterUtils;
 import view.DialogsUtils;
 
 public class EditCardsController {
@@ -133,21 +134,13 @@ public class EditCardsController {
     @FXML
     private void copyCard() {
         CardFx selected = cardsTableView.getSelectionModel().getSelectedItem();
-        Card card = convertCardFx(selected);
+        Card card = ConverterUtils.convertCardFx(selected, deck);
         cardModel.saveCardInDataBase(card);
         cardModel.init(deck);
 
     }
 
-    private Card convertCardFx(CardFx selected) {
-        Card card = new Card();
-        card.setTitle(selected.getTitleString());
-        card.setDescription(selected.getDescriptionString());
-        card.setImage(selected.getImageString());
-        card.setType(selected.getTypeInt());
-        card.setDeck(deck);
-        return card;
-    }
+   
 
     @FXML
     private void onEditDescription(TableColumn.CellEditEvent<CardFx, String> cellEdit) {

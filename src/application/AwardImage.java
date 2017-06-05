@@ -5,6 +5,11 @@ import java.io.File;
 import javafx.scene.image.Image;
 
 public class AwardImage {
+     public final static Image AWARD1 = new Image("img/award1.png");
+     public final static Image AWARD2 = new Image("img/award2.png");
+     public final static Image AWARD3 = new Image("img/award3.png");
+     public final static Image AWARD4 = new Image("img/cow.png");
+    
     Image award;
     int index;
     final String imageSource;

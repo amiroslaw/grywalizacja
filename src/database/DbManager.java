@@ -12,11 +12,10 @@ import view.DialogsUtils;
 public class DbManager {
     private static String JDBC_DRIVER = "jdbc:sqlite:gamificationDB.sqlite";
 
-    // private static ConnectionSource connectionSource;
     private static JdbcConnectionSource connectionSource;
 
     public static void initDatabase() {
-        // TODO: change DB path
+        // my setup 
 //         String path = System.getProperty("user.home");
 //         path += "/Dokumenty/Ustawienia/sync";
 //         JDBC_DRIVER = "jdbc:sqlite:"+path+"/gamificationDB.sqlite";
